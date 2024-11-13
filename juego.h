@@ -16,7 +16,6 @@ class Juego : public QMainWindow
 public:
     Juego(QWidget *parent = nullptr);
     ~Juego();
-    int num;
 
 private:
     Ui::Juego *ui;
