@@ -10,15 +10,11 @@ Jugador::Jugador(string nombre){
         spritesLado= QPixmap(":/Nivel3/BartLado.png");
         spritesArribaAbajo = QPixmap(":/Nivel3/BartFrente.png");
 
-        ancho=117;
-        alto=187;
-
         // Dimensiones de cada hoja de sprites
         anchoLado = 117;
-        altoLado = 187;
+        altoLado = 188;
         anchoArribaAbajo = 45;
-        altoArribaAbajo = 88;
-
+        altoArribaAbajo = 89;
 
         sprites = spritesLado; // Iniciar con la hoja de movimientos laterales
         ancho = anchoLado;
@@ -44,7 +40,7 @@ void Jugador::actualizarAnimacion(){
 
     qDebug() << "Test";
 
-    if (keys[Qt::Key_Left] && pos().x()>0){
+    if (keys[Qt::Key_A] && pos().x()>0){
         setPos(x()-10,y());
 
         sprites = spritesLado;
@@ -53,7 +49,7 @@ void Jugador::actualizarAnimacion(){
         fila=1;
         moving = true;
     }
-    if (keys[Qt::Key_Right] && pos().x()<1230){
+    if (keys[Qt::Key_D] && pos().x()<1230){
         setPos(x()+10,y());
 
         sprites = spritesLado;
@@ -63,7 +59,7 @@ void Jugador::actualizarAnimacion(){
         moving = true;
     }
 
-    if (keys[Qt::Key_Up] && pos().y()>0){
+    if (keys[Qt::Key_W] && pos().y()>0){
         setPos(x(),y()-10);
         sprites = spritesArribaAbajo;
         ancho = anchoArribaAbajo;
@@ -71,7 +67,7 @@ void Jugador::actualizarAnimacion(){
         fila=0;
         moving = true;
     }
-    if (keys[Qt::Key_Down] && pos().y()<640){
+    if (keys[Qt::Key_S] && pos().y()<640){
         setPos(x(),y()+10);
 
         sprites = spritesArribaAbajo;
@@ -106,10 +102,10 @@ void Jugador::actualizarAnimacion(){
 
 void Jugador::keyReleaseEvent(QKeyEvent *event) {
     switch(event->key()){
-    case Qt::Key_Left:
-    case Qt::Key_Right:
-    case Qt::Key_Up:
-    case Qt::Key_Down:
+    case Qt::Key_A:
+    case Qt::Key_D:
+    case Qt::Key_W:
+    case Qt::Key_S:
         keys[event->key()]=false;
         break;
     default:
@@ -121,10 +117,10 @@ void Jugador::keyReleaseEvent(QKeyEvent *event) {
 void Jugador::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key()){
-    case Qt::Key_Left:
-    case Qt::Key_Right:
-    case Qt::Key_Up:
-    case Qt::Key_Down:
+    case Qt::Key_A:
+    case Qt::Key_D:
+    case Qt::Key_W:
+    case Qt::Key_S:
         keys[event->key()]=true;
         break;
     default:
