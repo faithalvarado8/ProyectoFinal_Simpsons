@@ -4,22 +4,23 @@
 #include <QGraphicsProxyWidget>
 #include <QPixmap>
 
-Juego::Juego(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::Juego)
-    , nivel(nullptr)
-{
+Juego::Juego(QWidget *parent): QMainWindow(parent), ui(new Ui::Juego), nivel(nullptr){
     ui->setupUi(this);
     escena = new QGraphicsScene(this);
     vista = new QGraphicsView(this);
 
+    unsigned int ancho = 1280;
+    unsigned int alto = 720;
+
+    setFixedSize(ancho, alto);
+
     vista->setScene(escena);
-    escena->setSceneRect(0, 0, 1280, 720);
-    vista->setFixedSize(1280, 720);
+    escena->setSceneRect(0, 0, ancho, alto);
+    vista->setFixedSize(ancho, alto);
 
     vista->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     vista->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    escena->setBackgroundBrush(QBrush(QImage(":/fondos/fondoInicio1.png").scaled(1280,720)));
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/fondoInicio1.png").scaled(ancho,alto)));
 
     mostrarMenuInicio();
 }
