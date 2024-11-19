@@ -74,7 +74,7 @@ void Nivel::moverEdificio() {
     }
 
     // Actualizar posición
-    edificioItem->setPos(230, escena->height() - edificioItem->pixmap().height() + yOffset);
+    edificioItem->setPos(230, escena->height() - edificioItem->pixmap().height() - yOffset);
 }
 
 // void Nivel::actualizarCamara() {
