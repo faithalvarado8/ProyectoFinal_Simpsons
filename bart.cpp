@@ -60,7 +60,7 @@ void Bart::actualizarAnimacion(){
         fila=0;
         moving = true;
     }
-    if (keys[Qt::Key_S] && pos().y()<600){
+    if (keys[Qt::Key_S] && pos().y()<430){
         setPos(x(),y()+10);
 
         sprites = spritesArribaAbajo;
