@@ -34,7 +34,7 @@ void Juego::iniciarJuego(){
 
     botonInicio->setFixedSize(215, 125);
 
-    QPixmap iconoInicio(":/fondos/Krusty.jpg");
+    QPixmap iconoInicio(":/fondos/BotonInicio.png");
 
     botonInicio->setIcon(iconoInicio);
 
