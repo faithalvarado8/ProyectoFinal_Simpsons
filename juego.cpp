@@ -9,20 +9,16 @@ Juego::Juego(QWidget *parent): QMainWindow(parent), ui(new Ui::Juego), nivel(nul
     escena = new QGraphicsScene(this);
     vista = new QGraphicsView(this);
 
-    unsigned int ancho = 1280;
-    unsigned int alto = 720;
-
-    setFixedSize(ancho, alto);
+    setFixedSize(1280, 720);
 
     vista->setScene(escena);
-    escena->setSceneRect(0, 0, ancho, alto);
-    vista->setFixedSize(ancho, alto);
+    escena->setSceneRect(0, 0, 1280, 720);
+    vista->setFixedSize(1280, 720);
 
     vista->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     vista->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    escena->setBackgroundBrush(QBrush(QImage(":/fondos/fondoInicio1.png").scaled(ancho,alto)));
 
-    mostrarMenuInicio();
+    iniciarJuego();
 }
 
 Juego::~Juego()
@@ -30,7 +26,32 @@ Juego::~Juego()
     delete ui;
 }
 
+void Juego::iniciarJuego(){
+
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/fondoInicio1.png").scaled(1280,720)));
+
+    botonInicio = new QPushButton();
+
+    botonInicio->setFixedSize(215, 125);
+
+    QPixmap iconoInicio(":/fondos/Krusty.jpg");
+
+    botonInicio->setIcon(iconoInicio);
+
+    botonInicio->setIconSize(QSize(185, 100));
+
+    botonWidgetInicio =escena->addWidget(botonInicio);
+    botonWidgetInicio->setPos(650, 150);
+
+    connect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
+}
+
 void Juego::mostrarMenuInicio(){
+
+    disconnect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
+    escena->removeItem(botonWidgetInicio);
+
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/fondoInicio1.png").scaled(1280,720)));
 
     // Crea botones para seleccionar el nivel
     botonNivel1 = new QPushButton();

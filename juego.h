@@ -5,7 +5,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPushButton>
-// #include <QPointer>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -35,6 +34,9 @@ private:
     QGraphicsProxyWidget *botonWidget1;
     QGraphicsProxyWidget *botonWidget2;
     QGraphicsProxyWidget *botonWidget3;
+    void iniciarJuego();
+    QPushButton *botonInicio;
+    QGraphicsProxyWidget *botonWidgetInicio;
 
 
 private slots:

@@ -8,8 +8,9 @@ Objetos::Objetos(string objeto) {
 
         setPixmap(sprite.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-        int random_number1 = rand() % 1249, random_number2 = rand() % 691;
-        setPos(random_number1, random_number2);
+        int random_number1 = rand() % 1190, random_number2 = rand() % 430;
+        //setPos(random_number1+45, random_number2+45);
+        setPos(50, 55);
         setZValue(0);
     }
 
@@ -20,8 +21,9 @@ Objetos::Objetos(string objeto) {
 
         setPixmap(sprite.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-        int random_number1 = rand() % 1249, random_number2 = rand() % 691;
-        setPos(random_number1, random_number2);
+        int random_number1 = rand() % 1190, random_number2 = rand() % 430;
+        //setPos(random_number1+45, random_number2+45);
+        setPos(1190+45, 430+45);
         setZValue(0);
     }
 }
