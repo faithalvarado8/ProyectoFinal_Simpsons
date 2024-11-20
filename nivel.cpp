@@ -27,11 +27,11 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
 
         // Crear jugador
-        jugador = new Jugador("Homero");
+        /*jugador = new Jugador("Homero");
         jugador->setPos(100, 4860); // Posición inicial de Homero
         escena->addItem(jugador);
         jugador->setFlag(QGraphicsItem::ItemIsFocusable);
-        jugador->setFocus();
+        jugador->setFocus();*/
     }
 
     if (nivelSeleccionado==3){
@@ -59,7 +59,6 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
 }
 
-
 void Nivel::moverEdificio() {
 
     if (!edificioItem) return;
@@ -80,7 +79,7 @@ void Nivel::moverEdificio() {
 
 
 Nivel::~Nivel() {
-    delete jugador;
+    //delete jugador;
     delete objeto;
 
 }

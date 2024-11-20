@@ -1,7 +1,7 @@
 #ifndef BART_H
 #define BART_H
 
-#include "personajes.h"
+#include "jugador.h"
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
@@ -10,7 +10,7 @@
 #include <QTimer>
 #include <QMap>
 
-class Bart: public Personajes{
+class Bart: public Jugador{
     Q_OBJECT
 
 public:

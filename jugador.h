@@ -1,29 +1,22 @@
 #ifndef JUGADOR_H
 #define JUGADOR_H
 
-#include "personajes.h"
-//#include "bart.h"
-
 #include <QGraphicsPixmapItem>
-#include <QGraphicsRectItem>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QKeyEvent>
-#include <QDebug>
-#include <QTimer>
-#include <string>
-#include <QMap>
+#include <QObject>
+#include <QGraphicsItem>
 
 using namespace std;
 
-class Jugador: public Personajes{
+class Jugador: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
-private:
-    string nombre;
-    //Bart * bart;
+protected:
+
+    float posX, posY;
+    unsigned int vidas;
 
 public:
-    Jugador(string nombre);
+    unsigned int recuperarVida();
+    unsigned int perderVida();
 
 };
 

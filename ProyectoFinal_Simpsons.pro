@@ -15,8 +15,7 @@ SOURCES += \
     main.cpp \
     juego.cpp \
     nivel.cpp \
-    objetos.cpp \
-    personajes.cpp
+    objetos.cpp
 
 HEADERS += \
     bart.h \
@@ -24,8 +23,7 @@ HEADERS += \
     jugador.h \
     kinghomero.h \
     nivel.h \
-    objetos.h \
-    personajes.h
+    objetos.h
 
 FORMS += \
     juego.ui
