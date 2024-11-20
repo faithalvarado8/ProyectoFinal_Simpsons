@@ -4,6 +4,8 @@
         <file>fondoInicio1.png</file>
         <file>KingHomero.jpg</file>
         <file>Krusty.jpg</file>
+        <file>BotonInicio.png</file>
+        <file>FondoInicio.png</file>
     </qresource>
     <qresource prefix="/Nivel3">
         <file>BartFrente.png</file>

@@ -32,7 +32,7 @@ void Juego::iniciarJuego(){
 
     botonInicio = new QPushButton();
 
-    botonInicio->setFixedSize(215, 125);
+    botonInicio->setFixedSize(200, 115);
 
     QPixmap iconoInicio(":/fondos/BotonInicio.png");
 
@@ -41,7 +41,13 @@ void Juego::iniciarJuego(){
     botonInicio->setIconSize(QSize(185, 100));
 
     botonWidgetInicio =escena->addWidget(botonInicio);
-    botonWidgetInicio->setPos(650, 150);
+    botonWidgetInicio->setPos(975, 100);
+
+    botonInicio->setStyleSheet(
+        "QPushButton {"
+        "    background-color: transparent;"
+        "}"
+        );
 
     connect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
 }
