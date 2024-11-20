@@ -1,4 +1,5 @@
 #include "nivel.h"
+#include <QTimer>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0) {
 
@@ -40,23 +41,44 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         bart = new Bart();
 
-        for (short int i=0; i<5; i++){
-           objeto= new Objetos("arma");
-           escena->addItem(objeto);
-        }
+        arma= new Objetos("arma");
+        escena->addItem(arma);
 
-        for (short int i=0; i<5; i++){
-           objeto= new Objetos("pagina");
-           escena->addItem(objeto);
-        }
+        pagina= new Objetos("pagina");
+        escena->addItem(pagina);
 
         // Enfocar personaje
         bart->setFlag(QGraphicsItem::ItemIsFocusable);
         bart->setFocus();
 
         escena->addItem(bart);
-    }
 
+        // Temporizador para gestionar colisiones
+        QTimer *colisionTimer = new QTimer(this);
+        connect(colisionTimer, &QTimer::timeout, this, &Nivel::verificarColisiones);
+        colisionTimer->start(50); // Verificar colisiones cada 50 ms
+    }
+}
+
+
+void Nivel::verificarColisiones() {
+    QList<QGraphicsItem*> colisiones = bart->collidingItems();
+    for (QGraphicsItem* item : colisiones) {
+        if (item == arma) {
+            escena->removeItem(arma);
+            delete arma;
+
+            arma= new Objetos("arma");
+            escena->addItem(arma);
+        }
+        if (item == pagina) {
+            escena->removeItem(pagina);
+            delete pagina;
+
+            pagina= new Objetos("pagina");
+            escena->addItem(pagina);
+        }
+    }
 }
 
 void Nivel::moverEdificio() {
@@ -81,7 +103,7 @@ void Nivel::moverEdificio() {
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         delete bart;
-        delete objeto;
+        //delete arma;
     }
     //delete objeto;
 
