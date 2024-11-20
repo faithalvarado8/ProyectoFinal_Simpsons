@@ -3,7 +3,7 @@
 
 #include "jugador.h"
 #include "objetos.h"
-
+#include "bart.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsPixmapItem>
@@ -18,6 +18,7 @@ private:
     QGraphicsScene* escena;
     QGraphicsPixmapItem* edificioItem;
     int yOffset;
+    Bart * bart;
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);

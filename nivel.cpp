@@ -38,7 +38,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         escena->setBackgroundBrush(QBrush(QImage(":/Nivel3/fondoNivel3.jpg").scaled(1280, 720)));
 
-        jugador = new Jugador("Bart");
+        bart = new Bart();
 
         for (short int i=0; i<5; i++){
            objeto= new Objetos("arma");
@@ -51,10 +51,10 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         }
 
         // Enfocar personaje
-        jugador->setFlag(QGraphicsItem::ItemIsFocusable);
-        jugador->setFocus();
+        bart->setFlag(QGraphicsItem::ItemIsFocusable);
+        bart->setFocus();
 
-        escena->addItem(jugador);
+        escena->addItem(bart);
     }
 
 }
