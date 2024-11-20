@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     jugador.cpp \
+    kinghomero.cpp \
     main.cpp \
     juego.cpp \
     nivel.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 HEADERS += \
     juego.h \
     jugador.h \
+    kinghomero.h \
     nivel.h \
     objetos.h \
     personajes.h

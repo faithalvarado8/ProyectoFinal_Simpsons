@@ -7,13 +7,17 @@
 
 class Personajes: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
-private:
-    unsigned int vidas;
+protected:
+
+    float posX, posY;
+
+
+    // unsigned int vidas;
 
 public:
     virtual ~Personajes() = default;  // Destructor virtual
-    unsigned int recuperarVida();
-    unsigned int perderVida();
+    // unsigned int recuperarVida();
+    // unsigned int perderVida();
 
 };
 

@@ -77,18 +77,7 @@ void Nivel::moverEdificio() {
     edificioItem->setPos(230, escena->height() - edificioItem->pixmap().height() - yOffset);
 }
 
-// void Nivel::actualizarCamara() {
-//     if (jugador) {
-//         // Mantener la cámara enfocada en Homero
-//         int cameraY = jugador->pos().y() - (escena->height() * 2 / 3);
-//         cameraY = qMax(255, cameraY); // Limitar el movimiento vertical
-//         cameraY = qMin(4860, cameraY); // Limitar el movimiento vertical
 
-//         // Ajustar la posición de la escena
-//         escena->setSceneRect(0, cameraY, escena->width(), escena->height());
-//         escena->setPos(0, -cameraY); // Mover la escena hacia arriba
-//     }
-// }
 
 Nivel::~Nivel() {
     delete jugador;
