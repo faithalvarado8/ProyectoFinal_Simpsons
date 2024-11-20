@@ -14,6 +14,7 @@ SOURCES += \
     kinghomero.cpp \
     main.cpp \
     juego.cpp \
+    murcielago.cpp \
     nivel.cpp \
     objetos.cpp
 
@@ -22,6 +23,7 @@ HEADERS += \
     juego.h \
     jugador.h \
     kinghomero.h \
+    murcielago.h \
     nivel.h \
     objetos.h
 

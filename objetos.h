@@ -14,7 +14,7 @@ private:
     QPixmap sprites;
 
 public:
-    Objetos(string objeto);
+    Objetos(string objeto, unsigned short int cont=0);
 };
 
 #endif // OBJETOS_H
