@@ -5,6 +5,7 @@
 #include "objetos.h"
 #include "bart.h"
 #include "kinghomero.h"
+#include "murcielago.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsPixmapItem>
@@ -21,6 +22,7 @@ private:
     int yOffset;
     Bart * bart;
     KingHomero *kingHomero;
+    Murcielago* murcielago;
     unsigned short int cont=1;
 
 public:

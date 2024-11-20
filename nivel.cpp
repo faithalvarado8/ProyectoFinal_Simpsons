@@ -49,6 +49,9 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         escena->addItem(bart);
 
+        murcielago=new Murcielago();
+        escena->addItem(murcielago);
+
         // Temporizador para gestionar colisiones
         QTimer *colisionTimer = new QTimer(this);
         connect(colisionTimer, &QTimer::timeout, this, &Nivel::verificarColisiones);
