@@ -79,8 +79,11 @@ void Nivel::moverEdificio() {
 
 
 Nivel::~Nivel() {
-    //delete jugador;
-    delete objeto;
+    if (nivelSeleccionado==3){
+        delete bart;
+        delete objeto;
+    }
+    //delete objeto;
 
 }
 
