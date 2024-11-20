@@ -21,7 +21,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         // Crear un temporizador para el efecto parallax
         QTimer *parallaxTimer = new QTimer(this);
         connect(parallaxTimer, &QTimer::timeout, this, &Nivel::moverEdificio);
-        parallaxTimer->start(16); // ~60 FPS
+        parallaxTimer->start(25); // ~60 FPS
 
         KingHomero *kingHomero = new KingHomero();
         escena->addItem(kingHomero);
