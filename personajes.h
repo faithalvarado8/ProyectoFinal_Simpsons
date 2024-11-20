@@ -7,7 +7,10 @@
 
 class Personajes: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
-private:
+protected:
+
+    float posX, posY;
+
     unsigned int vidas;
 
 public:
