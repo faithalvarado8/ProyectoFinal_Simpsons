@@ -1,8 +1,8 @@
 #ifndef KINGHOMERO_H
 #define KINGHOMERO_H
 
-class KingHomero
-{
+class KingHomero{
+
 public:
     KingHomero();
 };
