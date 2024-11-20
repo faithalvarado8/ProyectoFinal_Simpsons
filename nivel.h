@@ -26,8 +26,10 @@ public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
     void moverEdificio();
     void actualizarCamara();
+    void verificarColisiones();
     Jugador * jugador;
-    Objetos* objeto;
+    Objetos* arma;
+    Objetos* pagina;
     virtual ~Nivel();
 };
 
