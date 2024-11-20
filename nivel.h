@@ -4,6 +4,7 @@
 #include "jugador.h"
 #include "objetos.h"
 #include "bart.h"
+#include "kinghomero.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsPixmapItem>
@@ -19,6 +20,7 @@ private:
     QGraphicsPixmapItem* edificioItem;
     int yOffset;
     Bart * bart;
+    KingHomero *kingHomero;
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);

@@ -6,34 +6,30 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
     qDebug() << "NIVEL: " << nivelSeleccionado;
 
     if (nivelSeleccionado == 2) {
-        // Cargar la imagen del edificio
-        QPixmap edificio(":/Nivel2/Edificio.png"); // Asegúrate de que la ruta sea correcta
+        QPixmap edificio(":/Nivel2/Edificio.png");
         if (edificio.isNull()) {
             qDebug() << "Error: No se pudo cargar la imagen.";
-            return; // Salir de la función o manejar el error
+            return;
         }
 
-        // Agregar el edificio a la escena
         edificioItem = escena->addPixmap(edificio.scaled(800, 4881, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        escena->setBackgroundBrush(QBrush(QColor(202, 199, 199))); // Fondo negro para contraste
+        escena->setBackgroundBrush(QBrush(QColor(202, 199, 199)));
 
-        // Posicionar el edificio en la parte inferior de la escena
         edificioItem->setPos(80, escena->height() - edificioItem->pixmap().height());
-        edificioItem->setZValue(0); // Asegúrate de que esté en el nivel correcto
+        edificioItem->setZValue(0);
 
         // Crear un temporizador para el efecto parallax
         QTimer *parallaxTimer = new QTimer(this);
         connect(parallaxTimer, &QTimer::timeout, this, &Nivel::moverEdificio);
         parallaxTimer->start(16); // ~60 FPS
 
+        KingHomero *kingHomero = new KingHomero();
+        escena->addItem(kingHomero);
 
-        // Crear jugador
-        /*jugador = new Jugador("Homero");
-        jugador->setPos(100, 4860); // Posición inicial de Homero
-        escena->addItem(jugador);
-        jugador->setFlag(QGraphicsItem::ItemIsFocusable);
-        jugador->setFocus();*/
+        kingHomero->setFlag(QGraphicsItem::ItemIsFocusable);
+        kingHomero->setFocus();
     }
+
 
     if (nivelSeleccionado==3){
 
@@ -104,6 +100,9 @@ Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         delete bart;
         //delete arma;
+    }
+    if (nivelSeleccionado==2){
+        delete kingHomero;
     }
     //delete objeto;
 
