@@ -14,20 +14,21 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         edificioItem = escena->addPixmap(edificio.scaled(800, 4881, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         escena->setBackgroundBrush(QBrush(QColor(202, 199, 199)));
-
         edificioItem->setPos(80, escena->height() - edificioItem->pixmap().height());
         edificioItem->setZValue(0);
 
         // Crear un temporizador para el efecto parallax
-        QTimer *parallaxTimer = new QTimer(this);
-        connect(parallaxTimer, &QTimer::timeout, this, &Nivel::moverEdificio);
-        parallaxTimer->start(25); // ~60 FPS
+        // QTimer *parallaxTimer = new QTimer(this);
+        // connect(parallaxTimer, &QTimer::timeout, this, &Nivel::moverEdificio);
+        // parallaxTimer->start(25); // ~60 FPS
 
         KingHomero *kingHomero = new KingHomero();
         escena->addItem(kingHomero);
 
         kingHomero->setFlag(QGraphicsItem::ItemIsFocusable);
         kingHomero->setFocus();
+
+        connect(kingHomero, &KingHomero::moverHaciaArriba, this, &Nivel::sincronizarFondo);
     }
 
 
@@ -84,24 +85,42 @@ void Nivel::verificarColisiones() {
     }
 }
 
-void Nivel::moverEdificio() {
+// void Nivel::moverEdificio() {
 
-    if (!edificioItem) return;
+//     if (!edificioItem) return;
 
-    // Obtener la posición actual
-    yOffset -= 2; // Velocidad del desplazamiento hacia arriba
+//     // Obtener la posición actual
+//     yOffset -= 2; // Velocidad del desplazamiento hacia arriba
 
-    // Detener el desplazamiento al llegar a la parte superior
-    if (yOffset <= -(edificioItem->pixmap().height() - escena->height())) {
-        yOffset = -(edificioItem->pixmap().height() - escena->height()); // Fijar en el límite superior
-        return; // No mover más
+//     // Detener el desplazamiento al llegar a la parte superior
+//     if (yOffset <= -(edificioItem->pixmap().height() - escena->height())) {
+//         yOffset = -(edificioItem->pixmap().height() - escena->height()); // Fijar en el límite superior
+//         return; // No mover más
+//     }
+
+//     // Actualizar posición
+//     edificioItem->setPos(230, escena->height() - edificioItem->pixmap().height() - yOffset);
+// }
+
+void Nivel::sincronizarFondo(int dy) {
+
+    if (!edificioItem || !kingHomero) return;
+    yOffset += dy;
+
+    if (yOffset < -(edificioItem->pixmap().height() - escena->height())) {
+        yOffset = -(edificioItem->pixmap().height() - escena->height());
+    } else if (yOffset > 0) {
+        yOffset = 0;
     }
 
-    // Actualizar posición
-    edificioItem->setPos(230, escena->height() - edificioItem->pixmap().height() - yOffset);
+    edificioItem->setPos(80, escena->height() - edificioItem->pixmap().height() + yOffset);
+
+    int nuevaY = kingHomero->y() + dy;
+    if (nuevaY >= 0 && nuevaY <= escena->height() - kingHomero->pixmap().height()) {
+        kingHomero->setY(nuevaY);
+    }
+
 }
-
-
 
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){

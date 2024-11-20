@@ -28,7 +28,7 @@ private:
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
     void moverEdificio();
-    void actualizarCamara();
+    void sincronizarFondo(int dy);
     void verificarColisiones();
     Jugador * jugador;
     Objetos* arma;

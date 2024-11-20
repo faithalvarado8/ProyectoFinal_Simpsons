@@ -15,6 +15,9 @@ public:
     void keyReleaseEvent(QKeyEvent *event);
     void ajustarVelocidadAnimacion();
 
+signals:
+    void moverHaciaArriba(int dy);
+
 private slots:
     void actualizarAnimacion();
 

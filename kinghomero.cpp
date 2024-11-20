@@ -6,7 +6,7 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false), tiempoPresion(n
 
     QGraphicsPixmapItem::setPixmap(sprites[spriteActual].scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-    setPos(600, 720);
+    setPos(10, 10);
     setZValue(2);
 
     timerAnimacion = new QTimer(this);
@@ -33,9 +33,7 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
         }
         break;
     case Qt::Key_W:
-        if (y() - velocidad >= 0) {
-            setY(y() - velocidad);
-        }
+        emit moverHaciaArriba(-velocidad); // Emitimos la señal hacia el nivel.
         break;
     }
 
