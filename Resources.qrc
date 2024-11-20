@@ -4,12 +4,17 @@
         <file>fondoInicio1.png</file>
         <file>KingHomero.jpg</file>
         <file>Krusty.jpg</file>
+        <file>BotonInicio.png</file>
+        <file>FondoInicio.png</file>
     </qresource>
     <qresource prefix="/Nivel3">
         <file>BartFrente.png</file>
         <file>BartLado.png</file>
         <file>Objetos3.png</file>
         <file>fondoNivel3.png</file>
+        <file>Bat-1.png</file>
+        <file>Bat-2.png</file>
+        <file>Bat-3.png</file>
     </qresource>
     <qresource prefix="/Nivel2">
         <file>Edificio.png</file>
