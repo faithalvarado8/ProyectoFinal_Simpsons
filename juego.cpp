@@ -46,6 +46,7 @@ void Juego::iniciarJuego(){
     botonInicio->setStyleSheet(
         "QPushButton {"
         "    background-color: transparent;"
+        //"    border: transparent;"
         "}"
         );
 
