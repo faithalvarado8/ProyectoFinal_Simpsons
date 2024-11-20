@@ -52,7 +52,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         // Temporizador para gestionar colisiones
         QTimer *colisionTimer = new QTimer(this);
         connect(colisionTimer, &QTimer::timeout, this, &Nivel::verificarColisiones);
-        colisionTimer->start(50); // Verificar colisiones cada 50 ms
+        colisionTimer->start(100); // Verificar colisiones cada 50 ms
     }
 }
 
