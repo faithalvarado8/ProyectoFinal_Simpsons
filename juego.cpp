@@ -28,7 +28,7 @@ Juego::~Juego()
 
 void Juego::iniciarJuego(){
 
-    escena->setBackgroundBrush(QBrush(QImage(":/fondos/fondoInicio1.png").scaled(1280,720)));
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/FondoInicio.png").scaled(1280,720)));
 
     botonInicio = new QPushButton();
 
