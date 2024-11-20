@@ -15,11 +15,15 @@ public:
 
 private slots:
     void actualizarAnimacion();
+    void movimiento();
 
 private:
     QVector<QPixmap> sprites;
-    int spriteActual=0;
+    int spriteActual;
     QTimer *timer;
+    QTimer *timerMov;
+    int angulo;
+    int radio;
 
 };
 

@@ -125,7 +125,11 @@ void Nivel::sincronizarFondo(int dy) {
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         delete bart;
-        //delete arma;
+        delete arma;
+        if (pagina){
+            delete pagina;
+        }
+        delete murcielago;
     }
     if (nivelSeleccionado==2){
         delete kingHomero;
