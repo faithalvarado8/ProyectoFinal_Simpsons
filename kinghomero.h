@@ -4,6 +4,7 @@
 #include "jugador.h"
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
+#include <QElapsedTimer>
 #include <QTimer>
 
 class KingHomero : public Jugador{
@@ -11,14 +12,18 @@ class KingHomero : public Jugador{
 public:
     KingHomero();
     void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+    void ajustarVelocidadAnimacion();
 
 private slots:
     void actualizarAnimacion();
 
 private:
-    QList<QPixmap> sprites; // Lista de sprites para la animación
-    int spriteActual;       // Índice del sprite actual
+    QList<QPixmap> sprites;
+    unsigned int spriteActual;
+    bool enMovimiento;
     QTimer *timerAnimacion; // Temporizador para actualizar la animación
+    QElapsedTimer *tiempoPresion;
 };
 
 #endif // KINGHOMERO_H
