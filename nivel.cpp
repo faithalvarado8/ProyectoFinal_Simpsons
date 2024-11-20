@@ -40,7 +40,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         arma= new Objetos("arma");
         escena->addItem(arma);
 
-        pagina= new Objetos("pagina");
+        pagina= new Objetos("pagina", 1);
         escena->addItem(pagina);
 
         // Enfocar personaje
@@ -71,8 +71,12 @@ void Nivel::verificarColisiones() {
             escena->removeItem(pagina);
             delete pagina;
 
-            pagina= new Objetos("pagina");
-            escena->addItem(pagina);
+            if (cont<6){
+                cont+=1;
+                pagina= new Objetos("pagina", cont);
+                escena->addItem(pagina);
+            }
+
         }
     }
 }

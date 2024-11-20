@@ -21,6 +21,7 @@ private:
     int yOffset;
     Bart * bart;
     KingHomero *kingHomero;
+    unsigned short int cont=1;
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
