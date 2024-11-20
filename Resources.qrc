@@ -8,8 +8,8 @@
     <qresource prefix="/Nivel3">
         <file>BartFrente.png</file>
         <file>BartLado.png</file>
-        <file>fondoNivel3.jpg</file>
         <file>Objetos3.png</file>
+        <file>fondoNivel3.png</file>
     </qresource>
     <qresource prefix="/Nivel2">
         <file>Edificio.png</file>

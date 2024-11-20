@@ -36,7 +36,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
     if (nivelSeleccionado==3){
 
-        escena->setBackgroundBrush(QBrush(QImage(":/Nivel3/fondoNivel3.jpg").scaled(1280, 720)));
+        escena->setBackgroundBrush(QBrush(QImage(":/Nivel3/fondoNivel3.png").scaled(1280, 720)));
 
         bart = new Bart();
 
