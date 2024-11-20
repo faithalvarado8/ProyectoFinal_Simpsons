@@ -107,7 +107,9 @@ Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         delete bart;
         delete arma;
-        delete pagina;
+        if (pagina){
+            delete pagina;
+        }
         delete murcielago;
     }
     if (nivelSeleccionado==2){

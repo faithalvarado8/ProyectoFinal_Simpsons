@@ -1,7 +1,7 @@
 #include "murcielago.h"
 #include <cmath>
 
-Murcielago::Murcielago(): spriteActual(0), angulo(0), radio(40) {
+Murcielago::Murcielago(): spriteActual(0), angulo(0), radio(70) {
 
     sprites.append(QPixmap(":/Nivel3/Bat-1.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     sprites.append(QPixmap(":/Nivel3/Bat-2.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -15,9 +15,9 @@ Murcielago::Murcielago(): spriteActual(0), angulo(0), radio(40) {
 
     timerMov = new QTimer();
     connect(timerMov, &QTimer::timeout, this, &Murcielago::movimiento);
-    timerMov->start(25);
+    timerMov->start(30);
 
-    setPos(100, 100);
+    setPos(800, 400);
 }
 
 void Murcielago::actualizarAnimacion(){
@@ -40,6 +40,6 @@ void Murcielago::movimiento(){
     double x = radio * cos(radianes);     //x(t)= r * cos(θ)
     double y = radio * sin(radianes);     //y(t)= r * sen(θ)
 
-    setPos(100+x, 100+y); // Actualizar posicion del objeto
+    setPos(800+x, 400+y); // Actualizar posicion del objeto
 
 }
