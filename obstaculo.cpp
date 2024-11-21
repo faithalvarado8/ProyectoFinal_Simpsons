@@ -10,7 +10,7 @@ Obstaculo::Obstaculo(QGraphicsScene *escena, QObject *parent)
     QPixmap sprite(sprites[rand() % sprites.size()]);
     setPixmap(sprite.scaled(60, 60, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-    unsigned int posX = rand() % (930 - 280 + 1) + 280;  // Generar un número entre 320 y 430
+    unsigned int posX = rand() % (930 - 280 + 1) + 280;
     setPos(posX, -pixmap().height());
     setZValue(1);
 
@@ -24,7 +24,6 @@ Obstaculo::~Obstaculo() {
 }
 
 void Obstaculo::mover() {
-    // Mover el obstáculo hacia abajo
     setY(y() + 5);
 
     // Eliminar el obstáculo si sale de la escena

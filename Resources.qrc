@@ -33,4 +33,7 @@
         <file>Parachute.png</file>
         <file>Plane.png</file>
     </qresource>
+    <qresource prefix="/Sonidos">
+        <file>SoundEffects/Colision_Explotar.mp3</file>
+    </qresource>
 </RCC>

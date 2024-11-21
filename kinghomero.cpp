@@ -12,9 +12,17 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false), tiempoPresion(n
     timerAnimacion = new QTimer(this);
     connect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarAnimacion);
     timerAnimacion->start(200);
+
+    timerColisiones = new QTimer(this);
+    connect(timerColisiones, &QTimer::timeout, this, &KingHomero::verificarColisionConObstaculos);
+    timerColisiones->start(10);
+
+    sonidoColision = new QSoundEffect(this);
+    sonidoColision->setSource(QUrl(":/Sonidos/SoundEffects/Colision_Explotar.mp3"));  // Ruta al archivo MP3
+    sonidoColision->setVolume(1.0f);
 }
 
-// EVENTOS POR TECLADO
+// ------------------ EVENTOS POR TECLADO ----------------------
 
 void KingHomero::keyPressEvent(QKeyEvent *event) {
     const unsigned int velocidad = 10;
@@ -26,7 +34,7 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
     teclasPresionadas.insert(event->key());
 
     if (tiempoPresion->isValid() == false) {
-        tiempoPresion->start();  // Iniciar el temporizador cuando la tecla es presionada
+        tiempoPresion->start();
     }
 
     switch (event->key()) {
@@ -82,6 +90,7 @@ void KingHomero::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
+// ------------------ ANIMACIÓN DE SPRITES ----------------------
 
 void KingHomero::actualizarAnimacion() {
     if (enMovimiento) {
@@ -90,10 +99,19 @@ void KingHomero::actualizarAnimacion() {
     }
 }
 
-// COLISIONES
+// ------------------  COLISIONES ----------------------
 
-QRectF KingHomero::boundingRect() const {
-    return QRectF(0, 0, 180, 180);
+void KingHomero::verificarColisionConObstaculos() {
+    for (auto *obstaculo : scene()->items()) {
+        Obstaculo *ob = dynamic_cast<Obstaculo*>(obstaculo);
+        if (ob && collidesWithItem(ob)) {
+            qDebug() << "Colisión con el obstáculo!";
+            scene()->removeItem(ob);
+            delete ob;
+            sonidoColision->play();
+            break;
+        }
+    }
 }
 
 KingHomero::~KingHomero() {
@@ -104,8 +122,17 @@ KingHomero::~KingHomero() {
         timerAnimacion = nullptr;
     }
 
+    if (timerColisiones) {
+        timerColisiones->stop();
+        delete timerColisiones;
+        timerColisiones = nullptr;
+    }
+
     delete tiempoPresion;
     tiempoPresion = nullptr;
+
+    delete sonidoColision;
+    sonidoColision = nullptr;
 
     sprites.clear();
 }
