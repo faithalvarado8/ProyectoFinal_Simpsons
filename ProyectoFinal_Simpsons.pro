@@ -16,7 +16,8 @@ SOURCES += \
     juego.cpp \
     murcielago.cpp \
     nivel.cpp \
-    objetos.cpp
+    objetos.cpp \
+    obstaculo.cpp
 
 HEADERS += \
     bart.h \
@@ -25,7 +26,8 @@ HEADERS += \
     kinghomero.h \
     murcielago.h \
     nivel.h \
-    objetos.h
+    objetos.h \
+    obstaculo.h
 
 FORMS += \
     juego.ui

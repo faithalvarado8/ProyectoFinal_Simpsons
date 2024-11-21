@@ -18,6 +18,7 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
     const unsigned int velocidad = 10;
     const unsigned int anchoSprite = 430;
     const unsigned int limiteAncho = 1280 - anchoSprite;
+    const unsigned int limiteSuperiorY = 80;
 
     enMovimiento = true;
 
@@ -41,9 +42,12 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
         break;
 
     case Qt::Key_W:
-        qDebug() << "Tecla W presionada ANTES";
-        emit moverHaciaArriba(-velocidad);
-        qDebug() << "Tecla W presionada: Movimiento hacia arriba emitido.";
+        if (y() - velocidad >= limiteSuperiorY) {
+            emit moverHaciaArriba(-velocidad);
+            qDebug() << "Tecla W presionada: Movimiento hacia arriba emitido. Nueva posición Y:" << y();
+        } else {
+            qDebug() << "Tecla W presionada: Límite superior alcanzado en Y.";
+        }
         break;
 
     default:

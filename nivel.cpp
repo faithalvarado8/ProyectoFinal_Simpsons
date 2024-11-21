@@ -1,5 +1,5 @@
 #include "nivel.h"
-#include <QTimer>
+// #include <QTimer>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0) {
 
@@ -17,7 +17,14 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         edificioItem->setPos(240, escena->height() - edificioItem->pixmap().height());
         edificioItem->setZValue(0);
 
-        KingHomero *kingHomero = new KingHomero();
+        timerObstaculos = new QTimer(this);
+        connect(timerObstaculos, &QTimer::timeout, [this]() {
+            Obstaculo *obstaculo = new Obstaculo(this->escena, this);
+            this->escena->addItem(obstaculo);
+        });
+        timerObstaculos->start(2000);
+
+        kingHomero = new KingHomero();
         escena->addItem(kingHomero);
 
         kingHomero->setFlag(QGraphicsItem::ItemIsFocusable);
@@ -79,6 +86,26 @@ void Nivel::verificarColisiones() {
 }
 
 
+// void Nivel::sincronizarFondo(int dy) {
+
+//     if (!edificioItem || !kingHomero) return;
+//     yOffset += dy;
+
+//     if (yOffset < -(edificioItem->pixmap().height() - escena->height())) {
+//         yOffset = -(edificioItem->pixmap().height() - escena->height());
+//     } else if (yOffset > 0) {
+//         yOffset = 0;
+//     }
+
+//     edificioItem->setPos(240, escena->height() - edificioItem->pixmap().height() - yOffset);
+
+//     int nuevaY = kingHomero->y() + dy;
+//     if (nuevaY >= 50 && nuevaY <= escena->height() - kingHomero->pixmap().height()) {
+//         kingHomero->setY(nuevaY);
+//     }
+
+// }
+
 void Nivel::sincronizarFondo(int dy) {
 
     if (!edificioItem || !kingHomero) return;
@@ -93,11 +120,14 @@ void Nivel::sincronizarFondo(int dy) {
     edificioItem->setPos(240, escena->height() - edificioItem->pixmap().height() - yOffset);
 
     int nuevaY = kingHomero->y() + dy;
-    if (nuevaY >= 0 && nuevaY <= escena->height() - kingHomero->pixmap().height()) {
+
+    // Verifica si la nueva posición está dentro de los límites
+    if (nuevaY >= 50 && nuevaY <= escena->height() - kingHomero->pixmap().height() && nuevaY <= 50) {
         kingHomero->setY(nuevaY);
     }
 
 }
+
 
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
@@ -111,6 +141,8 @@ Nivel::~Nivel() {
     if (nivelSeleccionado==2){
         delete kingHomero;
         kingHomero = nullptr;
+        delete timerObstaculos;
+        timerObstaculos = nullptr;
     }
     //delete objeto;
 
