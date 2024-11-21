@@ -17,10 +17,6 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         edificioItem->setPos(80, escena->height() - edificioItem->pixmap().height());
         edificioItem->setZValue(0);
 
-        // Crear un temporizador para el efecto parallax
-        // QTimer *parallaxTimer = new QTimer(this);
-        // connect(parallaxTimer, &QTimer::timeout, this, &Nivel::moverEdificio);
-        // parallaxTimer->start(25); // ~60 FPS
 
         KingHomero *kingHomero = new KingHomero();
         escena->addItem(kingHomero);
@@ -113,7 +109,7 @@ void Nivel::sincronizarFondo(int dy) {
         yOffset = 0;
     }
 
-    edificioItem->setPos(80, escena->height() - edificioItem->pixmap().height() + yOffset);
+    edificioItem->setPos(80, escena->height() - edificioItem->pixmap().height() - yOffset);
 
     int nuevaY = kingHomero->y() + dy;
     if (nuevaY >= 0 && nuevaY <= escena->height() - kingHomero->pixmap().height()) {
@@ -133,6 +129,7 @@ Nivel::~Nivel() {
     }
     if (nivelSeleccionado==2){
         delete kingHomero;
+        delete edificioItem;
     }
     //delete objeto;
 
