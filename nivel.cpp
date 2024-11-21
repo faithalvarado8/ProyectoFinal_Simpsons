@@ -86,26 +86,6 @@ void Nivel::verificarColisiones() {
 }
 
 
-// void Nivel::sincronizarFondo(int dy) {
-
-//     if (!edificioItem || !kingHomero) return;
-//     yOffset += dy;
-
-//     if (yOffset < -(edificioItem->pixmap().height() - escena->height())) {
-//         yOffset = -(edificioItem->pixmap().height() - escena->height());
-//     } else if (yOffset > 0) {
-//         yOffset = 0;
-//     }
-
-//     edificioItem->setPos(240, escena->height() - edificioItem->pixmap().height() - yOffset);
-
-//     int nuevaY = kingHomero->y() + dy;
-//     if (nuevaY >= 50 && nuevaY <= escena->height() - kingHomero->pixmap().height()) {
-//         kingHomero->setY(nuevaY);
-//     }
-
-// }
-
 void Nivel::sincronizarFondo(int dy) {
 
     if (!edificioItem || !kingHomero) return;

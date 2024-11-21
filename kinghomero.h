@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QElapsedTimer>
 #include <QTimer>
+#include <QSet>
 
 class KingHomero : public Jugador{
     Q_OBJECT
@@ -28,6 +29,7 @@ private:
     bool enMovimiento;
     QTimer *timerAnimacion; // Temporizador para actualizar la animación
     QElapsedTimer *tiempoPresion;
+    QSet<int> teclasPresionadas;
 
 };
 

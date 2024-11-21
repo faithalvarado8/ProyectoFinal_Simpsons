@@ -21,6 +21,7 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
     const unsigned int limiteSuperiorY = 80;
 
     enMovimiento = true;
+    teclasPresionadas.insert(event->key());
 
     switch (event->key()) {
     case Qt::Key_A:
@@ -59,13 +60,32 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
 }
 
 void KingHomero::keyReleaseEvent(QKeyEvent *event) {
-    Q_UNUSED(event);
-    enMovimiento = false;
+    teclasPresionadas.remove(event->key());  // Eliminar la tecla del conjunto
 
-    timerAnimacion->start(200);
+    // Si no quedan teclas presionadas, detenemos el movimiento
+    if (teclasPresionadas.isEmpty()) {
+        enMovimiento = false;
+        timerAnimacion->start(200);  // Reiniciar el temporizador de animación
+    } else {
+        enMovimiento = true;  // Si quedan teclas presionadas, seguimos en movimiento
+    }
 
-    QGraphicsPixmapItem::setPixmap(sprites[0].scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    // Restablecer la imagen del sprite a la primera (esto es solo si el personaje no está en movimiento)
+    if (teclasPresionadas.isEmpty()) {
+        QGraphicsPixmapItem::setPixmap(sprites[0].scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
 }
+
+
+
+// void KingHomero::keyReleaseEvent(QKeyEvent *event) {
+//     Q_UNUSED(event);
+//     enMovimiento = false;
+
+//     timerAnimacion->start(200);
+
+//     QGraphicsPixmapItem::setPixmap(sprites[0].scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+// }
 
 void KingHomero::actualizarAnimacion() {
     if (enMovimiento) {
