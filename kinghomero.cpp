@@ -6,7 +6,7 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false), tiempoPresion(n
 
     QGraphicsPixmapItem::setPixmap(sprites[spriteActual].scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-    setPos(10, 10);
+    setPos(640, 520);
     setZValue(2);
 
     timerAnimacion = new QTimer(this);
@@ -25,15 +25,29 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
     case Qt::Key_A:
         if (x() - velocidad >= 320) {
             setX(x() - velocidad);
+            qDebug() << "Tecla A presionada: Movimiento hacia la izquierda. Nueva posición X:" << x();
+        } else {
+            qDebug() << "Tecla A presionada: Límite izquierdo alcanzado.";
         }
         break;
+
     case Qt::Key_D:
         if (x() + velocidad <= limiteAncho) {
             setX(x() + velocidad);
+            qDebug() << "Tecla D presionada: Movimiento hacia la derecha. Nueva posición X:" << x();
+        } else {
+            qDebug() << "Tecla D presionada: Límite derecho alcanzado.";
         }
         break;
+
     case Qt::Key_W:
-        emit moverHaciaArriba(-velocidad); // Emitimos la señal hacia el nivel.
+        qDebug() << "Tecla W presionada ANTES";
+        emit moverHaciaArriba(-velocidad);
+        qDebug() << "Tecla W presionada: Movimiento hacia arriba emitido.";
+        break;
+
+    default:
+        qDebug() << "Tecla no reconocida presionada: Código" << event->key();
         break;
     }
 
@@ -67,3 +81,19 @@ void KingHomero::ajustarVelocidadAnimacion() {
         timerAnimacion->start(50);
     }
 }
+
+
+KingHomero::~KingHomero() {
+
+    if (timerAnimacion) {
+        timerAnimacion->stop();
+        delete timerAnimacion;
+        timerAnimacion = nullptr;
+    }
+
+    delete tiempoPresion;
+    tiempoPresion = nullptr;
+
+    sprites.clear();
+}
+

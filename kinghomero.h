@@ -14,6 +14,7 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void ajustarVelocidadAnimacion();
+    ~KingHomero();
 
 signals:
     void moverHaciaArriba(int dy);
@@ -27,6 +28,7 @@ private:
     bool enMovimiento;
     QTimer *timerAnimacion; // Temporizador para actualizar la animación
     QElapsedTimer *tiempoPresion;
+
 };
 
 #endif // KINGHOMERO_H

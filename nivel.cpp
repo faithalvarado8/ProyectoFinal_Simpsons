@@ -14,9 +14,8 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         edificioItem = escena->addPixmap(edificio.scaled(800, 4881, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         escena->setBackgroundBrush(QBrush(QColor(202, 199, 199)));
-        edificioItem->setPos(80, escena->height() - edificioItem->pixmap().height());
+        edificioItem->setPos(240, escena->height() - edificioItem->pixmap().height());
         edificioItem->setZValue(0);
-
 
         KingHomero *kingHomero = new KingHomero();
         escena->addItem(kingHomero);
@@ -40,7 +39,6 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         pagina= new Objetos("pagina", 1);
         escena->addItem(pagina);
 
-        // Enfocar personaje
         bart->setFlag(QGraphicsItem::ItemIsFocusable);
         bart->setFocus();
 
@@ -49,7 +47,6 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         murcielago=new Murcielago();
         escena->addItem(murcielago);
 
-        // Temporizador para gestionar colisiones
         QTimer *colisionTimer = new QTimer(this);
         connect(colisionTimer, &QTimer::timeout, this, &Nivel::verificarColisiones);
         colisionTimer->start(100); // Verificar colisiones cada 50 ms
@@ -81,22 +78,6 @@ void Nivel::verificarColisiones() {
     }
 }
 
-// void Nivel::moverEdificio() {
-
-//     if (!edificioItem) return;
-
-//     // Obtener la posición actual
-//     yOffset -= 2; // Velocidad del desplazamiento hacia arriba
-
-//     // Detener el desplazamiento al llegar a la parte superior
-//     if (yOffset <= -(edificioItem->pixmap().height() - escena->height())) {
-//         yOffset = -(edificioItem->pixmap().height() - escena->height()); // Fijar en el límite superior
-//         return; // No mover más
-//     }
-
-//     // Actualizar posición
-//     edificioItem->setPos(230, escena->height() - edificioItem->pixmap().height() - yOffset);
-// }
 
 void Nivel::sincronizarFondo(int dy) {
 
@@ -109,7 +90,7 @@ void Nivel::sincronizarFondo(int dy) {
         yOffset = 0;
     }
 
-    edificioItem->setPos(80, escena->height() - edificioItem->pixmap().height() - yOffset);
+    edificioItem->setPos(240, escena->height() - edificioItem->pixmap().height() - yOffset);
 
     int nuevaY = kingHomero->y() + dy;
     if (nuevaY >= 0 && nuevaY <= escena->height() - kingHomero->pixmap().height()) {
@@ -129,7 +110,7 @@ Nivel::~Nivel() {
     }
     if (nivelSeleccionado==2){
         delete kingHomero;
-        delete edificioItem;
+        kingHomero = nullptr;
     }
     //delete objeto;
 
