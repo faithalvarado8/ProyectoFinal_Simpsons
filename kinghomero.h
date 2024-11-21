@@ -14,7 +14,6 @@ public:
     KingHomero();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
-    void ajustarVelocidadAnimacion();
     ~KingHomero();
 
 signals:

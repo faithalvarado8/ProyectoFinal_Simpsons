@@ -14,6 +14,8 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false), tiempoPresion(n
     timerAnimacion->start(200);
 }
 
+// EVENTOS POR TECLADO
+
 void KingHomero::keyPressEvent(QKeyEvent *event) {
     const unsigned int velocidad = 10;
     const unsigned int anchoSprite = 430;
@@ -22,6 +24,10 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
 
     enMovimiento = true;
     teclasPresionadas.insert(event->key());
+
+    if (tiempoPresion->isValid() == false) {
+        tiempoPresion->start();  // Iniciar el temporizador cuando la tecla es presionada
+    }
 
     switch (event->key()) {
     case Qt::Key_A:
@@ -55,37 +61,27 @@ void KingHomero::keyPressEvent(QKeyEvent *event) {
         qDebug() << "Tecla no reconocida presionada: Código" << event->key();
         break;
     }
-
-    ajustarVelocidadAnimacion();
 }
 
-void KingHomero::keyReleaseEvent(QKeyEvent *event) {
-    teclasPresionadas.remove(event->key());  // Eliminar la tecla del conjunto
 
-    // Si no quedan teclas presionadas, detenemos el movimiento
+void KingHomero::keyReleaseEvent(QKeyEvent *event) {
+    teclasPresionadas.remove(event->key());
+
     if (teclasPresionadas.isEmpty()) {
         enMovimiento = false;
-        timerAnimacion->start(200);  // Reiniciar el temporizador de animación
+        timerAnimacion->start(200);
     } else {
-        enMovimiento = true;  // Si quedan teclas presionadas, seguimos en movimiento
+        enMovimiento = true;
     }
 
-    // Restablecer la imagen del sprite a la primera (esto es solo si el personaje no está en movimiento)
     if (teclasPresionadas.isEmpty()) {
         QGraphicsPixmapItem::setPixmap(sprites[0].scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
+    if (teclasPresionadas.isEmpty()) {
+        tiempoPresion->invalidate();
+    }
 }
 
-
-
-// void KingHomero::keyReleaseEvent(QKeyEvent *event) {
-//     Q_UNUSED(event);
-//     enMovimiento = false;
-
-//     timerAnimacion->start(200);
-
-//     QGraphicsPixmapItem::setPixmap(sprites[0].scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-// }
 
 void KingHomero::actualizarAnimacion() {
     if (enMovimiento) {
@@ -94,18 +90,11 @@ void KingHomero::actualizarAnimacion() {
     }
 }
 
-void KingHomero::ajustarVelocidadAnimacion() {
-    qint64 tiempo = tiempoPresion->elapsed();
+// COLISIONES
 
-    if (tiempo > 1000) {
-        timerAnimacion->start(200);
-    } else if (tiempo > 500) {
-        timerAnimacion->start(100);
-    } else {
-        timerAnimacion->start(50);
-    }
+QRectF KingHomero::boundingRect() const {
+    return QRectF(0, 0, 180, 180);
 }
-
 
 KingHomero::~KingHomero() {
 

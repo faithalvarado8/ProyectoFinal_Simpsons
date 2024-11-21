@@ -10,7 +10,7 @@ Obstaculo::Obstaculo(QGraphicsScene *escena, QObject *parent)
     QPixmap sprite(sprites[rand() % sprites.size()]);
     setPixmap(sprite.scaled(60, 60, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-    int posX = rand() % (static_cast<int>(escena->width()) - pixmap().width());
+    unsigned int posX = rand() % (930 - 280 + 1) + 280;  // Generar un número entre 320 y 430
     setPos(posX, -pixmap().height());
     setZValue(1);
 
