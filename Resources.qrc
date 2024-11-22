@@ -6,6 +6,7 @@
         <file>Krusty.jpg</file>
         <file>BotonInicio.png</file>
         <file>FondoInicio.png</file>
+        <file>GAME_OVER.png</file>
     </qresource>
     <qresource prefix="/Nivel3">
         <file>BartFrente.png</file>
@@ -32,5 +33,8 @@
         <file>Marge_Scared2.png</file>
         <file>Parachute.png</file>
         <file>Plane.png</file>
+    </qresource>
+    <qresource prefix="/Sonidos">
+        <file>SoundEffects/Colision_Explotar.mp3</file>
     </qresource>
 </RCC>
