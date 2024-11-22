@@ -46,9 +46,8 @@ void Juego::iniciarJuego(){
     botonInicio->setStyleSheet(
         "QPushButton {"
         "    background-color: transparent;"
-        //"    border: transparent;"
         "}"
-        );
+    );
 
     connect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
 }
@@ -99,27 +98,23 @@ void Juego::mostrarMenuInicio(){
 
 void Juego::iniciarNivel(short nivelSeleccionado){
     // Limpiar la escena de los botones
-    qDebug() << "PASO A";
+
     disconnect(botonNivel1, &QPushButton::clicked, this, &Juego::seleccionarNivel1);
     disconnect(botonNivel2, &QPushButton::clicked, this, &Juego::seleccionarNivel2);
     disconnect(botonNivel3, &QPushButton::clicked, this, &Juego::seleccionarNivel3);
-    qDebug() << "PASO B";
+
     escena->removeItem(botonWidget1);
     escena->removeItem(botonWidget2);
     escena->removeItem(botonWidget3);
 
     //Eliminar cualquier nivel previamente creado
-    qDebug() << "Valor nivel" << QString::pointer(nivel);
+
     if (nivel) {
-        qDebug() << "PASO 8";
         delete nivel;
-        qDebug() << "PASO 9";
     }
-    qDebug() << "PASO 10";
 
     nivel= new Nivel(nivelSeleccionado,escena);
 
-    qDebug() << "PASO 11";
 }
 
 void Juego::seleccionarNivel1(){iniciarNivel(1);}

@@ -23,21 +23,24 @@ public:
 
 private:
     Ui::Juego *ui;
+
     QGraphicsScene * escena;
     QGraphicsView * vista;
     Nivel *nivel = nullptr;
+
     QPushButton *botonNivel1;
     QPushButton *botonNivel2;
     QPushButton *botonNivel3;
-    void mostrarMenuInicio();
-    void iniciarNivel(short int nivelSeleccionado);
     QGraphicsProxyWidget *botonWidget1;
     QGraphicsProxyWidget *botonWidget2;
     QGraphicsProxyWidget *botonWidget3;
-    void iniciarJuego();
+
     QPushButton *botonInicio;
     QGraphicsProxyWidget *botonWidgetInicio;
 
+    void mostrarMenuInicio();
+    void iniciarNivel(short int nivelSeleccionado);
+    void iniciarJuego();
 
 private slots:
     void seleccionarNivel1();

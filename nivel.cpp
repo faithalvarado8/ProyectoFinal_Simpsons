@@ -78,6 +78,9 @@ void Nivel::verificarColisiones() {
                 cont+=1;
                 pagina= new Objetos("pagina", cont);
                 escena->addItem(pagina);
+
+                murcielago=new Murcielago();
+                escena->addItem(murcielago);
             }
 
         }
@@ -102,7 +105,6 @@ void Nivel::moverEdificio() {
 }
 
 
-
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         delete bart;
@@ -115,7 +117,6 @@ Nivel::~Nivel() {
     if (nivelSeleccionado==2){
         delete kingHomero;
     }
-    //delete objeto;
 
 }
 
