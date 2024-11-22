@@ -1,5 +1,4 @@
 #include "nivel.h"
-// #include <QTimer>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0) {
 
@@ -31,6 +30,17 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         kingHomero->setFocus();
 
         connect(kingHomero, &KingHomero::moverHaciaArriba, this, &Nivel::sincronizarFondo);
+
+        tiempoRestante = 30;
+        timerNivel = new QTimer(this);
+        connect(timerNivel, &QTimer::timeout, this, &Nivel::actualizarTiempo);
+        timerNivel->start(1000);
+
+        textoTiempo = new QGraphicsTextItem("Time: 30");
+        textoTiempo->setDefaultTextColor(Qt::black);
+        textoTiempo->setFont(QFont("Arial", 22, QFont::Bold));
+        textoTiempo->setPos(10, 10);
+        escena->addItem(textoTiempo);
     }
 
 
@@ -56,7 +66,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         QTimer *colisionTimer = new QTimer(this);
         connect(colisionTimer, &QTimer::timeout, this, &Nivel::verificarColisiones);
-        colisionTimer->start(100); // Verificar colisiones cada 50 ms
+        colisionTimer->start(100); // Verificar colisiones cada 100 ms
     }
 }
 
@@ -86,6 +96,26 @@ void Nivel::verificarColisiones() {
 }
 
 
+void Nivel::actualizarTiempo() {
+    if (tiempoRestante > 0) {
+        tiempoRestante--;
+        textoTiempo->setPlainText(QString("Time: %1").arg(tiempoRestante));
+        if (tiempoRestante <= 5) {
+            textoTiempo->setDefaultTextColor(Qt::red);
+        }
+    } else {
+        timerNivel->stop();
+
+        imagenGameOver = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
+        imagenGameOver->setPos(escena->width() / 2 - imagenGameOver->pixmap().width() / 2,
+                               escena->height() / 2 - imagenGameOver->pixmap().height() / 2);
+        escena->addItem(imagenGameOver);
+        imagenGameOver->setZValue(3);
+
+        qDebug() << "King Homer no logró llegar a la cima a tiempo.";
+    }
+}
+
 void Nivel::sincronizarFondo(int dy) {
 
     if (!edificioItem || !kingHomero) return;
@@ -108,10 +138,11 @@ void Nivel::sincronizarFondo(int dy) {
     if (yOffset <= -(edificioItem->pixmap().height() - escena->height())) {
         if (timerObstaculos->isActive()) {
             timerObstaculos->stop();
+            timerNivel->stop();
             qDebug() << "Generación de obstáculos detenida.";
+            qDebug() << "¡Nivel completado!";
         }
     }
-
 }
 
 
@@ -129,6 +160,9 @@ Nivel::~Nivel() {
         kingHomero = nullptr;
         delete timerObstaculos;
         timerObstaculos = nullptr;
+        delete timerNivel;
+        escena->removeItem(textoTiempo);
+        delete textoTiempo;
     }
     //delete objeto;
 

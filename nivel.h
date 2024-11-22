@@ -26,10 +26,15 @@ private:
     Murcielago* murcielago;
     unsigned short int cont=1;
     QTimer *timerObstaculos;
+    int tiempoRestante;
+    QTimer *timerNivel;
+    QGraphicsTextItem *textoTiempo;
+    QGraphicsPixmapItem* imagenGameOver;
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
     void moverEdificio();
+    void actualizarTiempo();
     void sincronizarFondo(int dy);
     void verificarColisiones();
     Jugador * jugador;

@@ -6,6 +6,7 @@
         <file>Krusty.jpg</file>
         <file>BotonInicio.png</file>
         <file>FondoInicio.png</file>
+        <file>GAME_OVER.png</file>
     </qresource>
     <qresource prefix="/Nivel3">
         <file>BartFrente.png</file>
