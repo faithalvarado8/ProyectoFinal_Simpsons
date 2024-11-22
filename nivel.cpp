@@ -21,7 +21,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
             Obstaculo *obstaculo = new Obstaculo(this->escena, this);
             this->escena->addItem(obstaculo);
         });
-        timerObstaculos->start(2000);
+        timerObstaculos->start(500);
 
         kingHomero = new KingHomero();
         escena->addItem(kingHomero);
@@ -30,6 +30,27 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         kingHomero->setFocus();
 
         connect(kingHomero, &KingHomero::moverHaciaArriba, this, &Nivel::sincronizarFondo);
+
+        // Agregar a Marge en la parte superior
+        margeSprite1 = new QGraphicsPixmapItem(QPixmap(":/Nivel2/Marge_Happy1.png"));
+        margeSprite2 = new QGraphicsPixmapItem(QPixmap(":/Nivel2/Marge_Happy2.png"));
+
+        if (margeSprite1->pixmap().isNull() || margeSprite2->pixmap().isNull()) {
+            qDebug() << "Error al cargar los sprites de Marge";
+            return;
+        }
+
+        margeSprite1->setPos(escena->width() / 2 - margeSprite1->pixmap().width() / 2,
+                             escena->height() - edificioItem->pixmap().height() - margeSprite1->pixmap().height());
+        margeSprite2->setPos(margeSprite1->x(), margeSprite1->y());
+
+        margeSprite1->setVisible(false);
+        margeSprite2->setVisible(false);
+        escena->addItem(margeSprite1);
+
+        timerMargeAnimacion = new QTimer(this);
+        connect(timerMargeAnimacion, &QTimer::timeout, this, &Nivel::animarMarge);
+        timerMargeAnimacion->start(500);
 
         tiempoRestante = 30;
         timerNivel = new QTimer(this);
@@ -95,6 +116,35 @@ void Nivel::verificarColisiones() {
     }
 }
 
+void Nivel::showMarge() {
+    // Actualiza la posición de King Homer y verifica si está cerca del final
+    if (nivelSeleccionado == 2) {
+        // Si King Homer está cerca de la parte superior del edificio (ejemplo: a 50 píxeles de distancia)
+        if (kingHomero->pos().y() < (escena->height() - edificioItem->pixmap().height() - 750)) {
+            margeSprite1->setVisible(true);
+            margeSprite2->setVisible(true);
+            margeSprite1->setZValue(2);
+            margeSprite2->setZValue(2);
+        } else {
+            margeSprite1->setVisible(false);
+            margeSprite2->setVisible(false);
+        }
+    }
+
+    actualizarTiempo();
+}
+
+void Nivel::animarMarge() {
+    if (margeSprite1->isVisible()) {
+        if (escena->items().contains(margeSprite1)) {
+            escena->removeItem(margeSprite1);
+            escena->addItem(margeSprite2);
+        } else {
+            escena->removeItem(margeSprite2);
+            escena->addItem(margeSprite1);
+        }
+    }
+}
 
 void Nivel::actualizarTiempo() {
     if (tiempoRestante > 0) {
@@ -163,6 +213,13 @@ Nivel::~Nivel() {
         delete timerNivel;
         escena->removeItem(textoTiempo);
         delete textoTiempo;
+        textoTiempo = nullptr;
+        delete timerMargeAnimacion;
+        timerMargeAnimacion = nullptr;
+        delete margeSprite1;
+        margeSprite1 = nullptr;
+        delete margeSprite2;
+        margeSprite2 = nullptr;
     }
     //delete objeto;
 

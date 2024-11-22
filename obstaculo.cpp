@@ -16,7 +16,7 @@ Obstaculo::Obstaculo(QGraphicsScene *escena, QObject *parent)
 
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, &Obstaculo::mover);
-    timerMovimiento->start(10); // Movimiento cada 50 ms
+    timerMovimiento->start(10); // Movimiento cada 10 ms
 }
 
 Obstaculo::~Obstaculo() {

@@ -28,15 +28,19 @@ private:
     QTimer *timerObstaculos;
     int tiempoRestante;
     QTimer *timerNivel;
+    QTimer *timerMargeAnimacion;
     QGraphicsTextItem *textoTiempo;
     QGraphicsPixmapItem* imagenGameOver;
-
+    QGraphicsPixmapItem* margeSprite1;
+    QGraphicsPixmapItem* margeSprite2;
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
     void moverEdificio();
     void actualizarTiempo();
     void sincronizarFondo(int dy);
     void verificarColisiones();
+    void animarMarge();
+    void showMarge();
     Jugador * jugador;
     Objetos* arma;
     Objetos* pagina;
