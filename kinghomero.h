@@ -27,8 +27,10 @@ private:
     unsigned int spriteActual;
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+    void moverPersonaje();
     bool enMovimiento;
     QList<QPixmap> sprites;
+    QTimer *timerMovimiento;
     QTimer *timerAnimacion;
     QTimer *timerColisiones;
     QElapsedTimer *tiempoPresion;
