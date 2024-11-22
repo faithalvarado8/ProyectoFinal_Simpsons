@@ -1,6 +1,6 @@
 #include "kinghomero.h"
 
-KingHomero::KingHomero() : spriteActual(0), enMovimiento(false), tiempoPresion(new QElapsedTimer) {
+KingHomero::KingHomero() : spriteActual(0), enMovimiento(false) {
     sprites.append(QPixmap(":/Nivel2/Homer_Up1.png"));
     sprites.append(QPixmap(":/Nivel2/Homer_Up2.png"));
 
@@ -101,9 +101,6 @@ KingHomero::~KingHomero() {
         delete timerColisiones;
         timerColisiones = nullptr;
     }
-
-    delete tiempoPresion;
-    tiempoPresion = nullptr;
 
     delete sonidoColision;
     sonidoColision = nullptr;

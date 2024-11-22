@@ -14,7 +14,6 @@ class KingHomero : public Jugador{
     Q_OBJECT
 public:
     KingHomero();
-
     ~KingHomero();
 
 signals:
@@ -33,7 +32,6 @@ private:
     QTimer *timerMovimiento;
     QTimer *timerAnimacion;
     QTimer *timerColisiones;
-    QElapsedTimer *tiempoPresion;
     QSet<int> teclasPresionadas;
     void verificarColisionConObstaculos();
     QSoundEffect *sonidoColision;

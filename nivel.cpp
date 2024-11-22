@@ -101,9 +101,15 @@ void Nivel::sincronizarFondo(int dy) {
 
     int nuevaY = kingHomero->y() + dy;
 
-    // Verifica si la nueva posición está dentro de los límites
     if (nuevaY >= 50 && nuevaY <= escena->height() - kingHomero->pixmap().height() && nuevaY <= 50) {
         kingHomero->setY(nuevaY);
+    }
+
+    if (yOffset <= -(edificioItem->pixmap().height() - escena->height())) {
+        if (timerObstaculos->isActive()) {
+            timerObstaculos->stop();
+            qDebug() << "Generación de obstáculos detenida.";
+        }
     }
 
 }
