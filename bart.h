@@ -16,6 +16,7 @@ public:
     Bart(); 
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent *event);
+    void municiones();
 
 private slots:
     void actualizarAnimacion();

@@ -1,7 +1,9 @@
 #include "murcielago.h"
 #include <cmath>
 
-Murcielago::Murcielago(): spriteActual(0), angulo(0), radio(70) {
+Murcielago::Murcielago(unsigned short int cont): spriteActual(0), angulo(0), radio(70) {
+
+    contM=cont;
 
     sprites.append(QPixmap(":/Nivel3/Bat-1.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     sprites.append(QPixmap(":/Nivel3/Bat-2.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -17,7 +19,23 @@ Murcielago::Murcielago(): spriteActual(0), angulo(0), radio(70) {
     connect(timerMov, &QTimer::timeout, this, &Murcielago::movimiento);
     timerMov->start(30);
 
-    setPos(800, 400);
+
+    if (cont==1){
+        setPos(800, 400);
+    }
+    else if (cont==2){
+        setPos(1090, 150);
+    }
+    else if (cont==3){
+        setPos(150, 155);
+    }
+    else if (cont==4){
+        setPos(700, 200);
+    }
+    else{
+        setPos(250, 420);
+    }
+
 }
 
 void Murcielago::actualizarAnimacion(){
@@ -40,6 +58,20 @@ void Murcielago::movimiento(){
     double x = radio * cos(radianes);     //x(t)= r * cos(θ)
     double y = radio * sin(radianes);     //y(t)= r * sen(θ)
 
-    setPos(800+x, 400+y); // Actualizar posicion del objeto
+    if (contM==1){
+        setPos(800+x, 400+y);
+    }
+    else if (contM==2){
+        setPos(1090+x, 150+y);
+    }
+    else if (contM==3){
+        setPos(150+x, 155+y);
+    }
+    else if (contM==4){
+        setPos(700+x, 200+y);
+    }
+    else{
+        setPos(250+x, 420+y);
+    }
 
 }

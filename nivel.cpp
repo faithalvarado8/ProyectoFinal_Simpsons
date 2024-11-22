@@ -82,7 +82,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         escena->addItem(bart);
 
-        murcielago=new Murcielago();
+        murcielago=new Murcielago(1);
         escena->addItem(murcielago);
 
         QTimer *colisionTimer = new QTimer(this);
@@ -98,6 +98,9 @@ void Nivel::verificarColisiones() {
         if (item == arma) {
             escena->removeItem(arma);
             delete arma;
+            arma=nullptr;
+
+            bart->municiones();
 
             arma= new Objetos("arma");
             escena->addItem(arma);
@@ -105,14 +108,17 @@ void Nivel::verificarColisiones() {
         if (item == pagina) {
             escena->removeItem(pagina);
             delete pagina;
+            pagina=nullptr;
 
             if (cont<6){
                 cont+=1;
                 pagina= new Objetos("pagina", cont);
                 escena->addItem(pagina);
 
-                murcielago=new Murcielago();
-                escena->addItem(murcielago);
+                if (cont<=5){
+                    murcielago=new Murcielago(cont);
+                    escena->addItem(murcielago);
+                }
             }
 
         }
@@ -201,11 +207,15 @@ void Nivel::sincronizarFondo(int dy) {
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         delete bart;
+        bart=nullptr;
         delete arma;
+        arma=nullptr;
         if (pagina){
             delete pagina;
+            pagina=nullptr;
         }
         delete murcielago;
+        murcielago=nullptr;
     }
     if (nivelSeleccionado==2){
         delete kingHomero;
