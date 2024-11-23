@@ -1,6 +1,6 @@
 #include "kinghomero.h"
 
-KingHomero::KingHomero() : spriteActual(0), enMovimiento(false) {
+KingHomero::KingHomero() : Jugador(3), spriteActual(0), enMovimiento(false) {
     sprites.append(QPixmap(":/Nivel2/Homer_Up1.png"));
     sprites.append(QPixmap(":/Nivel2/Homer_Up2.png"));
 
@@ -25,6 +25,15 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false) {
     sonidoColision->setSource(QUrl(":/Sonidos/SoundEffects/Colision_Explotar.mp3"));
     sonidoColision->setVolume(1.0f);
 }
+
+// ------------------ VIDAS ------------------
+
+void KingHomero::mostrarEstado() const {
+    qDebug() << "[KingHomero]";
+    Jugador::mostrarEstado();
+}
+
+
 
 // ------------------ EVENTOS POR TECLADO ----------------------
 
@@ -76,17 +85,30 @@ void KingHomero::actualizarAnimacion() {
 // ------------------  COLISIONES ----------------------
 
 void KingHomero::verificarColisionConObstaculos() {
-    for (auto *obstaculo : scene()->items()) {
-        Obstaculo *ob = dynamic_cast<Obstaculo*>(obstaculo);
-        if (ob && collidesWithItem(ob)) {
-            qDebug() << "Colisión con el obstáculo!";
-            scene()->removeItem(ob);
-            delete ob;
-            sonidoColision->play();
-            break;
+    for (auto *item : scene()->items()) {
+        if (Obstaculo *obstaculo = dynamic_cast<Obstaculo*>(item)) {
+            if (collidesWithItem(obstaculo)) {
+                qDebug() << "Colisión con un obstáculo!";
+                perderVida();
+                scene()->removeItem(obstaculo);
+                delete obstaculo;
+                sonidoColision->play();
+                if (getVidas() == 0) {
+                    imagenGameOver = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
+                    imagenGameOver->setPos(scene()->width() / 2 - imagenGameOver->pixmap().width() / 2,
+                                           scene()->height() / 2 - imagenGameOver->pixmap().height() / 2);
+                    scene()->addItem(imagenGameOver);
+                    imagenGameOver->setZValue(3);
+                    return;
+                }
+                return;
+            }
         }
     }
 }
+
+
+// --------- DESTRUCTOR ---------
 
 KingHomero::~KingHomero() {
 

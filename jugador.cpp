@@ -1,9 +1,29 @@
 #include "jugador.h"
+#include <iostream>
 
-unsigned int Jugador::recuperarVida(){
-    return 0;
+Jugador::Jugador(unsigned int vidasIniciales) : vidas(vidasIniciales) {}
+
+unsigned int Jugador::getVidas() const {
+    return vidas;
 }
 
-unsigned int Jugador::perderVida(){
-    return 0;
+void Jugador::perderVida() {
+    if (vidas > 0) {
+        vidas--;
+        qDebug() << "[Jugador] Vida perdida. Vidas restantes:" << vidas;
+    } else {
+        qDebug() << "[Jugador] El jugador ha muerto.";
+    }
+}
+
+// void Jugador::recuperarVida() {
+//     if (vidas < 3) {
+//         vidas++;
+//     } else {
+//         std::cout << "El jugador ya tiene el máximo de vidas." << std::endl;
+//     }
+// }
+
+void Jugador::mostrarEstado() const {
+    qDebug() << "[Jugador] Vidas actuales:" << vidas;
 }

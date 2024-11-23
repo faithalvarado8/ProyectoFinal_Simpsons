@@ -15,7 +15,6 @@ class KingHomero : public Jugador{
 public:
     KingHomero();
     ~KingHomero();
-
 signals:
     void moverHaciaArriba(int dy);
 
@@ -35,6 +34,8 @@ private:
     QSet<int> teclasPresionadas;
     void verificarColisionConObstaculos();
     QSoundEffect *sonidoColision;
+    QGraphicsPixmapItem* imagenGameOver;
+    void mostrarEstado() const;
 
 };
 

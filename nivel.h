@@ -17,22 +17,28 @@
 class Nivel : public QObject{
     Q_OBJECT
 private:
-    short int nivelSeleccionado;
+    unsigned short nivelSeleccionado;
+    unsigned short cont=1;
     QGraphicsScene* escena;
+
+    //Nivel 2
     QGraphicsPixmapItem* edificioItem;
-    int yOffset;
-    Bart * bart;
     KingHomero *kingHomero;
-    Murcielago* murcielago;
-    unsigned short int cont=1;
-    QTimer *timerObstaculos;
-    int tiempoRestante;
-    QTimer *timerNivel;
-    QTimer *timerMargeAnimacion;
-    QGraphicsTextItem *textoTiempo;
-    QGraphicsPixmapItem* imagenGameOver;
+    int yOffset;
     QGraphicsPixmapItem* margeSprite1;
     QGraphicsPixmapItem* margeSprite2;
+    QGraphicsTextItem *textoTiempo;
+    QTimer *timerNivel;
+    QTimer *timerMargeAnimacion;
+    QTimer *timerObstaculos;
+    int tiempoRestante;
+
+    //Nivel 3
+    Bart * bart;
+    Murcielago* murcielago;
+
+    QGraphicsPixmapItem* imagenGameOver;
+
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
     void moverEdificio();

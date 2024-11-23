@@ -5,19 +5,16 @@
 #include <QObject>
 #include <QGraphicsItem>
 
-using namespace std;
-
-class Jugador: public QObject, public QGraphicsPixmapItem {
+class Jugador : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 protected:
-
     unsigned int vidas;
-
 public:
-
-    unsigned int recuperarVida();
-    unsigned int perderVida();
-
+    explicit Jugador(unsigned int vidasIniciales = 3);
+    void recuperarVida();
+    void perderVida();
+    unsigned int getVidas() const;
+    virtual void mostrarEstado() const;
 };
 
 #endif // JUGADOR_H
