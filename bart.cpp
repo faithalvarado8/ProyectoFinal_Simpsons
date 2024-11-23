@@ -3,12 +3,15 @@
 Bart::Bart() {
     spritesLado= QPixmap(":/Nivel3/BartLado.png");
     spritesArribaAbajo = QPixmap(":/Nivel3/BartFrente.png");
+    spritesArma=QPixmap(":/Nivel3/BartArma2.png");
 
     // Dimensiones de cada hoja de sprites
     anchoLado = 117;
     altoLado = 188;
     anchoArribaAbajo = 45;
     altoArribaAbajo = 89;
+    anchoArma= 124;
+    altoArma= 138;
 
     sprites = spritesLado; // Iniciar con la hoja de movimientos laterales
     ancho = anchoLado;
@@ -35,20 +38,34 @@ void Bart::actualizarAnimacion(){
 
     if (keys[Qt::Key_A] && pos().x()>45){
         setPos(x()-10,y());
-
-        sprites = spritesLado;
-        ancho = anchoLado;
-        alto = altoLado;
-        fila=1;
+        if (disparar){
+            sprites = spritesArma;
+            ancho = anchoArma;
+            alto = altoArma;
+            fila=1;
+        }
+        else{
+            sprites = spritesLado;
+            ancho = anchoLado;
+            alto = altoLado;
+            fila=1;
+        }
         moving = true;
     }
     else if (keys[Qt::Key_D] && pos().x()<1190){
         setPos(x()+10,y());
-
-        sprites = spritesLado;
-        ancho = anchoLado;
-        alto = altoLado;
-        fila=0;
+        if (disparar){
+            sprites = spritesArma;
+            ancho = anchoArma;
+            alto = altoArma;
+            fila=2;
+        }
+        else{
+            sprites = spritesLado;
+            ancho = anchoLado;
+            alto = altoLado;
+            fila=0;
+        }
         moving = true;
     }
 
@@ -62,11 +79,18 @@ void Bart::actualizarAnimacion(){
     }
     else if (keys[Qt::Key_S] && pos().y()<430){
         setPos(x(),y()+10);
-
-        sprites = spritesArribaAbajo;
-        ancho = anchoArribaAbajo;
-        alto = altoArribaAbajo;
-        fila=1;
+        if (disparar){
+            sprites = spritesArma;
+            ancho = anchoArma;
+            alto = altoArma;
+            fila=0;
+        }
+        else{
+            sprites = spritesArribaAbajo;
+            ancho = anchoArribaAbajo;
+            alto = altoArribaAbajo;
+            fila=1;
+        }
         moving = true;
     }
 
@@ -74,8 +98,17 @@ void Bart::actualizarAnimacion(){
         // Avanzar al siguiente cuadro en la hoja de sprites
         if (ancho == anchoArribaAbajo){
             columna = (columna + 1) % 3;
-        }else{
+        }
+        else if (ancho == anchoLado){
             columna = (columna + 1) % 4;
+        }
+        else if (ancho==anchoArma){
+            if (fila==0){
+                columna = (columna + 1) % 3;
+            }
+            else{
+                columna = (columna + 1) % 4;
+            }
         }
 
     }else {
@@ -99,12 +132,15 @@ void Bart::keyReleaseEvent(QKeyEvent *event) {
     case Qt::Key_D:
     case Qt::Key_W:
     case Qt::Key_S:
+    case Qt::Key_Space:
         keys[event->key()]=false;
         break;
     default:
         break;
     }
-
+    if (event -> key() == Qt::Key_Space){
+        disparar=false;
+    }
 }
 
 void Bart::keyPressEvent(QKeyEvent *event)
@@ -114,6 +150,7 @@ void Bart::keyPressEvent(QKeyEvent *event)
     case Qt::Key_D:
     case Qt::Key_W:
     case Qt::Key_S:
+    case Qt::Key_Space:
         keys[event->key()]=true;
         break;
     default:
@@ -121,10 +158,9 @@ void Bart::keyPressEvent(QKeyEvent *event)
     }
 
     if (event -> key() == Qt::Key_Space){
-        //disparar
+        disparar=true;
     }
 }
-
 
 void Bart::municiones(){
 
