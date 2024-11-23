@@ -120,7 +120,28 @@ void Nivel::verificarColisiones() {
                     escena->addItem(murcielago);
                 }
             }
+        }
 
+        if (item == murcielago){
+            bart->perderVida();
+            delete murcielago;
+            murcielago=nullptr;
+
+            if (bart->getVidas() == 0) {
+                delete bart;
+                bart=nullptr;
+
+                if (arma){
+                    delete arma;
+                    arma=nullptr;
+                }
+                if (pagina){
+                    delete pagina;
+                    pagina=nullptr;
+                }
+                escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
+                return;
+            }
         }
     }
 }
@@ -206,8 +227,10 @@ void Nivel::sincronizarFondo(int dy) {
 
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
-        delete bart;
-        bart=nullptr;
+        if (bart){
+            delete bart;
+            bart=nullptr;
+        }
         if (arma){
             delete arma;
             arma=nullptr;

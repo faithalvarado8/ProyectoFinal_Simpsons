@@ -162,7 +162,6 @@ void Bart::keyPressEvent(QKeyEvent *event)
     }
 }
 
-
 void Bart::municiones(){
 
 }
