@@ -208,14 +208,18 @@ Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         delete bart;
         bart=nullptr;
-        delete arma;
-        arma=nullptr;
+        if (arma){
+            delete arma;
+            arma=nullptr;
+        }
         if (pagina){
             delete pagina;
             pagina=nullptr;
         }
-        delete murcielago;
-        murcielago=nullptr;
+        if (murcielago){
+            delete murcielago;
+            murcielago=nullptr;
+        }
     }
     if (nivelSeleccionado==2){
         delete kingHomero;
