@@ -11,7 +11,7 @@ class Murcielago: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    Murcielago();
+    Murcielago(unsigned short int cont);
 
 private slots:
     void actualizarAnimacion();
@@ -24,6 +24,7 @@ private:
     QTimer *timerMov;
     int angulo;
     int radio;
+    unsigned short int contM;
 
 };
 

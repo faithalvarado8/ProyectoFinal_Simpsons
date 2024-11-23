@@ -22,7 +22,7 @@ Bart::Bart() {
 
     timer = new QTimer();
     connect(timer, &QTimer::timeout, this, &Bart::actualizarAnimacion);
-    timer->start(75);
+    timer->start(110);
 
     setPos(45,10);
     setZValue(1);
@@ -42,7 +42,7 @@ void Bart::actualizarAnimacion(){
         fila=1;
         moving = true;
     }
-    if (keys[Qt::Key_D] && pos().x()<1190){
+    else if (keys[Qt::Key_D] && pos().x()<1190){
         setPos(x()+10,y());
 
         sprites = spritesLado;
@@ -52,7 +52,7 @@ void Bart::actualizarAnimacion(){
         moving = true;
     }
 
-    if (keys[Qt::Key_W] && pos().y()>10){
+    else if (keys[Qt::Key_W] && pos().y()>10){
         setPos(x(),y()-10);
         sprites = spritesArribaAbajo;
         ancho = anchoArribaAbajo;
@@ -60,7 +60,7 @@ void Bart::actualizarAnimacion(){
         fila=0;
         moving = true;
     }
-    if (keys[Qt::Key_S] && pos().y()<430){
+    else if (keys[Qt::Key_S] && pos().y()<430){
         setPos(x(),y()+10);
 
         sprites = spritesArribaAbajo;
@@ -123,4 +123,9 @@ void Bart::keyPressEvent(QKeyEvent *event)
     if (event -> key() == Qt::Key_Space){
         //disparar
     }
+}
+
+
+void Bart::municiones(){
+
 }
