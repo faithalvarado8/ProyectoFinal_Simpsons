@@ -7,6 +7,7 @@
         <file>BotonInicio.png</file>
         <file>FondoInicio.png</file>
         <file>GAME_OVER.png</file>
+        <file>Fondo_MenuNiveles.png</file>
     </qresource>
     <qresource prefix="/Nivel3">
         <file>BartFrente.png</file>

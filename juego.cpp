@@ -58,7 +58,7 @@ void Juego::mostrarMenuInicio(){
     disconnect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
     escena->removeItem(botonWidgetInicio);
 
-    escena->setBackgroundBrush(QBrush(QImage(":/fondos/fondoInicio1.png").scaled(1280,720)));
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/Fondo_MenuNiveles.png").scaled(1280,720)));
 
     // Crea botones para seleccionar el nivel
     botonNivel1 = new QPushButton();
