@@ -1,5 +1,4 @@
 #include "jugador.h"
-#include <iostream>
 
 Jugador::Jugador(unsigned int vidasIniciales) : vidas(vidasIniciales) {}
 

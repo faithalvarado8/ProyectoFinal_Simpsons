@@ -10,21 +10,21 @@ CONFIG += c++17
 
 SOURCES += \
     bart.cpp \
+    enemigo.cpp \
     jugador.cpp \
     kinghomero.cpp \
     main.cpp \
     juego.cpp \
-    murcielago.cpp \
     nivel.cpp \
     objetos.cpp \
     obstaculo.cpp
 
 HEADERS += \
     bart.h \
+    enemigo.h \
     juego.h \
     jugador.h \
     kinghomero.h \
-    murcielago.h \
     nivel.h \
     objetos.h \
     obstaculo.h
