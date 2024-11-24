@@ -203,7 +203,7 @@ void Bart::keyPressEvent(QKeyEvent *event)
         break;
     }
 
-    if (event -> key() == Qt::Key_Space && disparar){
+    if (event -> key() == Qt::Key_Space && disparar && !municion){
         lanzarMunicion();
     }
 }
@@ -255,8 +255,6 @@ void Bart::actualizarDisparo(){
 
     t += 0.016;
     double desplazamiento = 350 * t - 0.5 * 120 * t * t; // x(t)=x0+v0*t-0.5*a*t^2
-
-    qDebug() << desplazamiento <<"desplazamiento";
 
     if (desplazamiento > 510) {
         timerDisparo->stop();
