@@ -266,15 +266,43 @@ void Bart::actualizarDisparo(){
 
     if (direccionDisparo=='A'){
         municion->setPos(posInicialMunicion.x()-desplazamiento, posInicialMunicion.y());
+        if (posInicialMunicion.x()-desplazamiento<46){
+            timerDisparo->stop();
+            escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+            delete municion;
+            municion=nullptr;
+            return;
+        }
     }
     else if (direccionDisparo=='D'){
         municion->setPos(posInicialMunicion.x()+desplazamiento, posInicialMunicion.y());
+        if (posInicialMunicion.x()+desplazamiento>1222){
+            timerDisparo->stop();
+            escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+            delete municion;
+            municion=nullptr;
+            return;
+        }
     }
     else if (direccionDisparo=='W'){
         municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()-desplazamiento);
+        if (posInicialMunicion.y()-desplazamiento<47){
+            timerDisparo->stop();
+            escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+            delete municion;
+            municion=nullptr;
+            return;
+        }
     }
     else {
         municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()+desplazamiento);
+        if(posInicialMunicion.y()+desplazamiento>500){
+            timerDisparo->stop();
+            escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+            delete municion;
+            municion=nullptr;
+            return;
+        }
     }
 
 }

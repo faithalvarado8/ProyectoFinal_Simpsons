@@ -58,7 +58,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         bart->setFocus();
         escena->addItem(bart);
 
-        murcielago=new Murcielago(1);
+        murcielago=new Enemigo(1);
         escena->addItem(murcielago);
         murcielagos.append(murcielago);
 
@@ -93,14 +93,14 @@ void Nivel::verificarColisiones() {
                 escena->addItem(pagina);
 
                 if (cont<=5){
-                    murcielago=new Murcielago(cont);
+                    murcielago=new Enemigo(cont);
                     escena->addItem(murcielago);
                     murcielagos.append(murcielago);
                 }
             }
         }
 
-        for (Murcielago* murcielago : murcielagos) {
+        for (Enemigo* murcielago : murcielagos) {
             if (item == murcielago){
                 bart->perderVida();
                 delete murcielago;
@@ -223,7 +223,7 @@ Nivel::~Nivel() {
             pagina = nullptr;
         }
 
-        for (Murcielago* murcielago : murcielagos) {
+        for (Enemigo* murcielago : murcielagos) {
             delete murcielago;
             murcielago=nullptr;
         }

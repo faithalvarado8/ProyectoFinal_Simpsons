@@ -1,7 +1,7 @@
-#include "murcielago.h"
+#include "enemigo.h"
 #include <cmath>
 
-Murcielago::Murcielago(unsigned short int cont): spriteActual(0), angulo(0), radio(70) {
+Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70) {
 
     contM=cont;
 
@@ -12,11 +12,11 @@ Murcielago::Murcielago(unsigned short int cont): spriteActual(0), angulo(0), rad
     setPixmap(sprites[spriteActual]);
 
     timer = new QTimer();
-    connect(timer, &QTimer::timeout, this, &Murcielago::actualizarAnimacion);
+    connect(timer, &QTimer::timeout, this, &Enemigo::actualizarAnimacion);
     timer->start(75);
 
     timerMov = new QTimer();
-    connect(timerMov, &QTimer::timeout, this, &Murcielago::movimiento);
+    connect(timerMov, &QTimer::timeout, this, &Enemigo::movimiento);
     timerMov->start(30);
 
 
@@ -38,14 +38,14 @@ Murcielago::Murcielago(unsigned short int cont): spriteActual(0), angulo(0), rad
 
 }
 
-void Murcielago::actualizarAnimacion(){
+void Enemigo::actualizarAnimacion(){
 
     spriteActual = (spriteActual + 1) % sprites.size();
     setPixmap(sprites[spriteActual]);
 
 }
 
-void Murcielago::movimiento(){
+void Enemigo::movimiento(){
 
     // Incrementar y reiniciar el ángulo si excede 360°
     angulo += 5;

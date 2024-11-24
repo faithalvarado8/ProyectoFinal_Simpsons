@@ -1,5 +1,5 @@
-#ifndef MURCIELAGO_H
-#define MURCIELAGO_H
+#ifndef ENEMIGO_H
+#define ENEMIGO_H
 
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
@@ -7,11 +7,11 @@
 #include <QTimer>
 #include <QMap>
 
-class Murcielago: public QObject, public QGraphicsPixmapItem {
+class Enemigo: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    Murcielago(unsigned short int cont);
+    Enemigo(unsigned short int cont);
 
 private slots:
     void actualizarAnimacion();
@@ -28,4 +28,4 @@ private:
 
 };
 
-#endif // MURCIELAGO_H
+#endif // ENEMIGO_H

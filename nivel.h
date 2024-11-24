@@ -5,7 +5,7 @@
 #include "objetos.h"
 #include "bart.h"
 #include "kinghomero.h"
-#include "murcielago.h"
+#include "enemigo.h"
 #include "obstaculo.h"
 #include <QGraphicsScene>
 #include <QObject>
@@ -35,8 +35,8 @@ private:
 
     //Nivel 3
     Bart * bart;
-    Murcielago* murcielago;
-    QList<Murcielago*> murcielagos;
+    Enemigo* murcielago;
+    QList<Enemigo*> murcielagos;
     QTimer *colisionTimer;
 
     QGraphicsPixmapItem* imagenGameOver;
