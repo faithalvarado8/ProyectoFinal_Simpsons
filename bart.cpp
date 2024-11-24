@@ -51,6 +51,7 @@ void Bart::actualizarAnimacion(){
             fila=1;
         }
         moving = true;
+        direccion='A';
     }
     else if (keys[Qt::Key_D] && pos().x()<1190){
         setPos(x()+10,y());
@@ -67,6 +68,7 @@ void Bart::actualizarAnimacion(){
             fila=0;
         }
         moving = true;
+        direccion='D';
     }
 
     else if (keys[Qt::Key_W] && pos().y()>10){
@@ -76,6 +78,7 @@ void Bart::actualizarAnimacion(){
         alto = altoArribaAbajo;
         fila=0;
         moving = true;
+        direccion='W';
     }
     else if (keys[Qt::Key_S] && pos().y()<430){
         setPos(x(),y()+10);
@@ -92,6 +95,7 @@ void Bart::actualizarAnimacion(){
             fila=1;
         }
         moving = true;
+        direccion='S';
     }
 
     if (moving){
@@ -112,7 +116,29 @@ void Bart::actualizarAnimacion(){
         }
 
     }else {
+        if (disparar){
+            if (direccion=='A'){
+                sprites = spritesArma;
+                ancho = anchoArma;
+                alto = altoArma;
+                fila=1;
+            }
+            else if (direccion=='D'){
+                sprites = spritesArma;
+                ancho = anchoArma;
+                alto = altoArma;
+                fila=2;
+            }
+            else if (direccion=='S'){
+                sprites = spritesArma;
+                ancho = anchoArma;
+                alto = altoArma;
+                fila=0;
+            }
+        }
+
         columna = 0;
+
     }
 
     // Calcular la posicion del cuadro en la hoja de sprites
@@ -157,11 +183,11 @@ void Bart::keyPressEvent(QKeyEvent *event)
         break;
     }
 
-    if (event -> key() == Qt::Key_Space){
+    if (event -> key() == Qt::Key_Space && numMuniciones>0){
         disparar=true;
     }
 }
 
 void Bart::municiones(){
-
+    numMuniciones=3;
 }

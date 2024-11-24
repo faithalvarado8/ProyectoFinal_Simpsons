@@ -36,6 +36,8 @@ private:
     //Nivel 3
     Bart * bart;
     Murcielago* murcielago;
+    QList<Murcielago*> murcielagos;
+    QTimer *colisionTimer;
 
     QGraphicsPixmapItem* imagenGameOver;
 

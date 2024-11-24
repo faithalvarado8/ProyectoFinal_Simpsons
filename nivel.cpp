@@ -56,13 +56,13 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         bart->setFlag(QGraphicsItem::ItemIsFocusable);
         bart->setFocus();
-
         escena->addItem(bart);
 
         murcielago=new Murcielago(1);
         escena->addItem(murcielago);
+        murcielagos.append(murcielago);
 
-        QTimer *colisionTimer = new QTimer(this);
+        colisionTimer = new QTimer(this);
         connect(colisionTimer, &QTimer::timeout, this, &Nivel::verificarColisiones);
         colisionTimer->start(100); // Verificar colisiones cada 100 ms
     }
@@ -95,32 +95,38 @@ void Nivel::verificarColisiones() {
                 if (cont<=5){
                     murcielago=new Murcielago(cont);
                     escena->addItem(murcielago);
+                    murcielagos.append(murcielago);
                 }
             }
         }
 
-        if (item == murcielago){
-            bart->perderVida();
-            delete murcielago;
-            murcielago=nullptr;
+        for (Murcielago* murcielago : murcielagos) {
+            if (item == murcielago){
+                bart->perderVida();
+                delete murcielago;
+                murcielago=nullptr;
 
-            if (bart->getVidas() == 0) {
-                delete bart;
-                bart=nullptr;
+                if (bart->getVidas() == 0) {
+                    delete bart;
+                    bart=nullptr;
 
-                if (arma){
-                    delete arma;
-                    arma=nullptr;
+                    if (arma){
+                        delete arma;
+                        arma=nullptr;
+                    }
+                    if (pagina){
+                        delete pagina;
+                        pagina=nullptr;
+                    }
+                    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
+                    colisionTimer->stop();
+                    return;
                 }
-                if (pagina){
-                    delete pagina;
-                    pagina=nullptr;
-                }
-                escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
-                return;
-            }
+             }
         }
+        return;
     }
+    return;
 }
 
 void Nivel::showMarge() {
@@ -206,17 +212,18 @@ Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         if (bart){
             delete bart;
-            bart=nullptr;
+            bart = nullptr;
         }
         if (arma){
             delete arma;
-            arma=nullptr;
+            arma = nullptr;
         }
         if (pagina){
             delete pagina;
-            pagina=nullptr;
+            pagina = nullptr;
         }
-        if (murcielago){
+
+        for (Murcielago* murcielago : murcielagos) {
             delete murcielago;
             murcielago=nullptr;
         }

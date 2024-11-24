@@ -37,6 +37,8 @@ private:
     int fila;
 
     bool disparar;
+    int numMuniciones;
+    char direccion;
 
     QTimer *timer;
 
