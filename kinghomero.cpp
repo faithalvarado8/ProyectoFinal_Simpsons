@@ -9,7 +9,6 @@ KingHomero::KingHomero() : Jugador(3), spriteActual(0), enMovimiento(false) {
     setPos(640, 520);
     setZValue(2);
 
-    // Cargar las imágenes de las vidas
     vidasSprites[3] = QPixmap(":/Nivel2/Donut3.png");
     vidasSprites[2] = QPixmap(":/Nivel2/Donut2.png");
     vidasSprites[1] = QPixmap(":/Nivel2/Donut1.png");
@@ -51,18 +50,15 @@ void KingHomero::mostrarEstado() const {
 void KingHomero::actualizarIndicadorVidas() {
 
     if (indicadorVidas) {
-        // Cambiar pixmap según las vidas actuales
         indicadorVidas->setPixmap(vidasSprites[getVidas()]);
-        // Asegurar que se mantiene en la esquina superior derecha
         if (scene()) {
             int xPos = scene()->width() - indicadorVidas->pixmap().width() - 10;
-            int yPos = 10; // Margen superior
+            int yPos = 10;
             indicadorVidas->setPos(xPos, yPos);
         }
     }
 }
 
-// Sobrescribir perderVida para actualizar la gráfica
 void KingHomero::perderVida() {
     Jugador::perderVida();
     actualizarIndicadorVidas();
