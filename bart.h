@@ -22,18 +22,17 @@ private slots:
     void actualizarAnimacion();
 
 private:
-    // Hojas de sprites
-    QPixmap sprites;            // Hoja de sprites actualmente activa
-    QPixmap spritesLado;        // Hoja de sprites para movimiento lateral
-    QPixmap spritesArribaAbajo; // Hoja de sprites para movimiento vertical
+    // Sprites
+    QPixmap sprites;
+    QPixmap spritesLado;
+    QPixmap spritesArribaAbajo;
     QPixmap spritesArma;
 
-    // Dimensiones de los cuadros de cada hoja de sprites
-    int anchoLado, altoLado;         // Dimensiones para la hoja de movimiento lateral
-    int anchoArribaAbajo, altoArribaAbajo; // Dimensiones para la hoja de movimiento vertical
+    // Dimensiones hoja de sprites
+    int anchoLado, altoLado;
+    int anchoArribaAbajo, altoArribaAbajo;
     int anchoArma, altoArma;
-    int ancho, alto;                 // Dimensiones actuales de los cuadros en uso
-
+    int ancho, alto;
     int columna;
     int fila;
 

@@ -9,6 +9,21 @@ KingHomero::KingHomero() : Jugador(3), spriteActual(0), enMovimiento(false) {
     setPos(640, 520);
     setZValue(2);
 
+    // Cargar las imágenes de las vidas
+    vidasSprites[3] = QPixmap(":/Nivel2/Donut3.png");
+    vidasSprites[2] = QPixmap(":/Nivel2/Donut2.png");
+    vidasSprites[1] = QPixmap(":/Nivel2/Donut1.png");
+
+    indicadorVidas = new QGraphicsPixmapItem(vidasSprites[getVidas()]);
+
+
+    if (scene()) {
+        scene()->addItem(indicadorVidas);
+        indicadorVidas->setPos(1200, 20);
+        indicadorVidas->setZValue(4);
+        indicadorVidas->update();
+    }
+
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, &KingHomero::moverPersonaje);
     timerMovimiento->start(20);
@@ -33,7 +48,33 @@ void KingHomero::mostrarEstado() const {
     Jugador::mostrarEstado();
 }
 
+void KingHomero::actualizarIndicadorVidas() {
 
+    if (indicadorVidas) {
+        // Cambiar pixmap según las vidas actuales
+        indicadorVidas->setPixmap(vidasSprites[getVidas()]);
+        // Asegurar que se mantiene en la esquina superior derecha
+        if (scene()) {
+            int xPos = scene()->width() - indicadorVidas->pixmap().width() - 10;
+            int yPos = 10; // Margen superior
+            indicadorVidas->setPos(xPos, yPos);
+        }
+    }
+}
+
+// Sobrescribir perderVida para actualizar la gráfica
+void KingHomero::perderVida() {
+    Jugador::perderVida();
+    actualizarIndicadorVidas();
+
+    if (getVidas() == 0) {
+        imagenGameOver = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
+        imagenGameOver->setPos(scene()->width() / 2 - imagenGameOver->pixmap().width() / 2,
+                               scene()->height() / 2 - imagenGameOver->pixmap().height() / 2);
+        scene()->addItem(imagenGameOver);
+        imagenGameOver->setZValue(3);
+    }
+}
 
 // ------------------ EVENTOS POR TECLADO ----------------------
 
@@ -93,14 +134,6 @@ void KingHomero::verificarColisionConObstaculos() {
                 scene()->removeItem(obstaculo);
                 delete obstaculo;
                 sonidoColision->play();
-                if (getVidas() == 0) {
-                    imagenGameOver = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
-                    imagenGameOver->setPos(scene()->width() / 2 - imagenGameOver->pixmap().width() / 2,
-                                           scene()->height() / 2 - imagenGameOver->pixmap().height() / 2);
-                    scene()->addItem(imagenGameOver);
-                    imagenGameOver->setZValue(3);
-                    return;
-                }
                 return;
             }
         }
@@ -111,6 +144,11 @@ void KingHomero::verificarColisionConObstaculos() {
 // --------- DESTRUCTOR ---------
 
 KingHomero::~KingHomero() {
+
+    if (indicadorVidas) {
+        delete indicadorVidas;
+        indicadorVidas = nullptr;
+    }
 
     if (timerAnimacion) {
         timerAnimacion->stop();
