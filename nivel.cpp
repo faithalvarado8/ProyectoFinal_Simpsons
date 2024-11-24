@@ -1,4 +1,6 @@
 #include "nivel.h"
+#include <random>
+#include <cmath>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0) {
 
@@ -53,6 +55,8 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         pagina= new Objetos("pagina", 1);
         escena->addItem(pagina);
+
+        agregarTumbas(13);
 
         bart->setFlag(QGraphicsItem::ItemIsFocusable);
         bart->setFocus();
@@ -117,6 +121,18 @@ void Nivel::verificarColisiones() {
                     if (pagina){
                         delete pagina;
                         pagina=nullptr;
+                    }
+                    for (Enemigo* murcielago : murcielagos) {
+                        if (murcielago){
+                            delete murcielago;
+                            murcielago=nullptr;
+                        }
+                    }
+                    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
+                        if (tumba){
+                            delete tumba;
+                            tumba=nullptr;
+                        }
                     }
                     escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
                     colisionTimer->stop();
@@ -208,6 +224,51 @@ void Nivel::sincronizarFondo(int dy) {
     }
 }
 
+void Nivel::agregarTumbas(int numTumbas){
+
+    std::random_device rd;
+    std::mt19937 generador(rd());
+    std::uniform_int_distribution<int> posX(50, 1190);
+    std::uniform_int_distribution<int> posY(30, 425);
+    std::uniform_int_distribution<int> sprite(0, 5);
+
+    tumbas.append(QPixmap(":/Nivel3/Tumbas.png").copy(0, 0, 864, 1577).scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    tumbas.append(QPixmap(":/Nivel3/Tumbas.png").copy(864, 0, 864, 1577).scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    tumbas.append(QPixmap(":/Nivel3/Tumbas.png").copy(1728, 0,864, 1577).scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    tumbas.append(QPixmap(":/Nivel3/Tumbas.png").copy(0, 1577,864, 1577).scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    tumbas.append(QPixmap(":/Nivel3/Tumbas.png").copy(864, 1577,864, 1577).scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    tumbas.append(QPixmap(":/Nivel3/Tumbas.png").copy(1728, 1577,864, 1577).scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    for (int i=0; i<numTumbas; i++){
+        posicionValida = false;
+        while (!posicionValida) {
+            x=posX(generador);
+            y=posY(generador);
+            nuevaPos = QPointF(x, y);
+            posicionValida = true;
+            for (const QPointF& pos : posicionesTumbas) {
+                // Calcular la distancia entre las tumbas
+                distancia = std::sqrt(std::pow(x - pos.x(), 2) + std::pow(y - pos.y(), 2));
+
+                // Verificar si la distancia entre las tumbas es menor que el tamaño de una tumba (80 px)
+                if (distancia < 100) {
+                    posicionValida = false;
+                    break;
+                }
+            }
+        }
+
+        tumba=new QGraphicsPixmapItem;
+        spriteTumba=sprite(generador);
+        tumba->setPixmap(tumbas[spriteTumba]);
+        tumba->setPos(nuevaPos);
+        tumba->setZValue(1);
+        escena->addItem(tumba);
+        posicionesTumbas.append(nuevaPos);
+        tumbasEscena.append(tumba);
+    }
+}
+
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         if (bart){
@@ -224,9 +285,19 @@ Nivel::~Nivel() {
         }
 
         for (Enemigo* murcielago : murcielagos) {
-            delete murcielago;
-            murcielago=nullptr;
+            if (murcielago){
+                delete murcielago;
+                murcielago=nullptr;
+            }
         }
+        for (QGraphicsPixmapItem* tumba : tumbasEscena) {
+            if (tumba){
+                delete tumba;
+                tumba=nullptr;
+            }
+        }
+        delete colisionTimer;
+        colisionTimer=nullptr;
     }
     if (nivelSeleccionado==2){
         delete kingHomero;

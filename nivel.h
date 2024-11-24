@@ -35,11 +35,26 @@ private:
 
     //Nivel 3
     Bart * bart;
+    Objetos* arma;
+    Objetos* pagina;
+
     Enemigo* murcielago;
     QList<Enemigo*> murcielagos;
     QTimer *colisionTimer;
 
+    QGraphicsPixmapItem* tumba;
+    void agregarTumbas(int numTumbas);
+    QList<QPointF> posicionesTumbas;
+    QVector<QPixmap> tumbas;
+    int spriteTumba;
+    bool posicionValida;
+    int x,y;
+    double distancia;
+    QPointF nuevaPos;
+    QList<QGraphicsPixmapItem*> tumbasEscena;
+
     QGraphicsPixmapItem* imagenGameOver;
+    Jugador * jugador;
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
@@ -49,9 +64,7 @@ public:
     void verificarColisiones();
     void animarMarge();
     void showMarge();
-    Jugador * jugador;
-    Objetos* arma;
-    Objetos* pagina;
+
     virtual ~Nivel();
 };
 

@@ -258,7 +258,7 @@ void Bart::actualizarDisparo(){
 
     if (desplazamiento > 510) {
         timerDisparo->stop();
-        escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+        escena->removeItem(municion);
         delete municion;
         municion=nullptr;
         return;
@@ -268,7 +268,7 @@ void Bart::actualizarDisparo(){
         municion->setPos(posInicialMunicion.x()-desplazamiento, posInicialMunicion.y());
         if (posInicialMunicion.x()-desplazamiento<46){
             timerDisparo->stop();
-            escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+            escena->removeItem(municion);
             delete municion;
             municion=nullptr;
             return;
@@ -278,7 +278,7 @@ void Bart::actualizarDisparo(){
         municion->setPos(posInicialMunicion.x()+desplazamiento, posInicialMunicion.y());
         if (posInicialMunicion.x()+desplazamiento>1222){
             timerDisparo->stop();
-            escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+            escena->removeItem(municion);
             delete municion;
             municion=nullptr;
             return;
@@ -288,7 +288,7 @@ void Bart::actualizarDisparo(){
         municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()-desplazamiento);
         if (posInicialMunicion.y()-desplazamiento<47){
             timerDisparo->stop();
-            escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+            escena->removeItem(municion);
             delete municion;
             municion=nullptr;
             return;
@@ -298,7 +298,7 @@ void Bart::actualizarDisparo(){
         municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()+desplazamiento);
         if(posInicialMunicion.y()+desplazamiento>500){
             timerDisparo->stop();
-            escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+            escena->removeItem(municion);
             delete municion;
             municion=nullptr;
             return;

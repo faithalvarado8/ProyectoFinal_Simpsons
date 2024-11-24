@@ -19,6 +19,7 @@ Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70)
     connect(timerMov, &QTimer::timeout, this, &Enemigo::movimiento);
     timerMov->start(30);
 
+    setZValue(2);
 
     if (cont==1){
         setPos(800, 400);
