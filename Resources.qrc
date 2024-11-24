@@ -36,6 +36,9 @@
         <file>Marge_Scared2.png</file>
         <file>Parachute.png</file>
         <file>Plane.png</file>
+        <file>Donut1.png</file>
+        <file>Donut2.png</file>
+        <file>Donut3.png</file>
     </qresource>
     <qresource prefix="/Sonidos">
         <file>SoundEffects/Colision_Explotar.mp3</file>

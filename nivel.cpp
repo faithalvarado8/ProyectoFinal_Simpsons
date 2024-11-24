@@ -25,32 +25,9 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         kingHomero = new KingHomero();
         escena->addItem(kingHomero);
-
         kingHomero->setFlag(QGraphicsItem::ItemIsFocusable);
         kingHomero->setFocus();
-
         connect(kingHomero, &KingHomero::moverHaciaArriba, this, &Nivel::sincronizarFondo);
-
-        // Agregar a Marge en la parte superior
-        margeSprite1 = new QGraphicsPixmapItem(QPixmap(":/Nivel2/Marge_Happy1.png"));
-        margeSprite2 = new QGraphicsPixmapItem(QPixmap(":/Nivel2/Marge_Happy2.png"));
-
-        if (margeSprite1->pixmap().isNull() || margeSprite2->pixmap().isNull()) {
-            qDebug() << "Error al cargar los sprites de Marge";
-            return;
-        }
-
-        margeSprite1->setPos(escena->width() / 2 - margeSprite1->pixmap().width() / 2,
-                             escena->height() - edificioItem->pixmap().height() - margeSprite1->pixmap().height());
-        margeSprite2->setPos(margeSprite1->x(), margeSprite1->y());
-
-        margeSprite1->setVisible(false);
-        margeSprite2->setVisible(false);
-        escena->addItem(margeSprite1);
-
-        timerMargeAnimacion = new QTimer(this);
-        connect(timerMargeAnimacion, &QTimer::timeout, this, &Nivel::animarMarge);
-        timerMargeAnimacion->start(500);
 
         tiempoRestante = 30;
         timerNivel = new QTimer(this);

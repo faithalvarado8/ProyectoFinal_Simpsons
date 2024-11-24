@@ -19,8 +19,8 @@ private slots:
     void mover();
 
 private:
-    QTimer *timerMovimiento; // Temporizador para el movimiento
-    QGraphicsScene *escena;  // Referencia a la escena
+    QTimer *timerMovimiento;
+    QGraphicsScene *escena;
 };
 
 #endif // OBSTACULO_H
