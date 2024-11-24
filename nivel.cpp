@@ -1,6 +1,6 @@
 #include "nivel.h"
-#include <random>
-#include <cmath>
+// #include <random>
+// #include <cmath>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0) {
 
@@ -27,6 +27,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         kingHomero = new KingHomero();
         escena->addItem(kingHomero);
+        kingHomero->agregarIndicadorVidaALaEscena();
         kingHomero->setFlag(QGraphicsItem::ItemIsFocusable);
         kingHomero->setFocus();
         connect(kingHomero, &KingHomero::moverHaciaArriba, this, &Nivel::sincronizarFondo);
@@ -145,35 +146,6 @@ void Nivel::verificarColisiones() {
     return;
 }
 
-void Nivel::showMarge() {
-    // Actualiza la posición de King Homer y verifica si está cerca del final
-    if (nivelSeleccionado == 2) {
-        // Si King Homer está cerca de la parte superior del edificio (ejemplo: a 50 píxeles de distancia)
-        if (kingHomero->pos().y() < (escena->height() - edificioItem->pixmap().height() - 750)) {
-            margeSprite1->setVisible(true);
-            margeSprite2->setVisible(true);
-            margeSprite1->setZValue(2);
-            margeSprite2->setZValue(2);
-        } else {
-            margeSprite1->setVisible(false);
-            margeSprite2->setVisible(false);
-        }
-    }
-
-    actualizarTiempo();
-}
-
-void Nivel::animarMarge() {
-    if (margeSprite1->isVisible()) {
-        if (escena->items().contains(margeSprite1)) {
-            escena->removeItem(margeSprite1);
-            escena->addItem(margeSprite2);
-        } else {
-            escena->removeItem(margeSprite2);
-            escena->addItem(margeSprite1);
-        }
-    }
-}
 
 void Nivel::actualizarTiempo() {
     if (tiempoRestante > 0) {
