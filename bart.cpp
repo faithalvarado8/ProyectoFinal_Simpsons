@@ -1,6 +1,8 @@
 #include "bart.h"
 
-Bart::Bart() {
+Bart::Bart(QGraphicsScene* escena) : escena(escena) {
+    numMuniciones=0;
+    disparar=false;
     spritesLado= QPixmap(":/Nivel3/BartLado.png");
     spritesArribaAbajo = QPixmap(":/Nivel3/BartFrente.png");
     spritesArma=QPixmap(":/Nivel3/BartArma2.png");
@@ -37,7 +39,7 @@ void Bart::actualizarAnimacion(){
     qDebug() << "Test";
 
     if (keys[Qt::Key_A] && pos().x()>45){
-        setPos(x()-10,y());
+        setPos(x()-15,y());
         if (disparar){
             sprites = spritesArma;
             ancho = anchoArma;
@@ -54,7 +56,7 @@ void Bart::actualizarAnimacion(){
         direccion='A';
     }
     else if (keys[Qt::Key_D] && pos().x()<1190){
-        setPos(x()+10,y());
+        setPos(x()+15,y());
         if (disparar){
             sprites = spritesArma;
             ancho = anchoArma;
@@ -72,7 +74,7 @@ void Bart::actualizarAnimacion(){
     }
 
     else if (keys[Qt::Key_W] && pos().y()>10){
-        setPos(x(),y()-10);
+        setPos(x(),y()-15);
         sprites = spritesArribaAbajo;
         ancho = anchoArribaAbajo;
         alto = altoArribaAbajo;
@@ -81,7 +83,7 @@ void Bart::actualizarAnimacion(){
         direccion='W';
     }
     else if (keys[Qt::Key_S] && pos().y()<430){
-        setPos(x(),y()+10);
+        setPos(x(),y()+15);
         if (disparar){
             sprites = spritesArma;
             ancho = anchoArma;
@@ -115,7 +117,8 @@ void Bart::actualizarAnimacion(){
             }
         }
 
-    }else {
+    }
+    else {
         if (disparar){
             if (direccion=='A'){
                 sprites = spritesArma;
@@ -134,6 +137,25 @@ void Bart::actualizarAnimacion(){
                 ancho = anchoArma;
                 alto = altoArma;
                 fila=0;
+            }
+        }else{
+            if (direccion=='A'){
+                sprites = spritesLado;
+                ancho = anchoLado;
+                alto = altoLado;
+                fila=1;
+            }
+            else if (direccion=='D'){
+                sprites = spritesLado;
+                ancho = anchoLado;
+                alto = altoLado;
+                fila=0;
+            }
+            else if (direccion=='S'){
+                sprites = spritesArribaAbajo;
+                ancho = anchoArribaAbajo;
+                alto = altoArribaAbajo;
+                fila=1;
             }
         }
 
@@ -164,9 +186,6 @@ void Bart::keyReleaseEvent(QKeyEvent *event) {
     default:
         break;
     }
-    if (event -> key() == Qt::Key_Space){
-        disparar=false;
-    }
 }
 
 void Bart::keyPressEvent(QKeyEvent *event)
@@ -183,11 +202,38 @@ void Bart::keyPressEvent(QKeyEvent *event)
         break;
     }
 
-    if (event -> key() == Qt::Key_Space && numMuniciones>0){
-        disparar=true;
+    if (event -> key() == Qt::Key_Space && disparar){
+        lanzarMunicion();
     }
 }
 
 void Bart::municiones(){
-    numMuniciones=3;
+    numMuniciones+=3;
+    disparar=true;
+}
+
+void Bart::lanzarMunicion(){
+    numMuniciones-=1;
+
+    QGraphicsPixmapItem* municion= new QGraphicsPixmapItem(QPixmap(":/Nivel3/Disparo.png").scaled(15, 15, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    municion->setZValue(2);
+    escena->addItem(municion);
+
+    if (direccion=='A'){
+        municion->setPos(x()-13, y()+36);
+    }
+    else if (direccion=='D'){
+        municion->setPos(x()+62, y()+36);
+    }
+    else if (direccion=='W'){
+        municion->setPos(x(), y());
+    }
+    else if (direccion=='S'){
+        municion->setPos(x()+7, y()+36);
+    }
+
+    if (numMuniciones==0){
+        disparar=false;
+    }
 }

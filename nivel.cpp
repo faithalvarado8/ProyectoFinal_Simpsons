@@ -69,7 +69,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         escena->setBackgroundBrush(QBrush(QImage(":/Nivel3/fondoNivel3.png").scaled(1280, 720)));
 
-        bart = new Bart();
+        bart = new Bart(escena);
 
         arma= new Objetos("arma");
         escena->addItem(arma);

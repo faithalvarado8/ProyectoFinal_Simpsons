@@ -2,7 +2,6 @@
 #define BART_H
 
 #include "jugador.h"
-#include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
@@ -13,10 +12,11 @@ class Bart: public Jugador{
     Q_OBJECT
 
 public:
-    Bart(); 
+    Bart(QGraphicsScene* escena);
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent *event);
     void municiones();
+    void lanzarMunicion();
 
 private slots:
     void actualizarAnimacion();
@@ -44,6 +44,7 @@ private:
     QTimer *timer;
 
     QMap<int,bool>keys;
+    QGraphicsScene* escena;
 
 };
 
