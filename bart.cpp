@@ -1,4 +1,5 @@
 #include "bart.h"
+#include <QDebug>
 
 Bart::Bart(QGraphicsScene* escena) : escena(escena) {
     numMuniciones=0;
@@ -213,27 +214,69 @@ void Bart::municiones(){
 }
 
 void Bart::lanzarMunicion(){
+
+    t=0;
     numMuniciones-=1;
 
-    QGraphicsPixmapItem* municion= new QGraphicsPixmapItem(QPixmap(":/Nivel3/Disparo.png").scaled(15, 15, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    if (numMuniciones==0){
+        disparar=false;
+    }
+
+    municion= new QGraphicsPixmapItem(QPixmap(":/Nivel3/Disparo.png").scaled(15, 15, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
     municion->setZValue(2);
     escena->addItem(municion);
 
     if (direccion=='A'){
-        municion->setPos(x()-13, y()+36);
+        posInicialMunicion = QPointF(x() - 13, y() + 36);
     }
     else if (direccion=='D'){
-        municion->setPos(x()+62, y()+36);
+        posInicialMunicion = QPointF(x() + 62, y() + 36);
     }
     else if (direccion=='W'){
-        municion->setPos(x(), y());
+        posInicialMunicion = QPointF(x(), y());
     }
-    else if (direccion=='S'){
-        municion->setPos(x()+7, y()+36);
+    else{
+        posInicialMunicion = QPointF(x() + 7, y() + 36);
     }
 
-    if (numMuniciones==0){
-        disparar=false;
+    municion->setPos(posInicialMunicion);
+    direccionDisparo=direccion;
+
+    if (!timerDisparo) {
+        timerDisparo = new QTimer(this);
+        connect(timerDisparo, &QTimer::timeout, this, &Bart::actualizarDisparo);
     }
+    timerDisparo->start(16);
+
+}
+
+void Bart::actualizarDisparo(){
+
+    t += 0.016;
+    double desplazamiento = 350 * t - 0.5 * 120 * t * t; // x(t)=x0+v0*t-0.5*a*t^2
+
+    qDebug() << desplazamiento <<"desplazamiento";
+
+    if (desplazamiento > 510) {
+        timerDisparo->stop();
+        escena->removeItem(municion); // Eliminar la municion de la escena si se detiene
+        delete municion;
+        municion=nullptr;
+        return;
+    }
+
+    if (direccionDisparo=='A'){
+        municion->setPos(posInicialMunicion.x()-desplazamiento, posInicialMunicion.y());
+    }
+    else if (direccionDisparo=='D'){
+        municion->setPos(posInicialMunicion.x()+desplazamiento, posInicialMunicion.y());
+    }
+    else if (direccionDisparo=='W'){
+        municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()-desplazamiento);
+    }
+    else {
+        municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()+desplazamiento);
+    }
+
 }

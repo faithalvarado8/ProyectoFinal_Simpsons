@@ -20,6 +20,7 @@ public:
 
 private slots:
     void actualizarAnimacion();
+    void actualizarDisparo();
 
 private:
     // Sprites
@@ -35,16 +36,19 @@ private:
     int ancho, alto;
     int columna;
     int fila;
+    QTimer *timer;
 
     bool disparar;
     int numMuniciones;
     char direccion;
-
-    QTimer *timer;
+    QTimer* timerDisparo;
+    QGraphicsPixmapItem* municion;
+    double t;
+    QPointF posInicialMunicion;
+    char direccionDisparo;
 
     QMap<int,bool>keys;
     QGraphicsScene* escena;
-
 };
 
 #endif // BART_H
