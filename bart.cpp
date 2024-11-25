@@ -313,7 +313,7 @@ Bart::~Bart(){
     }
 
     if (municion) {
-        //escena->removeItem(municion);
+        escena->removeItem(municion);
         delete municion;
         municion = nullptr;
     }
