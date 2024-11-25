@@ -1,6 +1,6 @@
 #include "nivel.h"
-// #include <random>
-// #include <cmath>
+#include <random>
+#include <cmath>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0) {
 
@@ -76,6 +76,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
 void Nivel::verificarColisiones() {
     QList<QGraphicsItem*> colisiones = bart->collidingItems();
+
     for (QGraphicsItem* item : colisiones) {
         if (item == arma) {
             escena->removeItem(arma);
@@ -108,29 +109,36 @@ void Nivel::verificarColisiones() {
         for (Enemigo* murcielago : murcielagos) {
             if (item == murcielago){
                 bart->perderVida();
+
+                escena->removeItem(murcielago);
                 delete murcielago;
                 murcielago=nullptr;
 
                 if (bart->getVidas() == 0) {
+                    escena->removeItem(bart);
                     delete bart;
                     bart=nullptr;
 
                     if (arma){
+                        escena->removeItem(arma);
                         delete arma;
                         arma=nullptr;
                     }
                     if (pagina){
+                        escena->removeItem(pagina);
                         delete pagina;
                         pagina=nullptr;
                     }
                     for (Enemigo* murcielago : murcielagos) {
                         if (murcielago){
+                            escena->removeItem(murcielago);
                             delete murcielago;
                             murcielago=nullptr;
                         }
                     }
                     for (QGraphicsPixmapItem* tumba : tumbasEscena) {
                         if (tumba){
+                            escena->removeItem(tumba);
                             delete tumba;
                             tumba=nullptr;
                         }
@@ -139,11 +147,9 @@ void Nivel::verificarColisiones() {
                     colisionTimer->stop();
                     return;
                 }
-             }
+            }
         }
-        return;
     }
-    return;
 }
 
 
@@ -225,7 +231,7 @@ void Nivel::agregarTumbas(int numTumbas){
                 distancia = std::sqrt(std::pow(x - pos.x(), 2) + std::pow(y - pos.y(), 2));
 
                 // Verificar si la distancia entre las tumbas es menor que el tamaño de una tumba (80 px)
-                if (distancia < 100) {
+                if (distancia < 120) {
                     posicionValida = false;
                     break;
                 }
@@ -243,35 +249,51 @@ void Nivel::agregarTumbas(int numTumbas){
     }
 }
 
+void Nivel::gameOver(){
+
+}
+
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
+
         if (bart){
+            escena->removeItem(bart);
             delete bart;
             bart = nullptr;
         }
         if (arma){
+            escena->removeItem(arma);
             delete arma;
             arma = nullptr;
         }
         if (pagina){
+            escena->removeItem(pagina);
             delete pagina;
             pagina = nullptr;
         }
 
         for (Enemigo* murcielago : murcielagos) {
             if (murcielago){
+                escena->removeItem(murcielago);
                 delete murcielago;
                 murcielago=nullptr;
             }
         }
         for (QGraphicsPixmapItem* tumba : tumbasEscena) {
             if (tumba){
+                escena->removeItem(tumba);
                 delete tumba;
                 tumba=nullptr;
             }
         }
-        delete colisionTimer;
-        colisionTimer=nullptr;
+
+        if (colisionTimer) {
+            colisionTimer->stop();
+            disconnect(colisionTimer, &QTimer::timeout, this, &Nivel::verificarColisiones);
+            delete colisionTimer;
+            colisionTimer = nullptr;
+        }
+
     }
     if (nivelSeleccionado==2){
         delete kingHomero;

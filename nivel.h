@@ -44,8 +44,8 @@ private:
     QList<Enemigo*> murcielagos;
     QTimer *colisionTimer;
 
-    QGraphicsPixmapItem* tumba;
     void agregarTumbas(int numTumbas);
+    QGraphicsPixmapItem* tumba;
     QList<QPointF> posicionesTumbas;
     QVector<QPixmap> tumbas;
     int spriteTumba;
@@ -55,6 +55,8 @@ private:
     QPointF nuevaPos;
     QList<QGraphicsPixmapItem*> tumbasEscena;
 
+    void gameOver();
+
     QGraphicsPixmapItem* imagenGameOver;
     Jugador * jugador;
 
@@ -63,11 +65,13 @@ public:
     void moverEdificio();
     void actualizarTiempo();
     void sincronizarFondo(int dy);
-    void verificarColisiones();
     void animarMarge();
     void showMarge();
 
+    void verificarColisiones();
+
     virtual ~Nivel();
+
 };
 
 #endif // NIVEL_H

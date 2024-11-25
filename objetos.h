@@ -15,6 +15,7 @@ private:
 
 public:
     Objetos(string objeto, unsigned short int cont=0);
+    ~Objetos();
 };
 
 #endif // OBJETOS_H

@@ -18,6 +18,7 @@ public:
     void municiones();
     void lanzarMunicion();
     void colisionTumba();
+    ~Bart();
 
 private slots:
     void actualizarAnimacion();

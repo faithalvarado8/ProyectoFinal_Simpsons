@@ -40,3 +40,5 @@ Objetos::Objetos(string objeto, unsigned short int cont) {
         setZValue(0);
     }
 }
+
+Objetos::~Objetos(){}

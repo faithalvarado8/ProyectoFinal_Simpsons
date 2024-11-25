@@ -222,6 +222,7 @@ void Bart::municiones(){
 void Bart::lanzarMunicion(){
 
     t=0;
+
     numMuniciones-=1;
 
     if (numMuniciones==0){
@@ -247,9 +248,6 @@ void Bart::lanzarMunicion(){
     }
 
     municion->setPos(posInicialMunicion);
-
-    qDebug() << "posInicialMunicion:" << posInicialMunicion;
-
     direccionDisparo=direccion;
 
     if (!timerDisparo) {
@@ -265,63 +263,65 @@ void Bart::actualizarDisparo(){
     t += 0.016;
     double desplazamiento = 350 * t - 0.5 * 120 * t * t; // x(t)=x0+v0*t-0.5*a*t^2
 
-    if (desplazamiento > 510) {
+    if (desplazamiento > 510 ||
+        (direccionDisparo == 'A' && posInicialMunicion.x() - desplazamiento < 46) ||
+        (direccionDisparo == 'D' && posInicialMunicion.x() + desplazamiento > 1222) ||
+        (direccionDisparo == 'W' && posInicialMunicion.y() - desplazamiento < 47) ||
+        (direccionDisparo == 'S' && posInicialMunicion.y() + desplazamiento > 500)) {
+
         timerDisparo->stop();
         escena->removeItem(municion);
         delete municion;
-        municion=nullptr;
+        municion = nullptr;
         return;
     }
 
     if (direccionDisparo=='A'){
         municion->setPos(posInicialMunicion.x()-desplazamiento, posInicialMunicion.y());
-        if (posInicialMunicion.x()-desplazamiento<46){
-            timerDisparo->stop();
-            escena->removeItem(municion);
-            delete municion;
-            municion=nullptr;
-            return;
-        }
+
     }
     else if (direccionDisparo=='D'){
         municion->setPos(posInicialMunicion.x()+desplazamiento, posInicialMunicion.y());
-        if (posInicialMunicion.x()+desplazamiento>1222){
-            timerDisparo->stop();
-            escena->removeItem(municion);
-            delete municion;
-            municion=nullptr;
-            return;
-        }
+
     }
     else if (direccionDisparo=='W'){
         municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()-desplazamiento);
-        if (posInicialMunicion.y()-desplazamiento<47){
-            timerDisparo->stop();
-            escena->removeItem(municion);
-            delete municion;
-            municion=nullptr;
-            return;
-        }
     }
     else {
         municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()+desplazamiento);
-        if(posInicialMunicion.y()+desplazamiento>500){
-            timerDisparo->stop();
-            escena->removeItem(municion);
-            delete municion;
-            municion=nullptr;
-            return;
-        }
     }
 }
 
 void Bart::colisionTumba(){
 
-    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
+    for (const QGraphicsPixmapItem* tumba : tumbasEscena) {
         if (this->collidesWithItem(tumba)) {
             setPos(oldPos);
             moving=false;
             return;
         }
+    }
+}
+
+Bart::~Bart(){
+
+    if (timer) {
+        timer->stop();
+        disconnect(timer, &QTimer::timeout, this, &Bart::actualizarAnimacion);
+        delete timer;
+        timer = nullptr;
+    }
+
+    if (municion) {
+        //escena->removeItem(municion);
+        delete municion;
+        municion = nullptr;
+    }
+
+    if (timerDisparo) {
+        timerDisparo->stop();
+        disconnect(timerDisparo, &QTimer::timeout, this, &Bart::actualizarDisparo);
+        delete timerDisparo;
+        timerDisparo = nullptr;
     }
 }

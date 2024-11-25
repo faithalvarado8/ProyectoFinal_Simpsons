@@ -12,6 +12,7 @@ class Enemigo: public QObject, public QGraphicsPixmapItem {
 
 public:
     Enemigo(unsigned short int cont);
+    ~Enemigo();
 
 private slots:
     void actualizarAnimacion();

@@ -10,8 +10,9 @@ void Jugador::perderVida() {
     if (vidas > 0) {
         vidas--;
         qDebug() << "[Jugador] Vida perdida. Vidas restantes:" << vidas;
-    } else if (vidas == 0) {
+        if (vidas == 0) {
         qDebug() << "[Jugador] El jugador ha muerto.";
+        }
     }
 }
 
