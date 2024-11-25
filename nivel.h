@@ -12,6 +12,8 @@
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QDebug>
+#include <random>
+#include <cmath>
 
 
 class Nivel : public QObject{

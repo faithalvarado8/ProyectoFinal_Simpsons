@@ -18,10 +18,16 @@ private slots:
     void movimiento();
 
 private:
+
+    // Sprites
     QVector<QPixmap> sprites;
     int spriteActual;
+
+    // Timers
     QTimer *timer;
     QTimer *timerMov;
+
+    // Movimiento
     int angulo;
     int radio;
     unsigned short int contM;

@@ -1,28 +1,18 @@
 #include "kinghomero.h"
 
-KingHomero::KingHomero() : Jugador(3), spriteActual(0), enMovimiento(false) {
+KingHomero::KingHomero() : Jugador(3), spriteActual(0), enMovimiento(false){
     sprites.append(QPixmap(":/Nivel2/Homer_Up1.png"));
     sprites.append(QPixmap(":/Nivel2/Homer_Up2.png"));
+    spritesCelebracion.append(QPixmap(":/Nivel2/Homer_Celebration1.png"));
+    spritesCelebracion.append(QPixmap(":/Nivel2/Homer_Celebration2.png"));
 
     QGraphicsPixmapItem::setPixmap(sprites[spriteActual].scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
     setPos(640, 520);
     setZValue(2);
 
-    // Cargar las imágenes de las vidas
-    vidasSprites[3] = QPixmap(":/Nivel2/Donut3.png");
-    vidasSprites[2] = QPixmap(":/Nivel2/Donut2.png");
-    vidasSprites[1] = QPixmap(":/Nivel2/Donut1.png");
-
-    indicadorVidas = new QGraphicsPixmapItem(vidasSprites[getVidas()]);
-
-
-    if (scene()) {
-        scene()->addItem(indicadorVidas);
-        indicadorVidas->setPos(1200, 20);
-        indicadorVidas->setZValue(4);
-        indicadorVidas->update();
-    }
+    indicadorVida = new QGraphicsPixmapItem(QPixmap(":/Nivel2/Donut3.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    indicadorVida->setZValue(3);
 
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, &KingHomero::moverPersonaje);
@@ -48,33 +38,52 @@ void KingHomero::mostrarEstado() const {
     Jugador::mostrarEstado();
 }
 
-void KingHomero::actualizarIndicadorVidas() {
+void KingHomero::agregarIndicadorVidaALaEscena() {
+    if (!indicadorVida || !scene()) {
+        qDebug() << "[KingHomero] No se puede agregar el indicador de vida: escena o indicador nulos.";
+        return;
+    }
 
-    if (indicadorVidas) {
-        // Cambiar pixmap según las vidas actuales
-        indicadorVidas->setPixmap(vidasSprites[getVidas()]);
-        // Asegurar que se mantiene en la esquina superior derecha
-        if (scene()) {
-            int xPos = scene()->width() - indicadorVidas->pixmap().width() - 10;
-            int yPos = 10; // Margen superior
-            indicadorVidas->setPos(xPos, yPos);
-        }
+    indicadorVida->setPos(scene()->width() - indicadorVida->pixmap().width() - 10, 10);
+    scene()->addItem(indicadorVida);
+    qDebug() << "[KingHomero] Indicador de vida agregado a la escena.";
+}
+
+void KingHomero::perderVida() {
+    if (vidas > 0) {
+        Jugador::perderVida();
+        actualizarIndicadorGrafico();
+    } else if (vidas == 0) {
+        qDebug() << "[KingHomero] El jugador ha muerto. Mostrando indicador gráfico vacío.";
     }
 }
 
-// Sobrescribir perderVida para actualizar la gráfica
-void KingHomero::perderVida() {
-    Jugador::perderVida();
-    actualizarIndicadorVidas();
+void KingHomero::actualizarIndicadorGrafico() {
+    if (!indicadorVida) return;
 
-    if (getVidas() == 0) {
+    switch (vidas) {
+    case 3:
+        indicadorVida->setPixmap(QPixmap(":/Nivel2/Donut3.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        break;
+    case 2:
+        indicadorVida->setPixmap(QPixmap(":/Nivel2/Donut2.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        break;
+    case 1:
+        indicadorVida->setPixmap(QPixmap(":/Nivel2/Donut1.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        break;
+    case 0:
         imagenGameOver = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
         imagenGameOver->setPos(scene()->width() / 2 - imagenGameOver->pixmap().width() / 2,
                                scene()->height() / 2 - imagenGameOver->pixmap().height() / 2);
         scene()->addItem(imagenGameOver);
         imagenGameOver->setZValue(3);
+        indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
+        break;
     }
+
+    qDebug() << "[KingHomero] Indicador gráfico actualizado. Vidas restantes:" << vidas;
 }
+
 
 // ------------------ EVENTOS POR TECLADO ----------------------
 
@@ -140,14 +149,31 @@ void KingHomero::verificarColisionConObstaculos() {
     }
 }
 
+// --------- CELEBRACIÓN -------------
+
+void KingHomero::iniciarCelebracion() {
+    enMovimiento = false;
+    spriteActual = 0;
+
+    if (timerAnimacion) {
+        disconnect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarAnimacion);
+        connect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarCelebracion);
+    }
+    timerAnimacion->start(300);
+}
+
+void KingHomero::actualizarCelebracion() {
+    spriteActual = (spriteActual + 1) % 2;
+    QGraphicsPixmapItem::setPixmap(spritesCelebracion[spriteActual].scaled(160, 160, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
 
 // --------- DESTRUCTOR ---------
 
 KingHomero::~KingHomero() {
 
-    if (indicadorVidas) {
-        delete indicadorVidas;
-        indicadorVidas = nullptr;
+    if (indicadorVida) {
+        delete indicadorVida;
+        indicadorVida = nullptr;
     }
 
     if (timerAnimacion) {

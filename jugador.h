@@ -2,13 +2,16 @@
 #define JUGADOR_H
 
 #include <QGraphicsPixmapItem>
-#include <QObject>
+#include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QObject>
+
 
 class Jugador : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 protected:
     unsigned int vidas;
+    QGraphicsPixmapItem* imagenGameOver;
 public:
     explicit Jugador(unsigned int vidasIniciales = 3);
     void recuperarVida();

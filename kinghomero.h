@@ -16,16 +16,21 @@ class KingHomero : public Jugador{
 public:
     KingHomero();
     ~KingHomero();
+    void agregarIndicadorVidaALaEscena();
+    void iniciarCelebracion();
+
 signals:
     void moverHaciaArriba(int dy);
 
 private slots:
     void actualizarAnimacion();
+    void actualizarCelebracion();
 
 private:
     // Control de sprites de animación
     unsigned int spriteActual;
     QList<QPixmap> sprites;
+    QList<QPixmap> spritesCelebracion;
 
     // Timers
     QTimer *timerMovimiento;
@@ -37,10 +42,10 @@ private:
     QSet<int> teclasPresionadas;
 
     // Indicador de vidas
-    QGraphicsPixmapItem *indicadorVidas;
+    QGraphicsPixmapItem *indicadorVida;
     QMap<unsigned int, QPixmap> vidasSprites;
     void perderVida();
-    void actualizarIndicadorVidas();
+    void actualizarIndicadorGrafico();
 
     // Colisiones
     void verificarColisionConObstaculos();
