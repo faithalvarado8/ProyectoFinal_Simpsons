@@ -1,7 +1,7 @@
 #include "bart.h"
 #include <QDebug>
 
-Bart::Bart(QGraphicsScene* escena) : escena(escena) {
+Bart::Bart(QGraphicsScene* escena, QList<QGraphicsPixmapItem*> tumbasEscena) : tumbasEscena(tumbasEscena), escena(escena) {
     numMuniciones=0;
     disparar=false;
     spritesLado= QPixmap(":/Nivel3/BartLado.png");
@@ -31,16 +31,17 @@ Bart::Bart(QGraphicsScene* escena) : escena(escena) {
     timer->start(110);
 
     setPos(45,10);
+    oldPos=QPointF(pos());
+    nuevaPos=QPointF(pos());
     setZValue(1);
 }
 
 void Bart::actualizarAnimacion(){
-    bool moving = false;
-
-    qDebug() << "Test";
+    moving = false;
+    oldPos=QPointF(pos());
 
     if (keys[Qt::Key_A] && pos().x()>45){
-        setPos(x()-15,y());
+        nuevaPos=pos()-QPointF(15,0);
         if (disparar){
             sprites = spritesArma;
             ancho = anchoArma;
@@ -53,11 +54,12 @@ void Bart::actualizarAnimacion(){
             alto = altoLado;
             fila=1;
         }
+
         moving = true;
         direccion='A';
     }
     else if (keys[Qt::Key_D] && pos().x()<1190){
-        setPos(x()+15,y());
+        nuevaPos=pos()+QPointF(15,0);
         if (disparar){
             sprites = spritesArma;
             ancho = anchoArma;
@@ -75,7 +77,7 @@ void Bart::actualizarAnimacion(){
     }
 
     else if (keys[Qt::Key_W] && pos().y()>10){
-        setPos(x(),y()-15);
+        nuevaPos=pos()-QPointF(0,15);
         sprites = spritesArribaAbajo;
         ancho = anchoArribaAbajo;
         alto = altoArribaAbajo;
@@ -84,7 +86,7 @@ void Bart::actualizarAnimacion(){
         direccion='W';
     }
     else if (keys[Qt::Key_S] && pos().y()<430){
-        setPos(x(),y()+15);
+        nuevaPos=pos()+QPointF(0,15);
         if (disparar){
             sprites = spritesArma;
             ancho = anchoArma;
@@ -100,6 +102,10 @@ void Bart::actualizarAnimacion(){
         moving = true;
         direccion='S';
     }
+
+    // Simular el movimiento para detectar colisiones
+    setPos(nuevaPos);
+    colisionTumba();
 
     if (moving){
         // Avanzar al siguiente cuadro en la hoja de sprites
@@ -165,11 +171,11 @@ void Bart::actualizarAnimacion(){
     }
 
     // Calcular la posicion del cuadro en la hoja de sprites
-    int x = columna * ancho;
-    int y = fila * alto;
+    spriteX = columna * ancho;
+    spriteY = fila * alto;
 
     // Actualizar la imagen del personaje
-    QPixmap sprite = sprites.copy(x, y, ancho, alto);
+    QPixmap sprite = sprites.copy(spriteX, spriteY, ancho, alto);
     setPixmap(sprite.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
 }
@@ -203,7 +209,7 @@ void Bart::keyPressEvent(QKeyEvent *event)
         break;
     }
 
-    if (event -> key() == Qt::Key_Space && disparar && !municion){
+    if (event -> key() == Qt::Key_Space && disparar){
         lanzarMunicion();
     }
 }
@@ -241,6 +247,9 @@ void Bart::lanzarMunicion(){
     }
 
     municion->setPos(posInicialMunicion);
+
+    qDebug() << "posInicialMunicion:" << posInicialMunicion;
+
     direccionDisparo=direccion;
 
     if (!timerDisparo) {
@@ -304,5 +313,15 @@ void Bart::actualizarDisparo(){
             return;
         }
     }
+}
 
+void Bart::colisionTumba(){
+
+    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
+        if (this->collidesWithItem(tumba)) {
+            setPos(oldPos);
+            moving=false;
+            return;
+        }
+    }
 }

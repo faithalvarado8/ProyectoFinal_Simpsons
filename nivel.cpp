@@ -48,8 +48,6 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         escena->setBackgroundBrush(QBrush(QImage(":/Nivel3/fondoNivel3.png").scaled(1280, 720)));
 
-        bart = new Bart(escena);
-
         arma= new Objetos("arma");
         escena->addItem(arma);
 
@@ -57,6 +55,8 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         escena->addItem(pagina);
 
         agregarTumbas(13);
+
+        bart = new Bart(escena, tumbasEscena);
 
         bart->setFlag(QGraphicsItem::ItemIsFocusable);
         bart->setFocus();

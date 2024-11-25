@@ -12,11 +12,12 @@ class Bart: public Jugador{
     Q_OBJECT
 
 public:
-    Bart(QGraphicsScene* escena);
+    Bart(QGraphicsScene* escena, QList<QGraphicsPixmapItem*> tumbasEscena);
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent *event);
     void municiones();
     void lanzarMunicion();
+    void colisionTumba();
 
 private slots:
     void actualizarAnimacion();
@@ -37,6 +38,8 @@ private:
     int columna;
     int fila;
     QTimer *timer;
+    bool moving;
+    int spriteX, spriteY;
 
     bool disparar;
     int numMuniciones;
@@ -46,6 +49,10 @@ private:
     double t;
     QPointF posInicialMunicion;
     char direccionDisparo;
+
+    QList<QGraphicsPixmapItem*> tumbasEscena;
+    QPointF nuevaPos;
+    QPointF oldPos;
 
     QMap<int,bool>keys;
     QGraphicsScene* escena;
