@@ -1,5 +1,6 @@
 #include "nivel.h"
 #include <random>
+#include "obstaculo.h"
 #include <cmath>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0) {
@@ -76,7 +77,6 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
 void Nivel::verificarColisiones() {
     QList<QGraphicsItem*> colisiones = bart->collidingItems();
-
     for (QGraphicsItem* item : colisiones) {
         if (item == arma) {
             escena->removeItem(arma);
@@ -109,7 +109,6 @@ void Nivel::verificarColisiones() {
         for (Enemigo* murcielago : murcielagos) {
             if (item == murcielago){
                 bart->perderVida();
-
                 escena->removeItem(murcielago);
                 delete murcielago;
                 murcielago=nullptr;
@@ -255,7 +254,6 @@ void Nivel::gameOver(){
 
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
-
         if (bart){
             escena->removeItem(bart);
             delete bart;
@@ -313,4 +311,3 @@ Nivel::~Nivel() {
     }
 
 }
-

@@ -6,15 +6,11 @@
 #include "bart.h"
 #include "kinghomero.h"
 #include "enemigo.h"
-#include "obstaculo.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QDebug>
-#include <random>
-#include <cmath>
-
 
 class Nivel : public QObject{
     Q_OBJECT
@@ -44,8 +40,8 @@ private:
     QList<Enemigo*> murcielagos;
     QTimer *colisionTimer;
 
-    void agregarTumbas(int numTumbas);
     QGraphicsPixmapItem* tumba;
+    void agregarTumbas(int numTumbas);
     QList<QPointF> posicionesTumbas;
     QVector<QPixmap> tumbas;
     int spriteTumba;
@@ -69,9 +65,7 @@ public:
     void showMarge();
 
     void verificarColisiones();
-
     virtual ~Nivel();
-
 };
 
 #endif // NIVEL_H

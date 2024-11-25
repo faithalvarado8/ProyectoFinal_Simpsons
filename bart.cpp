@@ -222,7 +222,6 @@ void Bart::municiones(){
 void Bart::lanzarMunicion(){
 
     t=0;
-
     numMuniciones-=1;
 
     if (numMuniciones==0){
@@ -272,7 +271,7 @@ void Bart::actualizarDisparo(){
         timerDisparo->stop();
         escena->removeItem(municion);
         delete municion;
-        municion = nullptr;
+        municion=nullptr;
         return;
     }
 
@@ -294,7 +293,7 @@ void Bart::actualizarDisparo(){
 
 void Bart::colisionTumba(){
 
-    for (const QGraphicsPixmapItem* tumba : tumbasEscena) {
+    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
         if (this->collidesWithItem(tumba)) {
             setPos(oldPos);
             moving=false;
