@@ -190,8 +190,10 @@ void Nivel::sincronizarFondo(int dy) {
         if (timerObstaculos->isActive()) {
             timerObstaculos->stop();
             timerNivel->stop();
-            qDebug() << "Generación de obstáculos detenida.";
+            qDebug() << "Generación de obstáculos detenida";
             qDebug() << "¡Nivel completado!";
+            kingHomero->setPos(640,515);
+            kingHomero->iniciarCelebracion();
         }
     }
 }
