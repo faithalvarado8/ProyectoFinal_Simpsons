@@ -277,11 +277,9 @@ void Bart::actualizarDisparo(){
 
     if (direccionDisparo=='A'){
         municion->setPos(posInicialMunicion.x()-desplazamiento, posInicialMunicion.y());
-
     }
     else if (direccionDisparo=='D'){
         municion->setPos(posInicialMunicion.x()+desplazamiento, posInicialMunicion.y());
-
     }
     else if (direccionDisparo=='W'){
         municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()-desplazamiento);
@@ -301,7 +299,6 @@ void Bart::colisionTumba(){
         }
     }
 }
-
 Bart::~Bart(){
 
     if (timer) {
@@ -322,5 +319,13 @@ Bart::~Bart(){
         disconnect(timerDisparo, &QTimer::timeout, this, &Bart::actualizarDisparo);
         delete timerDisparo;
         timerDisparo = nullptr;
+    }
+
+    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
+        if (tumba){
+            escena->removeItem(tumba);
+            delete tumba;
+            tumba=nullptr;
+        }
     }
 }
