@@ -56,7 +56,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         pagina= new Objetos("pagina", 1);
         escena->addItem(pagina);
 
-        agregarTumbas(13);
+        agregarTumbas(16);
 
         bart = new Bart(escena, tumbasEscena);
 
@@ -106,45 +106,15 @@ void Nivel::verificarColisiones() {
             }
         }
 
-        for (Enemigo* murcielago : murcielagos) {
-            if (item == murcielago){
+        for (int i=0; i<murcielagos.size(); i++) {
+            if (item == murcielagos[i]){
                 bart->perderVida();
-                escena->removeItem(murcielago);
-                delete murcielago;
-                murcielago=nullptr;
+                delete murcielagos[i];
+                murcielagos[i]=nullptr;
+                murcielagos.removeAt(i);
 
                 if (bart->getVidas() == 0) {
-                    escena->removeItem(bart);
-                    delete bart;
-                    bart=nullptr;
-
-                    if (arma){
-                        escena->removeItem(arma);
-                        delete arma;
-                        arma=nullptr;
-                    }
-                    if (pagina){
-                        escena->removeItem(pagina);
-                        delete pagina;
-                        pagina=nullptr;
-                    }
-                    for (Enemigo* murcielago : murcielagos) {
-                        if (murcielago){
-                            escena->removeItem(murcielago);
-                            delete murcielago;
-                            murcielago=nullptr;
-                        }
-                    }
-                    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
-                        if (tumba){
-                            escena->removeItem(tumba);
-                            delete tumba;
-                            tumba=nullptr;
-                        }
-                    }
-                    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
-                    colisionTimer->stop();
-                    return;
+                    gameOver();
                 }
             }
         }
@@ -230,7 +200,7 @@ void Nivel::agregarTumbas(int numTumbas){
                 distancia = std::sqrt(std::pow(x - pos.x(), 2) + std::pow(y - pos.y(), 2));
 
                 // Verificar si la distancia entre las tumbas es menor que el tamaño de una tumba (80 px)
-                if (distancia < 120) {
+                if (distancia < 140) {
                     posicionValida = false;
                     break;
                 }
@@ -250,47 +220,65 @@ void Nivel::agregarTumbas(int numTumbas){
 
 void Nivel::gameOver(){
 
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
+    colisionTimer->stop();
+
+    delete bart;
+    bart=nullptr;
+
+    if (arma){
+        delete arma;
+        arma=nullptr;
+    }
+
+    if (pagina){
+        delete pagina;
+        pagina=nullptr;
+    }
+    for (Enemigo* murcielago : murcielagos) {
+        if (murcielago){
+            delete murcielago;
+            murcielago=nullptr;
+        }
+    }
+    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
+        if (tumba){
+            delete tumba;
+            tumba=nullptr;
+        }
+    }
 }
 
 Nivel::~Nivel() {
     if (nivelSeleccionado==3){
         if (bart){
-            escena->removeItem(bart);
             delete bart;
             bart = nullptr;
         }
         if (arma){
-            escena->removeItem(arma);
             delete arma;
             arma = nullptr;
         }
         if (pagina){
-            escena->removeItem(pagina);
             delete pagina;
             pagina = nullptr;
         }
 
         for (Enemigo* murcielago : murcielagos) {
             if (murcielago){
-                escena->removeItem(murcielago);
                 delete murcielago;
                 murcielago=nullptr;
             }
         }
         for (QGraphicsPixmapItem* tumba : tumbasEscena) {
             if (tumba){
-                escena->removeItem(tumba);
                 delete tumba;
                 tumba=nullptr;
             }
         }
 
-        if (colisionTimer) {
-            colisionTimer->stop();
-            disconnect(colisionTimer, &QTimer::timeout, this, &Nivel::verificarColisiones);
-            delete colisionTimer;
-            colisionTimer = nullptr;
-        }
+        delete colisionTimer;
+        colisionTimer=nullptr;
 
     }
     if (nivelSeleccionado==2){

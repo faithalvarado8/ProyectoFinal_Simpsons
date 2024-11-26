@@ -51,8 +51,6 @@ private:
     QPointF nuevaPos;
     QList<QGraphicsPixmapItem*> tumbasEscena;
 
-    void gameOver();
-
     QGraphicsPixmapItem* imagenGameOver;
     Jugador * jugador;
 
@@ -65,6 +63,7 @@ public:
     void showMarge();
 
     void verificarColisiones();
+    void gameOver();
     virtual ~Nivel();
 };
 

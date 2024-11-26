@@ -78,19 +78,6 @@ void Enemigo::movimiento(){
 }
 
 Enemigo::~Enemigo(){
-
-    if (timer) {
-        timer->stop();
-        disconnect(timer, &QTimer::timeout, this, &Enemigo::actualizarAnimacion);
-        delete timer;
-        timer = nullptr;
-    }
-
-    if (timerMov) {
-        timerMov->stop();
-        disconnect(timerMov, &QTimer::timeout, this, &Enemigo::movimiento);
-        delete timerMov;
-        timerMov = nullptr;
-    }
-
+    delete timer;
+    delete timerMov;
 }

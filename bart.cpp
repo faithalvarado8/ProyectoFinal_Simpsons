@@ -8,6 +8,9 @@ Bart::Bart(QGraphicsScene* escena, QList<QGraphicsPixmapItem*> tumbasEscena) : t
     spritesArribaAbajo = QPixmap(":/Nivel3/BartFrente.png");
     spritesArma=QPixmap(":/Nivel3/BartArma2.png");
 
+    timerDisparo = new QTimer(this);
+    connect(timerDisparo, &QTimer::timeout, this, &Bart::actualizarDisparo);
+
     // Dimensiones de cada hoja de sprites
     anchoLado = 117;
     altoLado = 188;
@@ -177,7 +180,6 @@ void Bart::actualizarAnimacion(){
     // Actualizar la imagen del personaje
     QPixmap sprite = sprites.copy(spriteX, spriteY, ancho, alto);
     setPixmap(sprite.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
 }
 
 
@@ -221,7 +223,6 @@ void Bart::municiones(){
 
 void Bart::lanzarMunicion(){
 
-    t=0;
     numMuniciones-=1;
 
     if (numMuniciones==0){
@@ -249,12 +250,8 @@ void Bart::lanzarMunicion(){
     municion->setPos(posInicialMunicion);
     direccionDisparo=direccion;
 
-    if (!timerDisparo) {
-        timerDisparo = new QTimer(this);
-        connect(timerDisparo, &QTimer::timeout, this, &Bart::actualizarDisparo);
-    }
+    t=0;
     timerDisparo->start(16);
-
 }
 
 void Bart::actualizarDisparo(){
@@ -267,9 +264,8 @@ void Bart::actualizarDisparo(){
         (direccionDisparo == 'D' && posInicialMunicion.x() + desplazamiento > 1222) ||
         (direccionDisparo == 'W' && posInicialMunicion.y() - desplazamiento < 47) ||
         (direccionDisparo == 'S' && posInicialMunicion.y() + desplazamiento > 500)) {
-
         timerDisparo->stop();
-        escena->removeItem(municion);
+        //escena->removeItem(municion);
         delete municion;
         municion=nullptr;
         return;
@@ -309,7 +305,7 @@ Bart::~Bart(){
     }
 
     if (municion) {
-        escena->removeItem(municion);
+        //escena->removeItem(municion);
         delete municion;
         municion = nullptr;
     }
@@ -319,13 +315,5 @@ Bart::~Bart(){
         disconnect(timerDisparo, &QTimer::timeout, this, &Bart::actualizarDisparo);
         delete timerDisparo;
         timerDisparo = nullptr;
-    }
-
-    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
-        if (tumba){
-            escena->removeItem(tumba);
-            delete tumba;
-            tumba=nullptr;
-        }
     }
 }

@@ -23,58 +23,7 @@ Juego::Juego(QWidget *parent): QMainWindow(parent), ui(new Ui::Juego), nivel(nul
 
 Juego::~Juego()
 {
-    // Desconectar señales de los botones
-    if (botonInicio) {
-        disconnect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
-    }
-
-    if (botonNivel1) {
-        disconnect(botonNivel1, &QPushButton::clicked, this, &Juego::seleccionarNivel1);
-    }
-
-    if (botonNivel2) {
-        disconnect(botonNivel2, &QPushButton::clicked, this, &Juego::seleccionarNivel2);
-    }
-
-    if (botonNivel3) {
-        disconnect(botonNivel3, &QPushButton::clicked, this, &Juego::seleccionarNivel3);
-    }
-
-    // Eliminar los objetos y punteros
-    if (nivel){
-        delete nivel;
-        nivel = nullptr;
-    }
-
-    delete vista;
-    vista = nullptr;
-
-    delete botonNivel1;
-    botonNivel1 = nullptr;
-
-    delete botonNivel2;
-    botonNivel2 = nullptr;
-
-    delete botonNivel3;
-    botonNivel3 = nullptr;
-
-    delete botonWidget1;
-    botonWidget1 = nullptr;
-
-    delete botonWidget2;
-    botonWidget2 = nullptr;
-
-    delete botonWidget3;
-    botonWidget3 = nullptr;
-
-    delete botonInicio;
-    botonInicio = nullptr;
-
-    delete botonWidgetInicio;
-    botonWidgetInicio = nullptr;
-
     delete ui;
-    ui = nullptr;
 
 }
 
@@ -163,7 +112,6 @@ void Juego::iniciarNivel(short nivelSeleccionado){
 
     if (nivel) {
         delete nivel;
-        nivel=nullptr;
     }
 
     nivel= new Nivel(nivelSeleccionado,escena);
