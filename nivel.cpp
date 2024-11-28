@@ -50,13 +50,34 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         escena->setBackgroundBrush(QBrush(QImage(":/Nivel3/fondoNivel3.png").scaled(1280, 720)));
 
-        arma= new Objetos("arma");
+        posicionesInvalidas= {QPointF(800, 400), QPointF(1090, 150), QPointF(150, 155), QPointF(700, 200), QPointF(250, 420), QPointF(45,10)};
+        agregarTumbas(12);
+
+        tiempoRestante = 60;
+
+        timerNivel = new QTimer(this);
+        connect(timerNivel, &QTimer::timeout, this, &Nivel::actualizarTiempo);
+        timerNivel->start(1000);
+
+        textoTiempo = new QGraphicsTextItem("Time: 60");
+        textoTiempo->setDefaultTextColor(Qt::black);
+        textoTiempo->setFont(QFont("Arial", 22, QFont::Bold));
+        textoTiempo->setPos(60, 600);
+        escena->addItem(textoTiempo);
+
+        contadorPaginas = new QGraphicsTextItem("x 0");
+        contadorPaginas->setFont(QFont("Arial", 16));
+        contadorPaginas->setPos(90, 570);
+        escena->addItem(contadorPaginas);
+
+        arma= new Objetos(posicionesInvalidas);
         escena->addItem(arma);
 
-        pagina= new Objetos("pagina", 1);
-        escena->addItem(pagina);
+        paginaCont= new Objetos(6);
+        escena->addItem(paginaCont);
 
-        agregarTumbas(16);
+        pagina= new Objetos(1);
+        escena->addItem(pagina);
 
         bart = new Bart(escena, tumbasEscena);
 
@@ -85,17 +106,19 @@ void Nivel::verificarColisiones() {
 
             bart->municiones();
 
-            arma= new Objetos("arma");
+            arma= new Objetos(posicionesInvalidas);
             escena->addItem(arma);
         }
-        if (item == pagina) {
+        if (item == pagina && contadorPaginas) {
             escena->removeItem(pagina);
             delete pagina;
             pagina=nullptr;
 
+            contadorPaginas->setPlainText(QString("x %1").arg(cont));
+
             if (cont<6){
                 cont+=1;
-                pagina= new Objetos("pagina", cont);
+                pagina= new Objetos(cont);
                 escena->addItem(pagina);
 
                 if (cont<=5){
@@ -130,15 +153,7 @@ void Nivel::actualizarTiempo() {
             textoTiempo->setDefaultTextColor(Qt::red);
         }
     } else {
-        timerNivel->stop();
-
-        imagenGameOver = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
-        imagenGameOver->setPos(escena->width() / 2 - imagenGameOver->pixmap().width() / 2,
-                               escena->height() / 2 - imagenGameOver->pixmap().height() / 2);
-        escena->addItem(imagenGameOver);
-        imagenGameOver->setZValue(3);
-
-        qDebug() << "King Homer no logró llegar a la cima a tiempo.";
+        gameOver();
     }
 }
 
@@ -175,6 +190,10 @@ void Nivel::sincronizarFondo(int dy) {
 
 void Nivel::agregarTumbas(int numTumbas){
 
+    int x,y;
+    double distancia;
+    QPointF nuevaPos;
+
     std::random_device rd;
     std::mt19937 generador(rd());
     std::uniform_int_distribution<int> posX(50, 1190);
@@ -195,7 +214,7 @@ void Nivel::agregarTumbas(int numTumbas){
             y=posY(generador);
             nuevaPos = QPointF(x, y);
             posicionValida = true;
-            for (const QPointF& pos : posicionesTumbas) {
+            for (const QPointF& pos : posicionesInvalidas) {
                 // Calcular la distancia entre las tumbas
                 distancia = std::sqrt(std::pow(x - pos.x(), 2) + std::pow(y - pos.y(), 2));
 
@@ -213,7 +232,7 @@ void Nivel::agregarTumbas(int numTumbas){
         tumba->setPos(nuevaPos);
         tumba->setZValue(1);
         escena->addItem(tumba);
-        posicionesTumbas.append(nuevaPos);
+        posicionesInvalidas.append(nuevaPos);
         tumbasEscena.append(tumba);
     }
 }
@@ -221,31 +240,87 @@ void Nivel::agregarTumbas(int numTumbas){
 void Nivel::gameOver(){
 
     escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
-    colisionTimer->stop();
+    if (nivelSeleccionado==1){
 
-    delete bart;
-    bart=nullptr;
-
-    if (arma){
-        delete arma;
-        arma=nullptr;
     }
+    else if (nivelSeleccionado==2){
 
-    if (pagina){
-        delete pagina;
-        pagina=nullptr;
-    }
-    for (Enemigo* murcielago : murcielagos) {
-        if (murcielago){
-            delete murcielago;
-            murcielago=nullptr;
+        escena->removeItem(edificioItem);
+
+        if (kingHomero){
+            delete kingHomero;
+            kingHomero = nullptr;
         }
-    }
-    for (QGraphicsPixmapItem* tumba : tumbasEscena) {
-        if (tumba){
-            delete tumba;
-            tumba=nullptr;
+
+        if (timerObstaculos){
+            timerObstaculos->stop();
+            delete timerObstaculos;
+            timerObstaculos = nullptr;
         }
+
+        if (timerNivel){
+            timerNivel->stop();
+            delete timerNivel;
+            timerNivel = nullptr;
+        }
+
+        if (textoTiempo){
+            escena->removeItem(textoTiempo);
+            delete textoTiempo;
+            textoTiempo = nullptr;
+        }
+        escena->clear();
+    }
+
+    else if(nivelSeleccionado==3){
+        colisionTimer->stop();
+        delete colisionTimer;
+        colisionTimer=nullptr;
+
+        delete bart;
+        bart=nullptr;
+
+        if (timerNivel){
+            timerNivel->stop();
+            delete timerNivel;
+            timerNivel = nullptr;
+        }
+
+        if (textoTiempo){
+            escena->removeItem(textoTiempo);
+            delete textoTiempo;
+            textoTiempo = nullptr;
+        }
+
+        if (arma){
+            delete arma;
+            arma=nullptr;
+        }
+
+        if (pagina){
+            delete pagina;
+            pagina=nullptr;
+        }
+        for (Enemigo* murcielago : murcielagos) {
+            if (murcielago){
+                delete murcielago;
+                murcielago=nullptr;
+            }
+        }
+        for (QGraphicsPixmapItem* tumba : tumbasEscena) {
+            if (tumba){
+                delete tumba;
+                tumba=nullptr;
+            }
+        }
+
+        delete paginaCont;
+        paginaCont=nullptr;
+
+        delete contadorPaginas;
+        contadorPaginas=nullptr;
+
+        escena->clear();
     }
 }
 
@@ -277,6 +352,12 @@ Nivel::~Nivel() {
             }
         }
 
+        delete paginaCont;
+        paginaCont=nullptr;
+
+        delete contadorPaginas;
+        contadorPaginas=nullptr;
+
         delete colisionTimer;
         colisionTimer=nullptr;
 
@@ -290,12 +371,6 @@ Nivel::~Nivel() {
         escena->removeItem(textoTiempo);
         delete textoTiempo;
         textoTiempo = nullptr;
-        delete timerMargeAnimacion;
-        timerMargeAnimacion = nullptr;
-        delete margeSprite1;
-        margeSprite1 = nullptr;
-        delete margeSprite2;
-        margeSprite2 = nullptr;
     }
 
 }

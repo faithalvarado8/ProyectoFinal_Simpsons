@@ -265,7 +265,7 @@ void Bart::actualizarDisparo(){
         (direccionDisparo == 'W' && posInicialMunicion.y() - desplazamiento < 47) ||
         (direccionDisparo == 'S' && posInicialMunicion.y() + desplazamiento > 500)) {
         timerDisparo->stop();
-        //escena->removeItem(municion);
+        escena->removeItem(municion);
         delete municion;
         municion=nullptr;
         return;
@@ -305,7 +305,7 @@ Bart::~Bart(){
     }
 
     if (municion) {
-        //escena->removeItem(municion);
+        escena->removeItem(municion);
         delete municion;
         municion = nullptr;
     }

@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/fondos">
         <file>cementerio.jpg</file>
-        <file>fondoInicio1.png</file>
         <file>KingHomero.jpg</file>
         <file>Krusty.jpg</file>
         <file>BotonInicio.png</file>
@@ -19,6 +18,7 @@
         <file>Disparo.png</file>
         <file>BartArma2.png</file>
         <file>Tumbas.png</file>
+        <file>fondoNivel3.png</file>
     </qresource>
     <qresource prefix="/Nivel2">
         <file>Edificio.png</file>

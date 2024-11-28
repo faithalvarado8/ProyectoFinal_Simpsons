@@ -11,6 +11,7 @@
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QDebug>
+#include <QGraphicsTextItem>
 
 class Nivel : public QObject{
     Q_OBJECT
@@ -23,11 +24,8 @@ private:
     QGraphicsPixmapItem* edificioItem;
     KingHomero *kingHomero;
     int yOffset;
-    QGraphicsPixmapItem* margeSprite1;
-    QGraphicsPixmapItem* margeSprite2;
     QGraphicsTextItem *textoTiempo;
     QTimer *timerNivel;
-    QTimer *timerMargeAnimacion;
     QTimer *timerObstaculos;
     int tiempoRestante;
 
@@ -35,6 +33,7 @@ private:
     Bart * bart;
     Objetos* arma;
     Objetos* pagina;
+    Objetos* paginaCont;
 
     Enemigo* murcielago;
     QList<Enemigo*> murcielagos;
@@ -42,16 +41,14 @@ private:
 
     QGraphicsPixmapItem* tumba;
     void agregarTumbas(int numTumbas);
-    QList<QPointF> posicionesTumbas;
+    QList<QPointF> posicionesInvalidas;
     QVector<QPixmap> tumbas;
     int spriteTumba;
     bool posicionValida;
-    int x,y;
-    double distancia;
-    QPointF nuevaPos;
     QList<QGraphicsPixmapItem*> tumbasEscena;
 
-    QGraphicsPixmapItem* imagenGameOver;
+    QGraphicsTextItem *contadorPaginas;
+
     Jugador * jugador;
 
 public:
