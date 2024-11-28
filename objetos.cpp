@@ -24,7 +24,7 @@ Objetos::Objetos(unsigned short int cont) {
         setPos(250, 420);
     }
     else{
-        setPos(60,570);
+        setPos(65,575);
     }
 
     setZValue(0);

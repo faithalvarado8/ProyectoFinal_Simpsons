@@ -62,12 +62,13 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         textoTiempo = new QGraphicsTextItem("Time: 60");
         textoTiempo->setDefaultTextColor(Qt::black);
         textoTiempo->setFont(QFont("Arial", 22, QFont::Bold));
-        textoTiempo->setPos(60, 600);
+        textoTiempo->setPos(55, 530);
         escena->addItem(textoTiempo);
 
         contadorPaginas = new QGraphicsTextItem("x 0");
-        contadorPaginas->setFont(QFont("Arial", 16));
-        contadorPaginas->setPos(90, 570);
+        contadorPaginas->setDefaultTextColor(Qt::black);
+        contadorPaginas->setFont(QFont("Arial", 22, QFont::Bold));
+        contadorPaginas->setPos(95, 567);
         escena->addItem(contadorPaginas);
 
         arma= new Objetos(posicionesInvalidas);
