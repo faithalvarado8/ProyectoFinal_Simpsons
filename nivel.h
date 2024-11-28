@@ -2,10 +2,12 @@
 #define NIVEL_H
 
 #include "jugador.h"
-#include "objetos.h"
-#include "bart.h"
+#include "homero.h"
 #include "kinghomero.h"
+#include "bart.h"
+#include "objetos.h"
 #include "enemigo.h"
+
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsPixmapItem>
@@ -19,6 +21,9 @@ private:
     unsigned short nivelSeleccionado;
     unsigned short cont=1;
     QGraphicsScene* escena;
+
+    //Nivel 1
+    Homero *homero;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;

@@ -7,6 +7,22 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
     qDebug() << "NIVEL: " << nivelSeleccionado;
 
+    if (nivelSeleccionado == 1) {
+        QPixmap fondo(":/Nivel1/FondoNivel1.png");
+        if (fondo.isNull()) {
+            qDebug() << "Error: No se pudo cargar la imagen del fondo del nivel 1.";
+            return;
+        }
+        escena->setBackgroundBrush(QBrush(fondo.scaled(1280, 720, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation)));
+
+        Homero *homero = new Homero();
+        escena->addItem(homero);
+        homero->setPos(0,0);
+        homero->setZValue(3);
+        homero->setFlag(QGraphicsItem::ItemIsFocusable);
+        homero->setFocus();
+    }
+
     if (nivelSeleccionado == 2) {
         QPixmap edificio(":/Nivel2/Edificio.png");
         if (edificio.isNull()) {

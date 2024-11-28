@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     bart.cpp \
     enemigo.cpp \
+    homero.cpp \
     jugador.cpp \
     kinghomero.cpp \
     main.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     bart.h \
     enemigo.h \
+    homero.h \
     juego.h \
     jugador.h \
     kinghomero.h \

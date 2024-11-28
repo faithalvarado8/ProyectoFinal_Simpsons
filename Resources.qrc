@@ -38,4 +38,9 @@
     <qresource prefix="/Sonidos">
         <file>SoundEffects/Colision_Explotar.mp3</file>
     </qresource>
+    <qresource prefix="/Nivel1">
+        <file>BloquesNivel1.png</file>
+        <file>FondoNivel1.png</file>
+        <file>Homero.png</file>
+    </qresource>
 </RCC>
