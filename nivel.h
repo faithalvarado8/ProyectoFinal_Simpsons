@@ -49,6 +49,10 @@ private:
 
     QGraphicsTextItem *contadorPaginas;
 
+    QPixmap imagenVidas;
+    QPixmap imagenRecortada;
+    QGraphicsPixmapItem* vidasActuales;
+
     Jugador * jugador;
 
 public:

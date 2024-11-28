@@ -71,6 +71,13 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         contadorPaginas->setPos(95, 567);
         escena->addItem(contadorPaginas);
 
+        imagenVidas= QPixmap (":/Nivel3/Vida.png");
+        imagenRecortada = imagenVidas.copy(0, 0, 43, 12).scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        vidasActuales= new QGraphicsPixmapItem(imagenRecortada);
+        escena->addItem(vidasActuales);
+        vidasActuales->setPos(60,620);
+
         arma= new Objetos(posicionesInvalidas);
         escena->addItem(arma);
 
@@ -133,11 +140,32 @@ void Nivel::verificarColisiones() {
         for (int i=0; i<murcielagos.size(); i++) {
             if (item == murcielagos[i]){
                 bart->perderVida();
+
                 delete murcielagos[i];
                 murcielagos[i]=nullptr;
                 murcielagos.removeAt(i);
 
-                if (bart->getVidas() == 0) {
+                if (bart->getVidas()==2){
+                    delete vidasActuales;
+                    vidasActuales=nullptr;
+
+                    imagenRecortada = imagenVidas.copy(0, 12, 43, 12).scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                    vidasActuales= new QGraphicsPixmapItem(imagenRecortada);
+                    escena->addItem(vidasActuales);
+                    vidasActuales->setPos(60,620);
+                }
+
+                else if (bart->getVidas()==1){
+                    delete vidasActuales;
+                    vidasActuales=nullptr;
+
+                    imagenRecortada = imagenVidas.copy(0, 24, 43, 12).scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                    vidasActuales= new QGraphicsPixmapItem(imagenRecortada);
+                    escena->addItem(vidasActuales);
+                    vidasActuales->setPos(60,620);
+                }
+
+                else if (bart->getVidas() == 0) {
                     gameOver();
                 }
             }
@@ -246,7 +274,8 @@ void Nivel::gameOver(){
     }
     else if (nivelSeleccionado==2){
 
-        escena->removeItem(edificioItem);
+        delete edificioItem;
+        edificioItem=nullptr;
 
         if (kingHomero){
             delete kingHomero;
@@ -266,11 +295,11 @@ void Nivel::gameOver(){
         }
 
         if (textoTiempo){
-            escena->removeItem(textoTiempo);
+            //escena->removeItem(textoTiempo);
             delete textoTiempo;
             textoTiempo = nullptr;
         }
-        escena->clear();
+        //escena->clear();
     }
 
     else if(nivelSeleccionado==3){
@@ -281,6 +310,9 @@ void Nivel::gameOver(){
         delete bart;
         bart=nullptr;
 
+        delete vidasActuales;
+        vidasActuales=nullptr;
+
         if (timerNivel){
             timerNivel->stop();
             delete timerNivel;
@@ -288,7 +320,6 @@ void Nivel::gameOver(){
         }
 
         if (textoTiempo){
-            escena->removeItem(textoTiempo);
             delete textoTiempo;
             textoTiempo = nullptr;
         }
@@ -321,7 +352,7 @@ void Nivel::gameOver(){
         delete contadorPaginas;
         contadorPaginas=nullptr;
 
-        escena->clear();
+        //escena->clear();
     }
 }
 
