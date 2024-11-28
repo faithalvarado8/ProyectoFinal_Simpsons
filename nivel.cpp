@@ -17,8 +17,9 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         Homero *homero = new Homero();
         escena->addItem(homero);
-        homero->setPos(0,0);
+        homero->setPos(20,510);
         homero->setZValue(3);
+        homero->setScale(1.2);
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
     }

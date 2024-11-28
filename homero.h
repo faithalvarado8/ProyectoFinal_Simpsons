@@ -13,16 +13,21 @@ public:
     Homero(QObject *parent = nullptr);
 
     void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 
     void actualizarAnimacion();
 
 private:
-    QVector<QPixmap> spritesCaminar;
-    QVector<QPixmap> spritesSaltar;
-    QPixmap spriteCelebrar;
+    QVector<QPixmap> spritesCaminarDerecha;
+    QVector<QPixmap> spritesCaminarIzquierda;
+    QVector<QPixmap> spritesSaltarDerecha;
+    QVector<QPixmap> spritesSaltarIzquierda;
+    QVector<QPixmap> spritesCelebrar;
+
     int indiceSprite;
-    bool moviendoIzquierda;
     bool moviendoDerecha;
+    bool moviendoIzquierda;
+    bool saltando;
     QTimer *timerAnimacion;
 
     const int velocidadMovimiento = 5;
