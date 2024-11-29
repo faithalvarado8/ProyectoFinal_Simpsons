@@ -215,8 +215,6 @@ bool Nivel::esColision(const QPointF& posicion) const {
     return (colorPixel == Qt::black);
 }
 
-
-
 void Nivel::actualizarTiempo() {
     if (tiempoRestante > 0) {
         tiempoRestante--;
