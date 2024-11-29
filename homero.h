@@ -10,14 +10,15 @@ class Homero : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    Homero(QObject *parent = nullptr);
+    explicit Homero(QObject *parent = nullptr);
 
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
+private:
+    void mover(int dx, int dy);
     void actualizarAnimacion();
 
-private:
     QVector<QPixmap> spritesCaminarDerecha;
     QVector<QPixmap> spritesCaminarIzquierda;
     QVector<QPixmap> spritesSaltarDerecha;
@@ -30,7 +31,8 @@ private:
     bool saltando;
     QTimer *timerAnimacion;
 
-    const int velocidadMovimiento = 5;
+    static constexpr int velocidadMovimiento = 5;
+    static constexpr int alturaSalto = 50;
 };
 
 #endif // HOMERO_H

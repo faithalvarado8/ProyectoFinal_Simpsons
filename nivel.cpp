@@ -8,21 +8,24 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
     qDebug() << "NIVEL: " << nivelSeleccionado;
 
     if (nivelSeleccionado == 1) {
-        QPixmap fondo(":/Nivel1/FondoNivel1.png");
-        if (fondo.isNull()) {
-            qDebug() << "Error: No se pudo cargar la imagen del fondo del nivel 1.";
+        fondoColisiones = QImage(":/Nivel1/fondoBloques.png");
+        if (fondoColisiones.isNull()) {
+            qDebug() << "Error: No se pudo cargar fondoBloques.png.";
             return;
         }
-        escena->setBackgroundBrush(QBrush(fondo.scaled(1280, 720, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation)));
+
+        // Configurar el fondo gráfico
+        QPixmap fondoPlataformas = QPixmap::fromImage(fondoColisiones);
+        escena->setBackgroundBrush(QBrush(fondoPlataformas.scaled(1280, 720, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation)));
 
         Homero *homero = new Homero();
         escena->addItem(homero);
-        homero->setPos(20,510);
+        homero->setPos(20, 510);
         homero->setZValue(3);
-        homero->setScale(1.2);
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
     }
+
 
     if (nivelSeleccionado == 2) {
         QPixmap edificio(":/Nivel2/Edificio.png");
@@ -191,6 +194,29 @@ void Nivel::verificarColisiones() {
 }
 
 
+bool Nivel::esColision(const QPointF& posicion) const {
+    if (fondoColisiones.isNull()) {
+        qDebug() << "Error: Imagen de fondo para colisiones no cargada.";
+        return false;
+    }
+
+    int x = static_cast<int>(posicion.x());
+    int y = static_cast<int>(posicion.y());
+
+    // Verifica que las coordenadas estén dentro de los límites de la imagen
+    if (x < 0 || x >= fondoColisiones.width() || y < 0 || y >= fondoColisiones.height()) {
+        return false;
+    }
+
+    // Obtiene el color del píxel en la posición dada
+    QColor colorPixel = fondoColisiones.pixelColor(x, y);
+
+    // Considera el color negro como sólido
+    return (colorPixel == Qt::black);
+}
+
+
+
 void Nivel::actualizarTiempo() {
     if (tiempoRestante > 0) {
         tiempoRestante--;
@@ -233,6 +259,7 @@ void Nivel::sincronizarFondo(int dy) {
         }
     }
 }
+
 
 void Nivel::agregarTumbas(int numTumbas){
 

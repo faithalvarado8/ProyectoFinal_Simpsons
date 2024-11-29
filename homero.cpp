@@ -43,25 +43,26 @@ void Homero::keyPressEvent(QKeyEvent *event) {
     case Qt::Key_D:
         moviendoDerecha = true;
         moviendoIzquierda = false;
-        setX(x() + velocidadMovimiento);
+        mover(velocidadMovimiento, 0); // Intentar moverse hacia la derecha
         break;
 
     case Qt::Key_A:
         moviendoIzquierda = true;
         moviendoDerecha = false;
-        setX(x() - velocidadMovimiento);
+        mover(-velocidadMovimiento, 0); // Intentar moverse hacia la izquierda
         break;
 
     case Qt::Key_Space:
         if (!saltando) {
             saltando = true;
             indiceSprite = 0;
+            mover(0, -alturaSalto); // Intentar saltar
+        }
         break;
 
     default:
         break;
     }
-}
 }
 
 void Homero::keyReleaseEvent(QKeyEvent *event) {
@@ -72,7 +73,22 @@ void Homero::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
-void Homero::actualizarAnimacion(){
+void Homero::mover(int dx, int dy) {
+    // Intentar mover a Homero a la nueva posición
+    setPos(x() + dx, y() + dy);
+
+    // Verificar colisiones
+    QList<QGraphicsItem*> colisiones = collidingItems();
+    for (QGraphicsItem* item : colisiones) {
+        if (item->type() == QGraphicsRectItem::Type) { // Verificar si colisiona con un QGraphicsRectItem (plataforma)
+            // Deshacer el movimiento si hay colisión
+            setPos(x() - dx, y() - dy);
+            return;
+        }
+    }
+}
+
+void Homero::actualizarAnimacion() {
     if (moviendoDerecha) {
         indiceSprite = (indiceSprite + 1) % spritesCaminarDerecha.size();
         setPixmap(spritesCaminarDerecha[indiceSprite]);

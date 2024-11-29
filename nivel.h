@@ -13,6 +13,7 @@
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QDebug>
+#include <QImage>
 #include <QGraphicsTextItem>
 
 class Nivel : public QObject{
@@ -24,6 +25,7 @@ private:
 
     //Nivel 1
     Homero *homero;
+    QImage fondoColisiones;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
@@ -62,12 +64,10 @@ private:
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
+    bool esColision(const QPointF& posicion) const;
     void moverEdificio();
     void actualizarTiempo();
     void sincronizarFondo(int dy);
-    void animarMarge();
-    void showMarge();
-
     void verificarColisiones();
     void gameOver();
     virtual ~Nivel();
