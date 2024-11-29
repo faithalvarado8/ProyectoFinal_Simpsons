@@ -69,7 +69,9 @@ public:
     void actualizarTiempo();
     void sincronizarFondo(int dy);
 
+    void eliminar();
     void gameOver();
+    void ganarNivel();
     void actualizarVidasBart();
     void colisionesZombies();
     virtual ~Nivel();
