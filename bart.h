@@ -36,20 +36,19 @@ private:
     int anchoArribaAbajo, altoArribaAbajo;
     int anchoArma, altoArma;
     int ancho, alto;
+
     int columna;
     int fila;
     QTimer *timer;
     bool moving;
     int spriteX, spriteY;
+    char direccion;
 
     bool disparar;
     int numMuniciones;
-    char direccion;
     QTimer* timerDisparo;
     QGraphicsPixmapItem* municion;
-    double t;
-    QPointF posInicialMunicion;
-    char direccionDisparo;
+    QList<QGraphicsPixmapItem*> listaMuniciones;
 
     QList<QGraphicsPixmapItem*> tumbasEscena;
     QPointF nuevaPos;

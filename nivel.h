@@ -53,6 +53,9 @@ private:
     QPixmap imagenRecortada;
     QGraphicsPixmapItem* vidasActuales;
 
+    Enemigo* zombie;
+    QList<Enemigo*> zombies;
+
     Jugador * jugador;
 
 public:
@@ -60,11 +63,11 @@ public:
     void moverEdificio();
     void actualizarTiempo();
     void sincronizarFondo(int dy);
-    void animarMarge();
-    void showMarge();
 
     void verificarColisiones();
     void gameOver();
+    void actualizarVidasBart();
+    void colisionesZombies();
     virtual ~Nivel();
 };
 

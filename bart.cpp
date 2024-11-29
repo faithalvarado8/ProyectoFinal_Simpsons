@@ -10,6 +10,7 @@ Bart::Bart(QGraphicsScene* escena, QList<QGraphicsPixmapItem*> tumbasEscena) : t
 
     timerDisparo = new QTimer(this);
     connect(timerDisparo, &QTimer::timeout, this, &Bart::actualizarDisparo);
+    timerDisparo->start(16);
 
     // Dimensiones de cada hoja de sprites
     anchoLado = 117;
@@ -234,54 +235,52 @@ void Bart::lanzarMunicion(){
     municion->setZValue(2);
     escena->addItem(municion);
 
-    if (direccion=='A'){
-        posInicialMunicion = QPointF(x() - 13, y() + 36);
-    }
-    else if (direccion=='D'){
-        posInicialMunicion = QPointF(x() + 62, y() + 36);
-    }
-    else if (direccion=='W'){
-        posInicialMunicion = QPointF(x(), y());
-    }
-    else{
-        posInicialMunicion = QPointF(x() + 7, y() + 36);
-    }
+    QPointF posInicial;
+    if (direccion == 'A') posInicial = QPointF(x() - 13, y() + 36);
+    else if (direccion == 'D') posInicial = QPointF(x() + 62, y() + 36);
+    else if (direccion == 'W') posInicial = QPointF(x(), y());
+    else posInicial = QPointF(x() + 7, y() + 36);
 
-    municion->setPos(posInicialMunicion);
-    direccionDisparo=direccion;
+    municion->setPos(posInicial);
 
-    t=0;
-    timerDisparo->start(16);
+    // Guardar datos de la munición
+    municion->setData(0, posInicial); // Posición inicial
+    municion->setData(1, direccion); // Dirección
+    municion->setData(2, 0.0);       // Tiempo acumulado
+
+    listaMuniciones.append(municion);
 }
 
 void Bart::actualizarDisparo(){
 
-    t += 0.016;
-    double desplazamiento = 350 * t - 0.5 * 120 * t * t; // x(t)=x0+v0*t-0.5*a*t^2
+    for (int i = 0; i < listaMuniciones.size(); ++i) {
+        QGraphicsPixmapItem* mun = listaMuniciones[i];
 
-    if (desplazamiento > 510 ||
-        (direccionDisparo == 'A' && posInicialMunicion.x() - desplazamiento < 46) ||
-        (direccionDisparo == 'D' && posInicialMunicion.x() + desplazamiento > 1222) ||
-        (direccionDisparo == 'W' && posInicialMunicion.y() - desplazamiento < 47) ||
-        (direccionDisparo == 'S' && posInicialMunicion.y() + desplazamiento > 500)) {
-        timerDisparo->stop();
-        escena->removeItem(municion);
-        delete municion;
-        municion=nullptr;
-        return;
-    }
+        QPointF posInicial = mun->data(0).toPointF(); // Recuperar posición inicial guardada
+        char dir = mun->data(1).toChar().toLatin1(); // Recuperar dirección guardada
+        double t = mun->data(2).toDouble();          // Recuperar tiempo acumulado
 
-    if (direccionDisparo=='A'){
-        municion->setPos(posInicialMunicion.x()-desplazamiento, posInicialMunicion.y());
-    }
-    else if (direccionDisparo=='D'){
-        municion->setPos(posInicialMunicion.x()+desplazamiento, posInicialMunicion.y());
-    }
-    else if (direccionDisparo=='W'){
-        municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()-desplazamiento);
-    }
-    else {
-        municion->setPos(posInicialMunicion.x(), posInicialMunicion.y()+desplazamiento);
+        t += 0.016;
+        double desplazamiento = 350 * t - 0.5 * 120 * t * t; // x(t)=x0+v0*t-0.5*a*t^2
+
+        QPointF nuevaPos;
+
+        if (dir == 'A') nuevaPos = QPointF(posInicial.x() - desplazamiento, posInicial.y());
+        else if (dir == 'D') nuevaPos = QPointF(posInicial.x() + desplazamiento, posInicial.y());
+        else if (dir == 'W') nuevaPos = QPointF(posInicial.x(), posInicial.y() - desplazamiento);
+        else nuevaPos = QPointF(posInicial.x(), posInicial.y() + desplazamiento);
+
+        if (desplazamiento > 510 || nuevaPos.x() < 46 || nuevaPos.x() > 1222 || nuevaPos.y() < 47 || nuevaPos.y() > 500) {
+            escena->removeItem(mun);
+            delete mun;
+            mun=nullptr;
+            listaMuniciones.removeAt(i);
+            continue;
+        }
+
+        // Actualiza posición y tiempo acumulado
+        mun->setPos(nuevaPos);
+        mun->setData(2, t); // Guardar nuevo tiempo acumulado
     }
 }
 
@@ -304,11 +303,12 @@ Bart::~Bart(){
         timer = nullptr;
     }
 
-    if (municion) {
-        escena->removeItem(municion);
-        delete municion;
-        municion = nullptr;
+    for (QGraphicsPixmapItem* mun : listaMuniciones) {
+        escena->removeItem(mun);
+        delete mun;
+        mun=nullptr;
     }
+    listaMuniciones.clear();
 
     if (timerDisparo) {
         timerDisparo->stop();
