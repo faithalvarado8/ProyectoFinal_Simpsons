@@ -331,9 +331,7 @@ void Nivel::gameOver(){
             qDebug()<<"1a";
             if (zombie){
                 qDebug()<<"2a";
-                escena->removeItem(zombie);
-                qDebug()<<"3a";
-                zombies.removeOne(zombie);
+                //escena->removeItem(zombie);
                 qDebug()<<"4a";
                 delete zombie;
                 qDebug()<<"5a";
@@ -379,7 +377,6 @@ void Nivel::gameOver(){
         qDebug()<<"10";
         for (Enemigo* murcielago : murcielagos) {
             if (murcielago){
-                murcielagos.removeOne(murcielago);
                 delete murcielago;
                 murcielago=nullptr;
             }

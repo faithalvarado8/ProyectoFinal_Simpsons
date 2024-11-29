@@ -1,7 +1,7 @@
 #include "enemigo.h"
 #include <cmath>
 
-Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70) {
+Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70), timer(nullptr), timerMov(nullptr), zombieTimer(nullptr), timerAnimarZombie(nullptr){
 
     contM=cont;
 
@@ -39,7 +39,7 @@ Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70)
 
 }
 
-Enemigo::Enemigo(QList<QPointF> posicionesZombies, Bart* bart): bart(bart){
+Enemigo::Enemigo(QList<QPointF> posicionesZombies, Bart* bart): bart(bart), timer(nullptr), timerMov(nullptr), zombieTimer(nullptr), timerAnimarZombie(nullptr){
 
     // Crear el zombie
     spritesZombie = QPixmap(":/Nivel3/Zombie.png");
@@ -150,28 +150,24 @@ void Enemigo::actualizarZombie(){
 Enemigo::~Enemigo(){
     if (timer){
         timer->stop();
-        disconnect(timer, nullptr, this, nullptr);
         delete timer;
         timer=nullptr;
     }
 
     if (timerMov){
         timerMov->stop();
-        disconnect(timerMov, nullptr, this, nullptr);
         delete timerMov;
         timerMov=nullptr;
     }
 
     if (zombieTimer){
         zombieTimer->stop();
-        disconnect(zombieTimer, nullptr, this, nullptr);
         delete zombieTimer;
         zombieTimer=nullptr;
     }
 
     if (timerAnimarZombie){
         timerAnimarZombie->stop();
-        disconnect(timerAnimarZombie, nullptr, this, nullptr);
         delete timerAnimarZombie;
         timerAnimarZombie=nullptr;
     }
