@@ -27,9 +27,7 @@ private:
 
     //Nivel 1
     Homero *homero;
-    QImage fondoColisiones;
     QTimer *timerAnimacion;
-    QTimer *timerSalto;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
@@ -68,7 +66,6 @@ private:
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
-    bool esColision(const QPointF &nuevaPosicion);
     void moverEdificio();
     void actualizarTiempo();
     void sincronizarFondo(int dy);

@@ -8,30 +8,12 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
     qDebug() << "NIVEL: " << nivelSeleccionado;
 
     if (nivelSeleccionado == 1) {
-        fondoColisiones = QImage(":/Nivel1/PlataformasNivel.png");
-        if (fondoColisiones.isNull()) {
-            qDebug() << "Error: No se pudo cargar fondoBloques.png.";
-            return;
-        }
-
-        // Configurar el fondo gráfico
-        QPixmap fondoPlataformas = QPixmap::fromImage(fondoColisiones);
-        escena->setBackgroundBrush(QBrush(fondoPlataformas.scaled(1280, 720, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation)));
-
         Homero *homero = new Homero();
         escena->addItem(homero);
         homero->setPos(20, 510);
         homero->setZValue(1);
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
-
-        timerAnimacion = new QTimer(this);
-        connect(timerAnimacion, &QTimer::timeout, homero, &Homero::actualizarAnimacion);
-        timerAnimacion->start(100); // Actualizar la animación cada 100 ms
-
-        // Para el salto:
-        timerSalto = new QTimer(this);
-        connect(timerSalto, &QTimer::timeout, homero, &Homero::actualizarSalto);
 
     }
 
@@ -201,29 +183,6 @@ void Nivel::verificarColisiones() {
         }
     }
 }
-
-
-bool Nivel::esColision(const QPointF &nuevaPosicion) {
-    // Obtener el tamaño del personaje Homero (esto asume que Homero tiene un pixmap)
-    Homero* homero = dynamic_cast<Homero*>(escena->items()[0]); // Asumiendo que Homero es el primer item en la escena
-    if (!homero) return false; // Si no se encuentra a Homero, no hay colisión
-
-    // Obtener las dimensiones de Homero
-    int ancho = homero->pixmap().width(); // Usar el ancho del pixmap de Homero
-    int alto = homero->pixmap().height(); // Usar el alto del pixmap de Homero
-
-    // Verificar las colisiones con el área que ocupa Homero
-    QList<QGraphicsItem*> colisiones = escena->items(QRectF(nuevaPosicion, QSizeF(ancho, alto)));
-    for (QGraphicsItem* item : colisiones) {
-        if (item->type() == QGraphicsRectItem::Type) {
-            // Si hay una colisión con una plataforma, retornar true
-            return true;
-        }
-    }
-
-    return false;
-}
-
 
 
 void Nivel::actualizarTiempo() {
