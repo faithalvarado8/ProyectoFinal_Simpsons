@@ -1,7 +1,7 @@
 #include "bart.h"
 #include <QDebug>
 
-Bart::Bart(QGraphicsScene* escena, QList<QGraphicsPixmapItem*> tumbasEscena) : tumbasEscena(tumbasEscena), escena(escena) {
+Bart::Bart(QGraphicsScene* escena, QList<QGraphicsPixmapItem*> tumbasEscena) : timer(nullptr), timerDisparo(nullptr), tumbasEscena(tumbasEscena), escena(escena) {
     numMuniciones=0;
     disparar=false;
     spritesLado= QPixmap(":/Nivel3/BartLado.png");
@@ -294,6 +294,17 @@ void Bart::colisionTumba(){
         }
     }
 }
+
+QList<QGraphicsPixmapItem*> Bart::getMuniciones(){
+    return listaMuniciones;
+}
+
+void Bart::eliminarMunicion(int i){
+    delete listaMuniciones[i];
+    listaMuniciones[i]=nullptr;
+    listaMuniciones.removeAt(i);
+}
+
 Bart::~Bart(){
 
     if (timer) {

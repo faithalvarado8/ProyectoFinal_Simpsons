@@ -19,6 +19,8 @@ public:
     void lanzarMunicion();
     void colisionTumba();
     ~Bart();
+    QList<QGraphicsPixmapItem*> getMuniciones();
+    void eliminarMunicion(int i);
 
 private slots:
     void actualizarAnimacion();

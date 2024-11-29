@@ -3,7 +3,7 @@
 #include "obstaculo.h"
 #include <cmath>
 
-Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0) {
+Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0), timerNivel(nullptr) {
 
     qDebug() << "NIVEL: " << nivelSeleccionado;
 
@@ -115,6 +115,32 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 }
 
 void Nivel::verificarColisiones() {
+
+    QList<QGraphicsPixmapItem*> municiones=bart->getMuniciones();
+    for (int i=0; i<municiones.size(); i++) {
+        QList<QGraphicsItem*> colisionesConMunicion = municiones[i]->collidingItems();
+        for (QGraphicsItem* item : colisionesConMunicion) {
+            for (int i=0; i<murcielagos.size(); i++) {
+                if (item == murcielagos[i]){
+                    delete murcielagos[i];
+                    murcielagos[i]=nullptr;
+                    murcielagos.removeAt(i);
+
+                    bart->eliminarMunicion(i);
+                }
+            }
+            for (int i=0; i<zombies.size(); i++) {
+                if (item == zombies[i]){
+                    delete zombies[i];
+                    zombies[i]=nullptr;
+                    zombies.removeAt(i);
+
+                    bart->eliminarMunicion(i);
+                }
+            }
+        }
+    }
+
     QList<QGraphicsItem*> colisiones = bart->collidingItems();
     for (QGraphicsItem* item : colisiones) {
         if (item == arma) {
