@@ -100,9 +100,9 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         bart->setFocus();
         escena->addItem(bart);
 
-        zombie= new Enemigo(posicionesInvalidas, bart);
-        escena->addItem(zombie);
-        zombies.append(zombie);
+        timerZombies= new QTimer(this);
+        connect(timerZombies, &QTimer::timeout, this, &Nivel::agregarZombies);
+        timerZombies->start(10000);
 
         murcielago=new Enemigo(1);
         escena->addItem(murcielago);
@@ -148,24 +148,31 @@ void Nivel::verificarColisiones() {
         }
 
         for (int i=0; i<murcielagos.size(); i++) {
-            qDebug()<<"1b";
             if (item == murcielagos[i]){
-                qDebug()<<"2b";
                 bart->perderVida();
-                qDebug()<<"3b";
 
                 delete murcielagos[i];
-                qDebug()<<"4b";
                 murcielagos[i]=nullptr;
-                qDebug()<<"5b";
                 murcielagos.removeAt(i);
-                qDebug()<<"6b";
 
                 actualizarVidasBart();
-                qDebug()<<"7b";
 
                 if (bart->getVidas() == 0) {
-                    qDebug()<<"8b";
+                    gameOver();
+                }
+            }
+        }
+        for (int i=0; i<zombies.size(); i++) {
+            if (item == zombies[i]){
+                bart->perderVida();
+
+                delete zombies[i];
+                zombies[i]=nullptr;
+                zombies.removeAt(i);
+
+                actualizarVidasBart();
+
+                if (bart->getVidas() == 0) {
                     gameOver();
                 }
             }
@@ -280,6 +287,12 @@ void Nivel::actualizarVidasBart() {
     }
 }
 
+void Nivel::agregarZombies(){
+    zombie= new Enemigo(posicionesInvalidas, bart);
+    escena->addItem(zombie);
+    zombies.append(zombie);
+}
+
 void Nivel::gameOver(){
 
     escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
@@ -318,63 +331,52 @@ void Nivel::gameOver(){
 
     else if(nivelSeleccionado==3){
 
-        qDebug()<<"1";
-
         if (colisionTimer){
             colisionTimer->stop();
             delete colisionTimer;
             colisionTimer=nullptr;
         }
 
-        qDebug()<<"3";
         for (Enemigo* zombie : zombies) {
-            qDebug()<<"1a";
+
             if (zombie){
-                qDebug()<<"2a";
-                //escena->removeItem(zombie);
-                qDebug()<<"4a";
                 delete zombie;
-                qDebug()<<"5a";
                 zombie=nullptr;
-                qDebug()<<"6a";
             }
         }
-        qDebug()<<"7a";
         zombies.clear();
 
-        qDebug()<<"4";
         if (bart){
             delete bart;
             bart=nullptr;
         }
-        qDebug()<<"5";
+
         if (vidasActuales){
             delete vidasActuales;
             vidasActuales=nullptr;
         }
 
-        qDebug()<<"6";
         if (timerNivel){
             timerNivel->stop();
             delete timerNivel;
             timerNivel = nullptr;
         }
-        qDebug()<<"7";
+
         if (textoTiempo){
             delete textoTiempo;
             textoTiempo = nullptr;
         }
-        qDebug()<<"8";
+
         if (arma){
             delete arma;
             arma=nullptr;
         }
-        qDebug()<<"9";
+
         if (pagina){
             delete pagina;
             pagina=nullptr;
         }
-        qDebug()<<"10";
+
         for (Enemigo* murcielago : murcielagos) {
             if (murcielago){
                 delete murcielago;
@@ -382,7 +384,7 @@ void Nivel::gameOver(){
             }
         }
         murcielagos.clear();
-        qDebug()<<"11";
+
         for (QGraphicsPixmapItem* tumba : tumbasEscena) {
             if (tumba){
                 tumbasEscena.removeOne(tumba);
@@ -391,18 +393,17 @@ void Nivel::gameOver(){
             }
         }
         tumbasEscena.clear();
-        qDebug()<<"12";
+
         if (paginaCont){
             delete paginaCont;
             paginaCont=nullptr;
         }
-        qDebug()<<"13";
+
         if (contadorPaginas){
             delete contadorPaginas;
             contadorPaginas=nullptr;
         }
     }
-    qDebug()<<"14";
     escena->clear();
 }
 

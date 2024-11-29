@@ -55,8 +55,13 @@ private:
 
     Enemigo* zombie;
     QList<Enemigo*> zombies;
+    QTimer *timerZombies;
 
     Jugador * jugador;
+
+private slots:
+    void agregarZombies();
+    void verificarColisiones();
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
@@ -64,7 +69,6 @@ public:
     void actualizarTiempo();
     void sincronizarFondo(int dy);
 
-    void verificarColisiones();
     void gameOver();
     void actualizarVidasBart();
     void colisionesZombies();
