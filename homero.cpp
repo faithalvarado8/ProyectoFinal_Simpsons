@@ -40,30 +40,50 @@ Homero::Homero(QObject *parent)
 
 void Homero::keyPressEvent(QKeyEvent *event) {
     switch (event->key()) {
-    case Qt::Key_D:
+    case Qt::Key_D: // Mover a la derecha
         moviendoDerecha = true;
         moviendoIzquierda = false;
-        mover(velocidadMovimiento, 0); // Intentar moverse hacia la derecha
+        mover(velocidadMovimiento, 0);
         break;
-
-    case Qt::Key_A:
+    case Qt::Key_A: // Mover a la izquierda
         moviendoIzquierda = true;
         moviendoDerecha = false;
-        mover(-velocidadMovimiento, 0); // Intentar moverse hacia la izquierda
+        mover(-velocidadMovimiento, 0);
         break;
-
-    case Qt::Key_Space:
-        if (!saltando) {
-            saltando = true;
-            indiceSprite = 0;
-            mover(0, -alturaSalto); // Intentar saltar
-        }
+    case Qt::Key_Space: // Iniciar salto
+        iniciarSalto();
         break;
-
     default:
         break;
     }
 }
+
+// void Homero::keyPressEvent(QKeyEvent *event) {
+//     switch (event->key()) {
+//     case Qt::Key_D:
+//         moviendoDerecha = true;
+//         moviendoIzquierda = false;
+//         mover(velocidadMovimiento, 0); // Intentar moverse hacia la derecha
+//         break;
+
+//     case Qt::Key_A:
+//         moviendoIzquierda = true;
+//         moviendoDerecha = false;
+//         mover(-velocidadMovimiento, 0); // Intentar moverse hacia la izquierda
+//         break;
+
+//     case Qt::Key_Space:
+//         if (!saltando) {
+//             saltando = true;
+//             indiceSprite = 0;
+//             mover(0, -alturaSalto); // Intentar saltar
+//         }
+//         break;
+
+//     default:
+//         break;
+//     }
+// }
 
 void Homero::keyReleaseEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_D) {
@@ -74,34 +94,86 @@ void Homero::keyReleaseEvent(QKeyEvent *event) {
 }
 
 void Homero::mover(int dx, int dy) {
-    // Intentar mover a Homero a la nueva posición
-    setPos(x() + dx, y() + dy);
+    QPointF nuevaPosicion = pos() + QPointF(dx, dy);
 
     // Verificar colisiones
-    QList<QGraphicsItem*> colisiones = collidingItems();
-    for (QGraphicsItem* item : colisiones) {
-        if (item->type() == QGraphicsRectItem::Type) { // Verificar si colisiona con un QGraphicsRectItem (plataforma)
-            // Deshacer el movimiento si hay colisión
-            setPos(x() - dx, y() - dy);
-            return;
-        }
+    Nivel* nivel = dynamic_cast<Nivel*>(scene());
+    if (nivel && !nivel->esColision(nuevaPosicion)) {
+        setPos(nuevaPosicion); // Solo actualizar la posición si no hay colisión
     }
 }
 
-void Homero::actualizarAnimacion() {
+
+void Homero::iniciarSalto() {
+    if (saltando) return; // Si ya está saltando, no hacer nada
+
+    saltando = true;
+    velocidadY = -fuerzaSalto; // Velocidad inicial hacia arriba
+
+    // Elegir la animación de salto correcta
     if (moviendoDerecha) {
-        indiceSprite = (indiceSprite + 1) % spritesCaminarDerecha.size();
-        setPixmap(spritesCaminarDerecha[indiceSprite]);
+        setPixmap(spritesSaltarDerecha[0]); // Mostrar sprite de salto hacia la derecha
     } else if (moviendoIzquierda) {
-        indiceSprite = (indiceSprite + 1) % spritesCaminarIzquierda.size();
-        setPixmap(spritesCaminarIzquierda[indiceSprite]);
-    } else if (saltando) {
+        setPixmap(spritesSaltarIzquierda[0]); // Mostrar sprite de salto hacia la izquierda
+    }
+
+    connect(timerSalto, &QTimer::timeout, this, &Homero::actualizarSalto);
+    timerSalto->start(20); // Actualización cada 20 ms
+}
+
+
+
+void Homero::actualizarSalto() {
+    velocidadY += gravedad; // Ajustar la velocidad debido a la gravedad
+    mover(0, velocidadY);
+
+    // Comprobar si Homero ha tocado el suelo
+    if (y() >= nivelSuelo) { // Usar la altura del suelo o la plataforma
+        saltando = false;
+        velocidadY = 0;
+        setPos(x(), nivelSuelo); // Colocar a Homero en el suelo
+    }
+}
+
+
+void Homero::actualizarAnimacion() {
+    if (saltando) {
+        // Animación de salto
         if (moviendoDerecha) {
             setPixmap(spritesSaltarDerecha[indiceSprite]);
         } else if (moviendoIzquierda) {
             setPixmap(spritesSaltarIzquierda[indiceSprite]);
         }
-        indiceSprite = (indiceSprite + 1) % 2;
-        saltando = false;
+        indiceSprite = (indiceSprite + 1) % 2; // Alternar entre los cuadros de salto
+    } else {
+        // Animación de caminar
+        if (moviendoDerecha) {
+            indiceSprite = (indiceSprite + 1) % spritesCaminarDerecha.size();
+            setPixmap(spritesCaminarDerecha[indiceSprite]);
+        } else if (moviendoIzquierda) {
+            indiceSprite = (indiceSprite + 1) % spritesCaminarIzquierda.size();
+            setPixmap(spritesCaminarIzquierda[indiceSprite]);
+        }
     }
 }
+
+
+
+
+// void Homero::actualizarAnimacion() {
+//     if (moviendoDerecha) {
+//         indiceSprite = (indiceSprite + 1) % spritesCaminarDerecha.size();
+//         setPixmap(spritesCaminarDerecha[indiceSprite]);
+//     } else if (moviendoIzquierda) {
+//         indiceSprite = (indiceSprite + 1) % spritesCaminarIzquierda.size();
+//         setPixmap(spritesCaminarIzquierda[indiceSprite]);
+//     } else if (saltando) {
+//         if (moviendoDerecha) {
+//             setPixmap(spritesSaltarDerecha[indiceSprite]);
+//         } else if (moviendoIzquierda) {
+//             setPixmap(spritesSaltarIzquierda[indiceSprite]);
+//         }
+//         indiceSprite = (indiceSprite + 1) % 2;
+//         saltando = false;
+//     }
+// }

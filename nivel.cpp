@@ -8,7 +8,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
     qDebug() << "NIVEL: " << nivelSeleccionado;
 
     if (nivelSeleccionado == 1) {
-        fondoColisiones = QImage(":/Nivel1/fondoBloques.png");
+        fondoColisiones = QImage(":/Nivel1/PlataformasNivel.png");
         if (fondoColisiones.isNull()) {
             qDebug() << "Error: No se pudo cargar fondoBloques.png.";
             return;
@@ -21,9 +21,18 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         Homero *homero = new Homero();
         escena->addItem(homero);
         homero->setPos(20, 510);
-        homero->setZValue(3);
+        homero->setZValue(1);
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
+
+        timerAnimacion = new QTimer(this);
+        connect(timerAnimacion, &QTimer::timeout, homero, &Homero::actualizarAnimacion);
+        timerAnimacion->start(100); // Actualizar la animación cada 100 ms
+
+        // Para el salto:
+        timerSalto = new QTimer(this);
+        connect(timerSalto, &QTimer::timeout, homero, &Homero::actualizarSalto);
+
     }
 
 
@@ -194,25 +203,25 @@ void Nivel::verificarColisiones() {
 }
 
 
-bool Nivel::esColision(const QPointF& posicion) const {
-    if (fondoColisiones.isNull()) {
-        qDebug() << "Error: Imagen de fondo para colisiones no cargada.";
-        return false;
+bool Nivel::esColision(const QPointF &nuevaPosicion) {
+    // Obtener el tamaño del personaje Homero (esto asume que Homero tiene un pixmap)
+    Homero* homero = dynamic_cast<Homero*>(escena->items()[0]); // Asumiendo que Homero es el primer item en la escena
+    if (!homero) return false; // Si no se encuentra a Homero, no hay colisión
+
+    // Obtener las dimensiones de Homero
+    int ancho = homero->pixmap().width(); // Usar el ancho del pixmap de Homero
+    int alto = homero->pixmap().height(); // Usar el alto del pixmap de Homero
+
+    // Verificar las colisiones con el área que ocupa Homero
+    QList<QGraphicsItem*> colisiones = escena->items(QRectF(nuevaPosicion, QSizeF(ancho, alto)));
+    for (QGraphicsItem* item : colisiones) {
+        if (item->type() == QGraphicsRectItem::Type) {
+            // Si hay una colisión con una plataforma, retornar true
+            return true;
+        }
     }
 
-    int x = static_cast<int>(posicion.x());
-    int y = static_cast<int>(posicion.y());
-
-    // Verifica que las coordenadas estén dentro de los límites de la imagen
-    if (x < 0 || x >= fondoColisiones.width() || y < 0 || y >= fondoColisiones.height()) {
-        return false;
-    }
-
-    // Obtiene el color del píxel en la posición dada
-    QColor colorPixel = fondoColisiones.pixelColor(x, y);
-
-    // Considera el color negro como sólido
-    return (colorPixel == Qt::black);
+    return false;
 }
 
 

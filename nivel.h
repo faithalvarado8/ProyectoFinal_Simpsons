@@ -16,16 +16,20 @@
 #include <QImage>
 #include <QGraphicsTextItem>
 
+class Homero;
+
 class Nivel : public QObject{
     Q_OBJECT
 private:
     unsigned short nivelSeleccionado;
-    unsigned short cont=1;
+    unsigned short cont = 1;
     QGraphicsScene* escena;
 
     //Nivel 1
     Homero *homero;
     QImage fondoColisiones;
+    QTimer *timerAnimacion;
+    QTimer *timerSalto;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
@@ -64,7 +68,7 @@ private:
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
-    bool esColision(const QPointF& posicion) const;
+    bool esColision(const QPointF &nuevaPosicion);
     void moverEdificio();
     void actualizarTiempo();
     void sincronizarFondo(int dy);
