@@ -2,32 +2,23 @@
 #define NIVEL_H
 
 #include "jugador.h"
-#include "homero.h"
-#include "kinghomero.h"
-#include "bart.h"
 #include "objetos.h"
+#include "bart.h"
+#include "kinghomero.h"
 #include "enemigo.h"
-
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QDebug>
-#include <QImage>
 #include <QGraphicsTextItem>
-
-class Homero;
 
 class Nivel : public QObject{
     Q_OBJECT
 private:
     unsigned short nivelSeleccionado;
-    unsigned short cont = 1;
+    unsigned short cont=1;
     QGraphicsScene* escena;
-
-    //Nivel 1
-    Homero *homero;
-    QTimer *timerAnimacion;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
@@ -62,15 +53,25 @@ private:
     QPixmap imagenRecortada;
     QGraphicsPixmapItem* vidasActuales;
 
+    Enemigo* zombie;
+    QList<Enemigo*> zombies;
+    QTimer *timerZombies;
+
     Jugador * jugador;
+
+private slots:
+    void agregarZombies();
+    void verificarColisiones();
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
     void moverEdificio();
     void actualizarTiempo();
     void sincronizarFondo(int dy);
-    void verificarColisiones();
+
     void gameOver();
+    void actualizarVidasBart();
+    void colisionesZombies();
     virtual ~Nivel();
 };
 

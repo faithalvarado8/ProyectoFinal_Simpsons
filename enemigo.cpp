@@ -1,7 +1,7 @@
 #include "enemigo.h"
 #include <cmath>
 
-Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70) {
+Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70), timer(nullptr), timerMov(nullptr), zombieTimer(nullptr), timerAnimarZombie(nullptr){
 
     contM=cont;
 
@@ -37,6 +37,34 @@ Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70)
         setPos(250, 420);
     }
 
+}
+
+Enemigo::Enemigo(QList<QPointF> posicionesZombies, Bart* bart): bart(bart), timer(nullptr), timerMov(nullptr), zombieTimer(nullptr), timerAnimarZombie(nullptr){
+
+    // Crear el zombie
+    spritesZombie = QPixmap(":/Nivel3/Zombie.png");
+
+    ancho=419;
+    alto=642;
+    columna = 0;
+    fila = 1;
+
+    QPixmap zombie = spritesZombie.copy(0,642, ancho, alto);
+    setPixmap(zombie.scaled(90, 90, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    int random_number1 = rand() % posicionesZombies.size();
+
+    setPos(posicionesZombies[random_number1]); // Posición inicial del zombie
+    setZValue(3);
+
+    // Temporizador para mover el zombie
+    zombieTimer = new QTimer();
+    connect(zombieTimer, &QTimer::timeout, this, &Enemigo::moverZombie);
+    zombieTimer->start(30);
+
+    timerAnimarZombie = new QTimer();
+    connect(timerAnimarZombie, &QTimer::timeout, this, &Enemigo::actualizarZombie);
+    timerAnimarZombie->start(220);
 }
 
 void Enemigo::actualizarAnimacion(){
@@ -77,7 +105,70 @@ void Enemigo::movimiento(){
 
 }
 
+void Enemigo::moverZombie(){
+    // Coordenadas del zombie y el personaje
+    posZombie = pos();
+    posPersonaje = bart->pos();
+
+    // Calcular dirección hacia el personaje
+    dx = posPersonaje.x() - posZombie.x();
+    dy = posPersonaje.y() - posZombie.y();
+
+    qreal velocidad = 1.6; // Velocidad del zombie
+
+    // Mover solo en el eje X o Y
+    if (std::abs(dx) > std::abs(dy)) {
+        // Mover en el eje X
+        dx = (dx > 0 ? velocidad : -velocidad);
+        dy = 0;
+    } else {
+        // Mover en el eje Y
+        dy = (dy > 0 ? velocidad : -velocidad);
+        dx = 0;
+    }
+
+    setPos(posZombie.x() + dx, posZombie.y() + dy);
+}
+
+void Enemigo::actualizarZombie(){
+    if (dx > 0) {        // Movimiento hacia la derecha
+        fila = 2;
+    } else if (dx < 0) { // Movimiento hacia la izquierda
+        fila = 3;
+    } else if (dy > 0) { // Movimiento hacia abajo
+        fila = 1;
+    } else if (dy < 0) { // Movimiento hacia arriba
+        fila = 0;
+    }
+
+    QPixmap zombie = spritesZombie.copy(columna*ancho, fila*alto, ancho, alto);
+    setPixmap(zombie.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    columna= (columna+1)%3;
+}
+
 Enemigo::~Enemigo(){
-    delete timer;
-    delete timerMov;
+    if (timer){
+        timer->stop();
+        delete timer;
+        timer=nullptr;
+    }
+
+    if (timerMov){
+        timerMov->stop();
+        delete timerMov;
+        timerMov=nullptr;
+    }
+
+    if (zombieTimer){
+        zombieTimer->stop();
+        delete zombieTimer;
+        zombieTimer=nullptr;
+    }
+
+    if (timerAnimarZombie){
+        timerAnimarZombie->stop();
+        delete timerAnimarZombie;
+        timerAnimarZombie=nullptr;
+    }
 }
