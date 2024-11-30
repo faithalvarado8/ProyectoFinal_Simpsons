@@ -9,7 +9,7 @@ class Homero : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    Homero();
+    Homero(QList<QGraphicsRectItem*> plataformas);
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent *event);
     void saltar();
@@ -26,6 +26,7 @@ private:
     QTimer *timer;
     bool moving;
     char direccion;
+    QList<QGraphicsRectItem*> plataformas;
 
     QMap<int,bool>keys;
 

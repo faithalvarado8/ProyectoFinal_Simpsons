@@ -21,6 +21,8 @@ private:
 
     //Nivel 1
     Homero* homero;
+    void agregarPlataformas();
+    QList<QGraphicsRectItem*> plataformas;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;

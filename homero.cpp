@@ -1,8 +1,8 @@
 #include "Homero.h"
 #include <QDebug>
 
-Homero::Homero()
-    : indiceSprite(0) {
+Homero::Homero(QList<QGraphicsRectItem*> plataformas)
+    : indiceSprite(0), plataformas(plataformas) {
     // Cargar las hojas de sprites
     QPixmap hojaCaminar(":/Nivel1/HomeroWalk.png");
     QPixmap hojaSaltar(":/Nivel1/HomeroJump.png");
@@ -33,7 +33,7 @@ Homero::Homero()
     connect(timer, &QTimer::timeout, this, &Homero::actualizarAnimacion);
     timer->start(110);
 
-    setPos(16,644);
+    setPos(18,644);
     setZValue(1);
 }
 
