@@ -5,23 +5,18 @@
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0), timerNivel(nullptr) {
 
-    qDebug() << "NIVEL: " << nivelSeleccionado;
-
+/*
     if (nivelSeleccionado == 1) {
-        Homero *homero = new Homero();
-        escena->addItem(homero);
-        homero->setPos(20, 510);
-        homero->setZValue(1);
+        homero = new Homero();
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
-
-    }
+        escena->addItem(homero);
+    }*/
 
 
     if (nivelSeleccionado == 2) {
         QPixmap edificio(":/Nivel2/Edificio.png");
         if (edificio.isNull()) {
-            qDebug() << "Error: No se pudo cargar la imagen.";
             return;
         }
 
@@ -102,7 +97,8 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         paginaCont= new Objetos(6);
         escena->addItem(paginaCont);
 
-        pagina= new Objetos(1);
+        cont=0;
+        pagina= new Objetos(cont);
         escena->addItem(pagina);
 
         bart = new Bart(escena, tumbasEscena);
@@ -115,7 +111,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         connect(timerZombies, &QTimer::timeout, this, &Nivel::agregarZombies);
         timerZombies->start(10000);
 
-        murcielago=new Enemigo(1);
+        murcielago=new Enemigo(cont);
         escena->addItem(murcielago);
         murcielagos.append(murcielago);
 
@@ -128,8 +124,9 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 void Nivel::verificarColisiones() {
 
     QList<QGraphicsPixmapItem*> municiones=bart->getMuniciones();
-    for (int i=0; i<municiones.size(); i++) {
-        QList<QGraphicsItem*> colisionesConMunicion = municiones[i]->collidingItems();
+
+    for (int j=0; j<municiones.size(); j++) {
+        QList<QGraphicsItem*> colisionesConMunicion = municiones[j]->collidingItems();
         for (QGraphicsItem* item : colisionesConMunicion) {
             for (int i=0; i<murcielagos.size(); i++) {
                 if (item == murcielagos[i]){
@@ -137,7 +134,8 @@ void Nivel::verificarColisiones() {
                     murcielagos[i]=nullptr;
                     murcielagos.removeAt(i);
 
-                    bart->eliminarMunicion(i);
+                    bart->eliminarMunicion(j);
+                    break;
                 }
             }
             for (int i=0; i<zombies.size(); i++) {
@@ -146,7 +144,8 @@ void Nivel::verificarColisiones() {
                     zombies[i]=nullptr;
                     zombies.removeAt(i);
 
-                    bart->eliminarMunicion(i);
+                    bart->eliminarMunicion(j);
+                    break;
                 }
             }
         }
@@ -168,19 +167,19 @@ void Nivel::verificarColisiones() {
             escena->removeItem(pagina);
             delete pagina;
             pagina=nullptr;
+            cont+=1;
 
             contadorPaginas->setPlainText(QString("x %1").arg(cont));
 
-            if (cont<6){
-                cont+=1;
+            if (cont<5){
                 pagina= new Objetos(cont);
                 escena->addItem(pagina);
 
-                if (cont<=5){
-                    murcielago=new Enemigo(cont);
-                    escena->addItem(murcielago);
-                    murcielagos.append(murcielago);
-                }
+                murcielago=new Enemigo(cont);
+                escena->addItem(murcielago);
+                murcielagos.append(murcielago);
+            }else{
+                ganarNivel();
             }
         }
 
@@ -252,8 +251,6 @@ void Nivel::sincronizarFondo(int dy) {
         if (timerObstaculos->isActive()) {
             timerObstaculos->stop();
             timerNivel->stop();
-            qDebug() << "Generación de obstáculos detenida";
-            qDebug() << "¡Nivel completado!";
             kingHomero->setPos(640,515);
             kingHomero->iniciarCelebracion();
         }
@@ -331,9 +328,7 @@ void Nivel::agregarZombies(){
     zombies.append(zombie);
 }
 
-void Nivel::gameOver(){
-
-    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
+void Nivel::eliminar(){
     if (nivelSeleccionado==1){
 
     }
@@ -443,6 +438,17 @@ void Nivel::gameOver(){
         }
     }
     escena->clear();
+}
+
+void Nivel::ganarNivel(){
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/NivelCompletado.jpg").scaled(1280, 720)));
+    eliminar();
+}
+
+void Nivel::gameOver(){
+
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
+    eliminar();
 }
 
 Nivel::~Nivel() {

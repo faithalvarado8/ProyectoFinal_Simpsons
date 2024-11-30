@@ -1,6 +1,5 @@
 #ifndef HOMERO_H
 #define HOMERO_H
-#include "Nivel.h"
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
 #include <QTimer>

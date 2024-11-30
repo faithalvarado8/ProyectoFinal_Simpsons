@@ -2,7 +2,6 @@
 #define KINGHOMERO_H
 
 #include "jugador.h"
-#include "obstaculo.h"
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
 #include <QElapsedTimer>
@@ -61,8 +60,6 @@ private:
 
     // Game Over
     QGraphicsPixmapItem* imagenGameOver;
-
-
 };
 
 #endif // KINGHOMERO_H

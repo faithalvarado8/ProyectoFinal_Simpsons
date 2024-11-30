@@ -1,7 +1,7 @@
 #include "enemigo.h"
 #include <cmath>
 
-Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70), timer(nullptr), timerMov(nullptr), zombieTimer(nullptr), timerAnimarZombie(nullptr){
+Enemigo::Enemigo(unsigned short int cont): spriteActual(0), timer(nullptr), timerMov(nullptr), angulo(0), radio(70), zombieTimer(nullptr), timerAnimarZombie(nullptr){
 
     contM=cont;
 
@@ -21,16 +21,16 @@ Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70)
 
     setZValue(2);
 
-    if (cont==1){
+    if (cont==0){
         setPos(800, 400);
     }
-    else if (cont==2){
+    else if (cont==1){
         setPos(1090, 150);
     }
-    else if (cont==3){
+    else if (cont==2){
         setPos(150, 155);
     }
-    else if (cont==4){
+    else if (cont==3){
         setPos(700, 200);
     }
     else{
@@ -87,16 +87,16 @@ void Enemigo::movimiento(){
     double x = radio * cos(radianes);     //x(t)= r * cos(θ)
     double y = radio * sin(radianes);     //y(t)= r * sen(θ)
 
-    if (contM==1){
+    if (contM==0){
         setPos(800+x, 400+y);
     }
-    else if (contM==2){
+    else if (contM==1){
         setPos(1090+x, 150+y);
     }
-    else if (contM==3){
+    else if (contM==2){
         setPos(150+x, 155+y);
     }
-    else if (contM==4){
+    else if (contM==3){
         setPos(700+x, 200+y);
     }
     else{
