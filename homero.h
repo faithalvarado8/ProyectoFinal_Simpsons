@@ -27,8 +27,11 @@ private:
     bool moving;
     char direccion;
     QList<QGraphicsRectItem*> plataformas;
-
     QMap<int,bool>keys;
+
+    //NUEVO
+    bool enElAire; // Indica si Homero está en el aire
+    qreal velocidadVertical; // Velocidad vertical para simular gravedad y saltos
 
 private slots:
     void actualizarAnimacion();
