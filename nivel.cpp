@@ -154,7 +154,6 @@ void Nivel::verificarColisiones() {
                     zombies.removeAt(i);
 
                     bart->eliminarMunicion(j);
-                    colisionManejada=true;
                     break;
                 }
             }
