@@ -225,7 +225,7 @@ void Nivel::verificarColisiones() {
 
 void Nivel::agregarPlataformas(){
     QGraphicsRectItem* plataforma = new QGraphicsRectItem(0, 0, 1280, 15); // x, y, ancho, alto
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
@@ -233,7 +233,7 @@ void Nivel::agregarPlataformas(){
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(0, 15, 15, 704);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
@@ -241,153 +241,153 @@ void Nivel::agregarPlataformas(){
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(15, 704, 1265, 16);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(1264, 15, 16, 690);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(416, 104, 91, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(324, 104, 31, 59);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(128, 164, 439, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(16, 608, 163, 31);
-    plataforma->setBrush(Qt::red);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(276, 608, 879, 15);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(16, 340, 159, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(280, 340, 63, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(176, 476, 220, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(276, 508, 31, 99);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(476, 476, 587, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(1032, 508, 31, 99);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(1204, 476, 61, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(476, 304, 103, 171);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(580, 304, 483, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(756, 268, 127, 35);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(788, 236, 95, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(820, 204, 63, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(820, 336, 31, 47);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(940, 336, 31, 47);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(852, 172, 412, 31);
-    plataforma->setBrush(Qt::green);
+    plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
