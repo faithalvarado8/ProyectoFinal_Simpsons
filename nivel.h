@@ -31,7 +31,7 @@ private:
     QGraphicsTextItem *textoTiempo;
     QTimer *timerNivel;
     QTimer *timerObstaculos;
-    int tiempoRestante;
+    unsigned short int tiempoRestante;
 
     //Nivel 3
     Bart * bart;
@@ -60,6 +60,9 @@ private:
     Enemigo* zombie;
     QList<Enemigo*> zombies;
     QTimer *timerZombies;
+    unsigned int puntaje;
+    void escribirArchivo(const QString &nombreArchivo, unsigned int puntaje);
+    void escribirArchivo(const QString &nombreArchivo, unsigned short int tiempoRestante);
 
 private slots:
     void agregarZombies();

@@ -60,6 +60,11 @@ private:
     // Game Over
     QGraphicsPixmapItem* imagenGame;
 
+    void gameOver();
+    void ganarNivel();
+    void escribirArchivo(const QString &nombreArchivo);
+    float tiempoRestante;
+
     int animacion;
 };
 

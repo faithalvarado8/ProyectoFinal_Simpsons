@@ -1,5 +1,6 @@
 #include "kinghomero.h"
 #include "obstaculo.h"
+#include <QFile>
 
 KingHomero::KingHomero() : spriteActual(0), enMovimiento(false){
     sprites.append(QPixmap(":/Nivel2/Homer_Up1.png"));
@@ -14,6 +15,8 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false){
 
     indicadorVida = new QGraphicsPixmapItem(QPixmap(":/Nivel2/Donut3.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     indicadorVida->setZValue(3);
+
+    tiempoRestante = 30;
 
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, &KingHomero::moverPersonaje);
@@ -64,16 +67,11 @@ void KingHomero::actualizarIndicadorGrafico() {
         indicadorVida->setPixmap(QPixmap(":/Nivel2/Donut1.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         break;
     case 0:
-        imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
-        imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
-                               scene()->height() / 2 - imagenGame->pixmap().height() / 2);
-        scene()->addItem(imagenGame);
-        imagenGame->setZValue(3);
-        indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
+        gameOver();
+
         break;
     }
 }
-
 
 // ------------------ EVENTOS POR TECLADO ----------------------
 
@@ -90,6 +88,8 @@ void KingHomero::keyReleaseEvent(QKeyEvent *event) {
 
 
 void KingHomero::moverPersonaje() {
+    tiempoRestante-=0.02;
+
     if (!enMovimiento) return;
 
     const unsigned int velocidad = 5;
@@ -141,15 +141,16 @@ void KingHomero::verificarColisionConObstaculos() {
 // --------- CELEBRACIÓN -------------
 
 void KingHomero::iniciarCelebracion() {
+    timerMovimiento->stop();
     enMovimiento = false;
     spriteActual = 0;
 
-    if (timerAnimacion) {
-        disconnect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarAnimacion);
-        connect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarCelebracion);
-    }
+    timerAnimacion->stop();
+    disconnect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarAnimacion);
+    connect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarCelebracion);
     animacion=0;
     timerAnimacion->start(300);
+
 }
 
 void KingHomero::actualizarCelebracion() {
@@ -159,13 +160,43 @@ void KingHomero::actualizarCelebracion() {
 
     if (animacion==8){
         timerAnimacion->stop();
-        imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/NivelCompletado.jpg").scaled(1280,720));
-        imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
-                               scene()->height() / 2 - imagenGame->pixmap().height() / 2);
-        scene()->addItem(imagenGame);
-        imagenGame->setZValue(3);
-        indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
+        ganarNivel();
     }
+}
+
+// --------- FINALIZAR NIVEL ---------
+
+void KingHomero::ganarNivel(){
+    imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/NivelCompletado.jpg").scaled(1285, 725, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
+                       scene()->height() / 2 - imagenGame->pixmap().height() / 2);
+    scene()->addItem(imagenGame);
+    imagenGame->setZValue(3);
+    indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
+    escribirArchivo("Nivel2.txt");
+}
+
+void KingHomero::gameOver(){
+    imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
+    imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
+                       scene()->height() / 2 - imagenGame->pixmap().height() / 2);
+    scene()->addItem(imagenGame);
+    imagenGame->setZValue(3);
+    indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
+}
+
+void KingHomero::escribirArchivo(const QString &nombreArchivo){
+
+    QFile archivo(nombreArchivo);
+    if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+        return;
+    }
+
+    // Crear un QTextStream para escribir en el archivo.
+    QTextStream salida(&archivo);
+    salida << 30-tiempoRestante<<"\n";
+
+    archivo.close();  // Cerrar el archivo.
 }
 
 // --------- DESTRUCTOR ---------

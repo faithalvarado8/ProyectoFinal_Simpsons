@@ -2,6 +2,7 @@
 #include <random>
 #include "obstaculo.h"
 #include <cmath>
+#include <QFile>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0), timerNivel(nullptr) {
 
@@ -514,35 +515,6 @@ void Nivel::eliminar(){
     if (nivelSeleccionado==1){
 
     }
-    else if (nivelSeleccionado==2){
-
-        if (edificioItem){
-            delete edificioItem;
-            edificioItem=nullptr;
-        }
-
-        if (kingHomero){
-            delete kingHomero;
-            kingHomero = nullptr;
-        }
-
-        if (timerObstaculos){
-            timerObstaculos->stop();
-            delete timerObstaculos;
-            timerObstaculos = nullptr;
-        }
-
-        if (timerNivel){
-            timerNivel->stop();
-            delete timerNivel;
-            timerNivel = nullptr;
-        }
-
-        if (textoTiempo){
-            delete textoTiempo;
-            textoTiempo = nullptr;
-        }
-    }
 
     else if(nivelSeleccionado==3){
 
@@ -631,6 +603,20 @@ void Nivel::gameOver(){
 
     escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
     eliminar();
+}
+
+void Nivel::escribirArchivo(const QString &nombreArchivo, unsigned short int tiempoRestante){
+
+    QFile archivo(nombreArchivo);
+    if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+        return;
+    }
+
+    // Crear un QTextStream para escribir en el archivo.
+    QTextStream salida(&archivo);
+    salida << 30-tiempoRestante;
+
+    archivo.close();  // Cerrar el archivo.
 }
 
 Nivel::~Nivel() {
