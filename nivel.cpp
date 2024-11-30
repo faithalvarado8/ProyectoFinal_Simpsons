@@ -7,8 +7,10 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
 
     if (nivelSeleccionado == 1) {
-        escena->setBackgroundBrush(QBrush(QImage(":/Nivel1/PlataformasNivel.png").scaled(1280, 720)));
+        // escena->setBackgroundBrush(QBrush(QImage(":/Nivel1/PlataformasNivel.png").scaled(1280, 720)));
+        escena->setBackgroundBrush(QBrush(QImage(":/Nivel1/FondoNivel1.png").scaled(1280, 720)));
         agregarPlataformas();
+
 
         homero = new Homero(plataformas);
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
