@@ -24,7 +24,7 @@ Obstaculo::~Obstaculo() {
 }
 
 void Obstaculo::mover() {
-    setY(y() + 5);
+    setY(y() + 8);
 
     // Eliminar el obstáculo si sale de la escena
     if (y() > escena->height()) {

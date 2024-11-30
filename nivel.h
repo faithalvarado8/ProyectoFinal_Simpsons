@@ -11,6 +11,7 @@
 #include <QTimer>
 #include <QGraphicsTextItem>
 #include <homero.h>
+#include "obstaculo.h"
 
 class Nivel : public QObject{
     Q_OBJECT
@@ -32,6 +33,7 @@ private:
     QTimer *timerNivel;
     QTimer *timerObstaculos;
     unsigned short int tiempoRestante;
+    Obstaculo *obstaculo;
 
     //Nivel 3
     Bart * bart;
@@ -67,6 +69,7 @@ private:
 private slots:
     void agregarZombies();
     void verificarColisiones();
+    void agregarObstaculos();
 
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);

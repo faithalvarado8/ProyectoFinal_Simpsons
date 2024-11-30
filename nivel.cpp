@@ -1,6 +1,5 @@
 #include "nivel.h"
 #include <random>
-#include "obstaculo.h"
 #include <cmath>
 #include <QFile>
 
@@ -32,10 +31,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         edificioItem->setZValue(0);
 
         timerObstaculos = new QTimer(this);
-        connect(timerObstaculos, &QTimer::timeout, [this]() {
-            Obstaculo *obstaculo = new Obstaculo(this->escena, this);
-            this->escena->addItem(obstaculo);
-        });
+        connect(timerObstaculos, &QTimer::timeout, this, &Nivel::agregarObstaculos);
         timerObstaculos->start(500);
 
         kingHomero = new KingHomero();
@@ -433,6 +429,15 @@ void Nivel::sincronizarFondo(int dy) {
     if (yOffset <= -(edificioItem->pixmap().height() - escena->height())) {
         if (timerObstaculos->isActive()) {
             timerObstaculos->stop();
+
+            QList<QGraphicsItem *> items = escena->items();
+            for (QGraphicsItem *item : items) {
+                if (dynamic_cast<Obstaculo *>(item)) {
+                    escena->removeItem(item);
+                    delete item;
+                }
+            }
+
             timerNivel->stop();
             kingHomero->setPos(640,515);
             kingHomero->iniciarCelebracion();
@@ -617,6 +622,11 @@ void Nivel::escribirArchivo(const QString &nombreArchivo, unsigned short int tie
     salida << 30-tiempoRestante;
 
     archivo.close();  // Cerrar el archivo.
+}
+
+void Nivel::agregarObstaculos(){
+    obstaculo=new Obstaculo(this->escena, this);
+    escena->addItem(obstaculo);
 }
 
 Nivel::~Nivel() {
