@@ -20,7 +20,7 @@ private:
     QGraphicsScene* escena;
 
     //Nivel 1
-    //Homero* homero;
+    Homero* homero;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;

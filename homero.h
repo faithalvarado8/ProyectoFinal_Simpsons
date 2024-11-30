@@ -9,7 +9,11 @@ class Homero : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    explicit Homero(QObject *parent = nullptr);
+    Homero();
+    void keyPressEvent(QKeyEvent * event);
+    void keyReleaseEvent(QKeyEvent *event);
+    void saltar();
+    ~Homero();
 
 private:
     QVector<QPixmap> spritesCaminarDerecha;
@@ -19,6 +23,16 @@ private:
     QVector<QPixmap> spritesCelebrar;
 
     int indiceSprite;
+    QTimer *timer;
+    bool moving;
+    char direccion;
+
+    QMap<int,bool>keys;
+
+private slots:
+    void actualizarAnimacion();
+
+
 };
 
 #endif // HOMERO_H

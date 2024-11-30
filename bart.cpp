@@ -197,8 +197,7 @@ void Bart::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
-void Bart::keyPressEvent(QKeyEvent *event)
-{
+void Bart::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
     case Qt::Key_A:
     case Qt::Key_D:
@@ -308,7 +307,6 @@ Bart::~Bart(){
 
     if (timer) {
         timer->stop();
-        disconnect(timer, &QTimer::timeout, this, &Bart::actualizarAnimacion);
         delete timer;
         timer = nullptr;
     }
@@ -322,7 +320,6 @@ Bart::~Bart(){
 
     if (timerDisparo) {
         timerDisparo->stop();
-        disconnect(timerDisparo, &QTimer::timeout, this, &Bart::actualizarDisparo);
         delete timerDisparo;
         timerDisparo = nullptr;
     }

@@ -5,13 +5,16 @@
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0), timerNivel(nullptr) {
 
-/*
+
     if (nivelSeleccionado == 1) {
+        escena->setBackgroundBrush(QBrush(QImage(":/Nivel1/PlataformasNivel.png").scaled(1280, 720)));
+
         homero = new Homero();
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
         escena->addItem(homero);
-    }*/
+
+    }
 
 
     if (nivelSeleccionado == 2) {
