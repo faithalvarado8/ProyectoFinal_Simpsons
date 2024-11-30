@@ -5,7 +5,6 @@
 #include "objetos.h"
 #include "bart.h"
 #include "kinghomero.h"
-#include "homero.h"
 #include "enemigo.h"
 #include <QGraphicsScene>
 #include <QObject>
@@ -14,17 +13,12 @@
 #include <QDebug>
 #include <QGraphicsTextItem>
 
-class Homero;
-
 class Nivel : public QObject{
     Q_OBJECT
 private:
     unsigned short nivelSeleccionado;
     unsigned short cont=1;
     QGraphicsScene* escena;
-
-    //Nivel 1
-    Homero *homero;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
