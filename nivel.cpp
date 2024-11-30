@@ -5,23 +5,18 @@
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0), timerNivel(nullptr) {
 
-    qDebug() << "NIVEL: " << nivelSeleccionado;
-
+/*
     if (nivelSeleccionado == 1) {
-        Homero *homero = new Homero();
-        escena->addItem(homero);
-        homero->setPos(20, 510);
-        homero->setZValue(1);
+        homero = new Homero();
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
-
-    }
+        escena->addItem(homero);
+    }*/
 
 
     if (nivelSeleccionado == 2) {
         QPixmap edificio(":/Nivel2/Edificio.png");
         if (edificio.isNull()) {
-            qDebug() << "Error: No se pudo cargar la imagen.";
             return;
         }
 
@@ -256,8 +251,6 @@ void Nivel::sincronizarFondo(int dy) {
         if (timerObstaculos->isActive()) {
             timerObstaculos->stop();
             timerNivel->stop();
-            qDebug() << "Generación de obstáculos detenida";
-            qDebug() << "¡Nivel completado!";
             kingHomero->setPos(640,515);
             kingHomero->iniciarCelebracion();
         }

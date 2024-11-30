@@ -1,7 +1,7 @@
 #include "enemigo.h"
 #include <cmath>
 
-Enemigo::Enemigo(unsigned short int cont): spriteActual(0), angulo(0), radio(70), timer(nullptr), timerMov(nullptr), zombieTimer(nullptr), timerAnimarZombie(nullptr){
+Enemigo::Enemigo(unsigned short int cont): spriteActual(0), timer(nullptr), timerMov(nullptr), angulo(0), radio(70), zombieTimer(nullptr), timerAnimarZombie(nullptr){
 
     contM=cont;
 

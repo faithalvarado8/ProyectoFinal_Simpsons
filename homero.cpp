@@ -1,4 +1,5 @@
 #include "Homero.h"
+#include <QDebug>
 
 Homero::Homero(QObject *parent)
     : QObject(parent), QGraphicsPixmapItem(), indiceSprite(0) {

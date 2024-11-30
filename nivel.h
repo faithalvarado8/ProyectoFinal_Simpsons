@@ -1,7 +1,6 @@
 #ifndef NIVEL_H
 #define NIVEL_H
 
-#include "jugador.h"
 #include "objetos.h"
 #include "bart.h"
 #include "kinghomero.h"
@@ -10,8 +9,8 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
-#include <QDebug>
 #include <QGraphicsTextItem>
+#include <homero.h>
 
 class Nivel : public QObject{
     Q_OBJECT
@@ -19,6 +18,9 @@ private:
     unsigned short nivelSeleccionado;
     unsigned short cont=1;
     QGraphicsScene* escena;
+
+    //Nivel 1
+    //Homero* homero;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
@@ -56,8 +58,6 @@ private:
     Enemigo* zombie;
     QList<Enemigo*> zombies;
     QTimer *timerZombies;
-
-    Jugador * jugador;
 
 private slots:
     void agregarZombies();
