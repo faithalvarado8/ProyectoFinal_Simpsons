@@ -53,7 +53,6 @@ private:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void moverPersonaje();
-    void mostrarEstado() const;
 
     // Sonido
     QSoundEffect *sonidoColision;
