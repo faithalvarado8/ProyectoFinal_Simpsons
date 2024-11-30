@@ -6,6 +6,7 @@
 #include "bart.h"
 #include "kinghomero.h"
 #include "enemigo.h"
+#include "homero.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsPixmapItem>
