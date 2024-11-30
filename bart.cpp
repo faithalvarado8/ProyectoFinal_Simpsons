@@ -1,4 +1,5 @@
 #include "bart.h"
+#include <QDebug>
 
 Bart::Bart(QGraphicsScene* escena, QList<QGraphicsPixmapItem*> tumbasEscena) : timer(nullptr), timerDisparo(nullptr), tumbasEscena(tumbasEscena), escena(escena) {
     numMuniciones=0;

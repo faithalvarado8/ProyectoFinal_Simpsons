@@ -1,7 +1,6 @@
 #include "kinghomero.h"
-#include "obstaculo.h"
 
-KingHomero::KingHomero() : spriteActual(0), enMovimiento(false){
+KingHomero::KingHomero() : Jugador(3), spriteActual(0), enMovimiento(false){
     sprites.append(QPixmap(":/Nivel2/Homer_Up1.png"));
     sprites.append(QPixmap(":/Nivel2/Homer_Up2.png"));
     spritesCelebracion.append(QPixmap(":/Nivel2/Homer_Celebration1.png"));
@@ -34,19 +33,28 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false){
 
 // ------------------ VIDAS ------------------
 
+void KingHomero::mostrarEstado() const {
+    qDebug() << "[KingHomero]";
+    Jugador::mostrarEstado();
+}
+
 void KingHomero::agregarIndicadorVidaALaEscena() {
     if (!indicadorVida || !scene()) {
+        qDebug() << "[KingHomero] No se puede agregar el indicador de vida: escena o indicador nulos.";
         return;
     }
 
     indicadorVida->setPos(scene()->width() - indicadorVida->pixmap().width() - 10, 10);
     scene()->addItem(indicadorVida);
+    qDebug() << "[KingHomero] Indicador de vida agregado a la escena.";
 }
 
 void KingHomero::perderVida() {
     if (vidas > 0) {
         Jugador::perderVida();
         actualizarIndicadorGrafico();
+    } else if (vidas == 0) {
+        qDebug() << "[KingHomero] El jugador ha muerto. Mostrando indicador gráfico vacío.";
     }
 }
 
@@ -72,6 +80,8 @@ void KingHomero::actualizarIndicadorGrafico() {
         indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
         break;
     }
+
+    qDebug() << "[KingHomero] Indicador gráfico actualizado. Vidas restantes:" << vidas;
 }
 
 
@@ -128,6 +138,7 @@ void KingHomero::verificarColisionConObstaculos() {
     for (auto *item : scene()->items()) {
         if (Obstaculo *obstaculo = dynamic_cast<Obstaculo*>(item)) {
             if (collidesWithItem(obstaculo)) {
+                qDebug() << "Colisión con un obstáculo!";
                 perderVida();
                 scene()->removeItem(obstaculo);
                 delete obstaculo;

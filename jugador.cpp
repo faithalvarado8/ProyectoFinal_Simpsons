@@ -9,6 +9,10 @@ unsigned int Jugador::getVidas() const {
 void Jugador::perderVida() {
     if (vidas > 0) {
         vidas--;
+        qDebug() << "[Jugador] Vida perdida. Vidas restantes:" << vidas;
+        if (vidas == 0) {
+        qDebug() << "[Jugador] El jugador ha muerto.";
+        }
     }
 }
 
@@ -19,3 +23,7 @@ void Jugador::perderVida() {
 //         std::cout << "El jugador ya tiene el máximo de vidas." << std::endl;
 //     }
 // }
+
+void Jugador::mostrarEstado() const {
+    qDebug() << "[Jugador] Vidas actuales:" << vidas;
+}

@@ -8,19 +8,19 @@ Objetos::Objetos(unsigned short int cont) {
 
     setPixmap(sprite.scaled(30, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-    if (cont==0){
+    if (cont==1){
         setPos(800, 400);
     }
-    else if (cont==1){
+    else if (cont==2){
         setPos(1090, 150);
     }
-    else if (cont==2){
+    else if (cont==3){
         setPos(150, 155);
     }
-    else if (cont==3){
+    else if (cont==4){
         setPos(700, 200);
     }
-    else if (cont==4){
+    else if (cont==5){
         setPos(250, 420);
     }
     else{

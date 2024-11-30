@@ -49,6 +49,7 @@ private:
     qreal dy;
     QPointF posPersonaje;
     QPointF posZombie;
+
 };
 
 #endif // ENEMIGO_H
