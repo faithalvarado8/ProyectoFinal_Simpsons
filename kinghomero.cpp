@@ -64,11 +64,11 @@ void KingHomero::actualizarIndicadorGrafico() {
         indicadorVida->setPixmap(QPixmap(":/Nivel2/Donut1.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         break;
     case 0:
-        imagenGameOver = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
-        imagenGameOver->setPos(scene()->width() / 2 - imagenGameOver->pixmap().width() / 2,
-                               scene()->height() / 2 - imagenGameOver->pixmap().height() / 2);
-        scene()->addItem(imagenGameOver);
-        imagenGameOver->setZValue(3);
+        imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
+        imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
+                               scene()->height() / 2 - imagenGame->pixmap().height() / 2);
+        scene()->addItem(imagenGame);
+        imagenGame->setZValue(3);
         indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
         break;
     }
@@ -148,12 +148,24 @@ void KingHomero::iniciarCelebracion() {
         disconnect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarAnimacion);
         connect(timerAnimacion, &QTimer::timeout, this, &KingHomero::actualizarCelebracion);
     }
+    animacion=0;
     timerAnimacion->start(300);
 }
 
 void KingHomero::actualizarCelebracion() {
     spriteActual = (spriteActual + 1) % 2;
     QGraphicsPixmapItem::setPixmap(spritesCelebracion[spriteActual].scaled(160, 160, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    animacion++;
+
+    if (animacion==8){
+        timerAnimacion->stop();
+        imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/NivelCompletado.jpg").scaled(1280,720));
+        imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
+                               scene()->height() / 2 - imagenGame->pixmap().height() / 2);
+        scene()->addItem(imagenGame);
+        imagenGame->setZValue(3);
+        indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
+    }
 }
 
 // --------- DESTRUCTOR ---------

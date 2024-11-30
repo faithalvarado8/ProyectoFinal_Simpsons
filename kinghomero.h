@@ -59,7 +59,9 @@ private:
     QSoundEffect *sonidoColision;
 
     // Game Over
-    QGraphicsPixmapItem* imagenGameOver;
+    QGraphicsPixmapItem* imagenGame;
+
+    int animacion;
 };
 
 #endif // KINGHOMERO_H
