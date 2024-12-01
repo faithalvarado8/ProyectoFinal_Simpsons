@@ -726,7 +726,7 @@ void Nivel::escribirDatos(const QString &nombreArchivo){
         return;
     }
     QTextStream in(&archivo);
-    int yPos = 300; // Posición inicial en el eje Y para mostrar el texto
+    int yPos = 200; // Posición inicial en el eje Y para mostrar el texto
 
     while (!in.atEnd()) {
         QString linea = in.readLine();  // Lee una línea del archivo
@@ -740,9 +740,9 @@ void Nivel::escribirDatos(const QString &nombreArchivo){
 
         // Agrega el texto a la escena y ajusta la posición
         escena->addItem(textoItem);
-        textoItem->setPos(600, yPos);
+        textoItem->setPos(550, yPos);
 
-        yPos += 40;  // Incremento de la posición Y para la siguiente línea
+        yPos += 60;  // Incremento de la posición Y para la siguiente línea
     }
     // Cierra el archivo
     archivo.close();
@@ -761,7 +761,7 @@ void Nivel::escribirArchivo(){
 
         // Crear un QTextStream para escribir en el archivo.
         QTextStream salida(&archivo);
-        salida << 30-tiempoRestante<<"s\n";
+        salida << 30-tiempoRestante<<"\n";
 
         archivo.close();  // Cerrar el archivo.
     }
