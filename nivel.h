@@ -25,6 +25,8 @@ private:
     void agregarPlataformas();
     QList<QGraphicsRectItem*> plataformas;
     QList<Enemigo*> krustys;
+    Objetos* switchEvil;
+    Objetos* switchGood;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;

@@ -27,22 +27,28 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         Enemigo* krusty2 = new Enemigo(50, 400);
         krusty2->setPos(200, 646);
-        krusty1->setZValue(2);
+        krusty2->setZValue(2);
         enemigos.append(krusty2);
 
         Enemigo* krusty3 = new Enemigo(600, 930);
         krusty3->setPos(900, 416);
-        krusty1->setZValue(2);
+        krusty3->setZValue(2);
         enemigos.append(krusty3);
 
         Enemigo* krusty4 = new Enemigo(970, 1200);
         krusty4->setPos(1100, 114);
-        krusty1->setZValue(2);
+        krusty4->setZValue(2);
         enemigos.append(krusty4);
 
         for (Enemigo* enemigo : enemigos) {
             escena->addItem(enemigo);
         }
+
+        Objetos* switchEvil = new Objetos(":/Nivel1/SwicheKrusty-EVIL.png", 100, 530);
+        Objetos* switchGood = new Objetos(":/Nivel1/SwicheKrusty-GOOD.png", 1200, 80);
+
+        escena->addItem(switchEvil);
+        escena->addItem(switchGood);
     }
 
 

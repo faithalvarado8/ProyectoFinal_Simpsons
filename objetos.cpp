@@ -1,5 +1,13 @@
 #include "objetos.h"
 
+Objetos::Objetos(const QString& imagen, int x, int y) {
+    sprites = QPixmap(imagen);
+    setPixmap(sprites.scaled(60, 60, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    setPos(x, y);
+    setZValue(1);
+}
+
+
 Objetos::Objetos(unsigned short int cont) {
 
     sprites= QPixmap(":/Nivel3/Objetos3.png");
@@ -34,7 +42,7 @@ Objetos::Objetos(unsigned short int cont) {
 
 Objetos::Objetos(QList<QPointF> posicionesInvalidas){
 
-    sprites= QPixmap(":/Nivel3/Objetos3.png");
+    sprites = QPixmap(":/Nivel3/Objetos3.png");
 
     QPixmap sprite = sprites.copy(0, 29, 31, 29);
 
