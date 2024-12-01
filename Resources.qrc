@@ -48,5 +48,6 @@
         <file>Krusty.png</file>
         <file>SwicheKrusty-EVIL.png</file>
         <file>SwicheKrusty-GOOD.png</file>
+        <file>mueble.png</file>
     </qresource>
 </RCC>

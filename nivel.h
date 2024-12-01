@@ -27,6 +27,7 @@ private:
     QList<Enemigo*> krustys;
     Objetos* switchEvil;
     Objetos* switchGood;
+    QGraphicsPixmapItem* itemMueble;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;

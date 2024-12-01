@@ -49,6 +49,12 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         escena->addItem(switchEvil);
         escena->addItem(switchGood);
+
+        QPixmap mueble(":/Nivel1/mueble.png");
+        itemMueble = escena->addPixmap(mueble.scaled(150, 230, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        itemMueble->setPos(220, 418);
+        itemMueble->setZValue(1);
+
     }
 
 
@@ -306,7 +312,7 @@ void Nivel::agregarPlataformas(){
 
     plataformas.append(plataforma);
 
-    plataforma = new QGraphicsRectItem(128, 164, 439, 31);
+    plataforma = new QGraphicsRectItem(0, 164, 380, 31); // RECORTAR EN X
     plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
@@ -333,7 +339,7 @@ void Nivel::agregarPlataformas(){
     escena->addItem(plataforma);
     plataformas.append(plataforma);
 
-    plataforma = new QGraphicsRectItem(280, 340, 63, 31);
+    plataforma = new QGraphicsRectItem(340, 340, 63, 31); //CAMBIANDO
     plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
