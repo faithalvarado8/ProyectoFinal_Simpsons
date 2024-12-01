@@ -16,8 +16,6 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false){
     indicadorVida = new QGraphicsPixmapItem(QPixmap(":/Nivel2/Donut3.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     indicadorVida->setZValue(3);
 
-    tiempoRestante = 30;
-
     timerMovimiento = new QTimer(this);
     connect(timerMovimiento, &QTimer::timeout, this, &KingHomero::moverPersonaje);
     timerMovimiento->start(20);
@@ -29,10 +27,6 @@ KingHomero::KingHomero() : spriteActual(0), enMovimiento(false){
     timerColisiones = new QTimer(this);
     connect(timerColisiones, &QTimer::timeout, this, &KingHomero::verificarColisionConObstaculos);
     timerColisiones->start(10);
-
-    sonidoColision = new QSoundEffect(this);
-    sonidoColision->setSource(QUrl(":/Sonidos/SoundEffects/Colision_Explotar.mp3"));
-    sonidoColision->setVolume(1.0f);
 }
 
 // ------------------ VIDAS ------------------
@@ -66,9 +60,7 @@ void KingHomero::actualizarIndicadorGrafico() {
     case 1:
         indicadorVida->setPixmap(QPixmap(":/Nivel2/Donut1.png").scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         break;
-    case 0:
-        gameOver();
-
+    default:
         break;
     }
 }
@@ -88,7 +80,6 @@ void KingHomero::keyReleaseEvent(QKeyEvent *event) {
 
 
 void KingHomero::moverPersonaje() {
-    tiempoRestante-=0.02;
 
     if (!enMovimiento) return;
 
@@ -131,7 +122,6 @@ void KingHomero::verificarColisionConObstaculos() {
                 perderVida();
                 scene()->removeItem(obstaculo);
                 delete obstaculo;
-                sonidoColision->play();
                 return;
             }
         }
@@ -160,43 +150,7 @@ void KingHomero::actualizarCelebracion() {
 
     if (animacion==8){
         timerAnimacion->stop();
-        ganarNivel();
     }
-}
-
-// --------- FINALIZAR NIVEL ---------
-
-void KingHomero::ganarNivel(){
-    imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/NivelCompletado.jpg").scaled(1285, 725, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
-                       scene()->height() / 2 - imagenGame->pixmap().height() / 2);
-    scene()->addItem(imagenGame);
-    imagenGame->setZValue(3);
-    indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
-    escribirArchivo("Nivel2.txt");
-}
-
-void KingHomero::gameOver(){
-    imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
-    imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
-                       scene()->height() / 2 - imagenGame->pixmap().height() / 2);
-    scene()->addItem(imagenGame);
-    imagenGame->setZValue(3);
-    indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
-}
-
-void KingHomero::escribirArchivo(const QString &nombreArchivo){
-
-    QFile archivo(nombreArchivo);
-    if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
-        return;
-    }
-
-    // Crear un QTextStream para escribir en el archivo.
-    QTextStream salida(&archivo);
-    salida << 30-tiempoRestante<<"\n";
-
-    archivo.close();  // Cerrar el archivo.
 }
 
 // --------- DESTRUCTOR ---------
@@ -220,8 +174,11 @@ KingHomero::~KingHomero() {
         timerColisiones = nullptr;
     }
 
-    delete sonidoColision;
-    sonidoColision = nullptr;
+    if (timerMovimiento) {
+        timerMovimiento->stop();
+        delete timerMovimiento;
+        timerMovimiento = nullptr;
+    }
 
     sprites.clear();
 }

@@ -7,7 +7,6 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
 
     if (nivelSeleccionado == 1) {
-        // escena->setBackgroundBrush(QBrush(QImage(":/Nivel1/PlataformasNivel.png").scaled(1280, 720)));
         escena->setBackgroundBrush(QBrush(QImage(":/Nivel1/FondoNivel1.png").scaled(1280, 720)));
         agregarPlataformas();
 
@@ -409,6 +408,13 @@ void Nivel::actualizarTiempo() {
 
 void Nivel::sincronizarFondo(int dy) {
 
+    if (kingHomero->getVidas()==0){
+        qDebug()<<"1b";
+        gameOver();
+        qDebug()<<"2b";
+        return;
+    }
+
     if (!edificioItem || !kingHomero) return;
     yOffset += dy;
 
@@ -437,10 +443,13 @@ void Nivel::sincronizarFondo(int dy) {
                     delete item;
                 }
             }
-
             timerNivel->stop();
             kingHomero->setPos(640,515);
             kingHomero->iniciarCelebracion();
+            qDebug()<<"1a";
+            ganarNivel();
+            qDebug()<<"2a";
+            return;
         }
     }
 }
@@ -518,11 +527,69 @@ void Nivel::agregarZombies(){
 
 void Nivel::eliminar(){
     if (nivelSeleccionado==1){
+        if(homero){
+            delete homero;
+            homero=nullptr;
+        }
+
+        for (QGraphicsRectItem* plataforma : plataformas) {
+            if (plataforma){
+                plataformas.removeOne(plataforma);
+                delete plataforma;
+                plataforma=nullptr;
+            }
+        }
+        plataformas.clear();
 
     }
+    else if(nivelSeleccionado==2){
+        qDebug()<<"1";
+        if (timerNivel){
+            qDebug()<<"2";
+            timerNivel->stop();
+            qDebug()<<"3";
+            delete timerNivel;
+            qDebug()<<"4";
+            timerNivel = nullptr;
+            qDebug()<<"5";
+        }
 
-    else if(nivelSeleccionado==3){
+        if (timerObstaculos){
+            qDebug()<<"6";
+            timerObstaculos->stop();
+            qDebug()<<"7";
+            delete timerObstaculos;
+            qDebug()<<"8";
+            timerObstaculos = nullptr;
+            qDebug()<<"9";
+        }
 
+        if (textoTiempo){
+            qDebug()<<"10";
+            delete textoTiempo;
+            qDebug()<<"11";
+            textoTiempo = nullptr;
+            qDebug()<<"12";
+        }
+
+        if (edificioItem){
+            qDebug()<<"13";
+            delete edificioItem;
+            qDebug()<<"14";
+            edificioItem=nullptr;
+            qDebug()<<"15";
+        }
+
+        if (kingHomero){
+            qDebug()<<"16";
+            delete kingHomero;
+            qDebug()<<"17";
+            kingHomero = nullptr;
+            qDebug()<<"18";
+        }
+    }
+
+    else{
         if (colisionTimer){
             colisionTimer->stop();
             delete colisionTimer;
@@ -606,28 +673,39 @@ void Nivel::eliminar(){
 }
 
 void Nivel::ganarNivel(){
+    eliminar();
     escena->setBackgroundBrush(QBrush(QImage(":/fondos/NivelCompletado.jpg").scaled(1280, 720)));
-    eliminar();
-}
-
-void Nivel::gameOver(){
-    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
-    eliminar();
+    escribirArchivo();
     emit juegoTerminado();
 }
 
-void Nivel::escribirArchivo(const QString &nombreArchivo, unsigned short int tiempoRestante){
+void Nivel::gameOver(){
+    eliminar();
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
+    emit juegoTerminado();
+}
 
-    QFile archivo(nombreArchivo);
-    if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
-        return;
+void Nivel::escribirArchivo(){
+
+    if (nivelSeleccionado==1){
+
+    }
+    else if (nivelSeleccionado==2){
+        QFile archivo("Nivel2.txt");
+        if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+            return;
+        }
+
+        // Crear un QTextStream para escribir en el archivo.
+        QTextStream salida(&archivo);
+        salida << 30-tiempoRestante<<"s\n";
+
+        archivo.close();  // Cerrar el archivo.
+    }
+    else{
+
     }
 
-    // Crear un QTextStream para escribir en el archivo.
-    QTextStream salida(&archivo);
-    salida << 30-tiempoRestante;
-
-    archivo.close();  // Cerrar el archivo.
 }
 
 void Nivel::agregarObstaculos(){
@@ -638,7 +716,10 @@ void Nivel::agregarObstaculos(){
 Nivel::~Nivel() {
 
     if (nivelSeleccionado==1){
-
+        if (homero){
+            delete homero;
+            homero=nullptr;
+        }
     }
 
     else if (nivelSeleccionado==2){

@@ -10,13 +10,14 @@
 class Jugador : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 protected:
-    unsigned int vidas;
+    unsigned short int vidas;
 
 public:
-    explicit Jugador(unsigned int vidasIniciales = 3);
+    explicit Jugador(unsigned short int vidasIniciales = 3);
     void recuperarVida();
     void perderVida();
-    unsigned int getVidas() const;
+    unsigned short int getVidas() const;
+    virtual ~Jugador() = default;
 };
 
 #endif // JUGADOR_H

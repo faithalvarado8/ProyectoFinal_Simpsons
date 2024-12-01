@@ -67,9 +67,6 @@ private slots:
     void colisionPlataformasY();
     void colisionPlataformasX();
     void caida();
-
-
-
 };
 
 #endif // HOMERO_H

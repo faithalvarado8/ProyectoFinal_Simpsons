@@ -14,6 +14,7 @@ private:
 public:
     Objetos(unsigned short int cont=0);
     Objetos(QList<QPointF> posicionesInvalidas);
+    ~Objetos();
 };
 
 #endif // OBJETOS_H

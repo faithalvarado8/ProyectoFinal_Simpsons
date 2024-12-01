@@ -216,4 +216,28 @@ Homero::~Homero(){
         delete timer;
         timer = nullptr;
     }
+
+    if(timerSalto){
+        timerSalto->stop();
+        delete timerSalto;
+        timerSalto=nullptr;
+    }
+
+    if (colisionesX){
+        colisionesX->stop();
+        delete colisionesX;
+        colisionesX=nullptr;
+    }
+
+    if (colisionesY){
+        colisionesY->stop();
+        delete colisionesY;
+        colisionesY=nullptr;
+    }
+
+    if (timerCaida){
+        timerCaida->stop();
+        delete timerCaida;
+        timerCaida=nullptr;
+    }
 }

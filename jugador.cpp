@@ -1,8 +1,8 @@
 #include "jugador.h"
 
-Jugador::Jugador(unsigned int vidasIniciales) : vidas(vidasIniciales) {}
+Jugador::Jugador(unsigned short int vidasIniciales) : vidas(vidasIniciales) {}
 
-unsigned int Jugador::getVidas() const {
+unsigned short int Jugador::getVidas() const {
     return vidas;
 }
 

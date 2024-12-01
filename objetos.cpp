@@ -62,3 +62,5 @@ Objetos::Objetos(QList<QPointF> posicionesInvalidas){
     setZValue(0);
 
 }
+
+Objetos::~Objetos(){}

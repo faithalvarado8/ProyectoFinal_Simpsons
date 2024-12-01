@@ -40,11 +40,9 @@ private:
     Objetos* arma;
     Objetos* pagina;
     Objetos* paginaCont;
-
     Enemigo* murcielago;
     QList<Enemigo*> murcielagos;
     QTimer *colisionTimer;
-
     QGraphicsPixmapItem* tumba;
     void agregarTumbas(int numTumbas);
     QList<QPointF> posicionesInvalidas;
@@ -52,19 +50,16 @@ private:
     int spriteTumba;
     bool posicionValida;
     QList<QGraphicsPixmapItem*> tumbasEscena;
-
     QGraphicsTextItem *contadorPaginas;
-
     QPixmap imagenVidas;
     QPixmap imagenRecortada;
     QGraphicsPixmapItem* vidasActuales;
-
     Enemigo* zombie;
     QList<Enemigo*> zombies;
     QTimer *timerZombies;
     unsigned int puntaje;
-    void escribirArchivo(const QString &nombreArchivo, unsigned int puntaje);
-    void escribirArchivo(const QString &nombreArchivo, unsigned short int tiempoRestante);
+
+    void escribirArchivo();
 
 private slots:
     void agregarZombies();

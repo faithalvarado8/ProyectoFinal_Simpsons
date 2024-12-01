@@ -54,17 +54,6 @@ private:
     void keyReleaseEvent(QKeyEvent *event);
     void moverPersonaje();
 
-    // Sonido
-    QSoundEffect *sonidoColision;
-
-    // Game Over
-    QGraphicsPixmapItem* imagenGame;
-
-    void gameOver();
-    void ganarNivel();
-    void escribirArchivo(const QString &nombreArchivo);
-    float tiempoRestante;
-
     int animacion;
 };
 

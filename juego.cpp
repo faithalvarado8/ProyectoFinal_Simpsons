@@ -26,10 +26,91 @@ Juego::Juego(QWidget *parent): QMainWindow(parent), ui(new Ui::Juego), nivel(nul
 
 Juego::~Juego()
 {
-    delete ui;
+    // Liberar la escena
+    if (escena) {
+        delete escena;
+        escena = nullptr;
+    }
 
+    // Liberar la vista
+    if (vista) {
+        delete vista;
+        vista = nullptr;
+    }
+
+    // Liberar el nivel
+    if (nivel) {
+        delete nivel;
+        nivel = nullptr;
+    }
+
+    // Liberar botones y sus widgets asociados
+    if (botonNivel1) {
+        delete botonNivel1;
+        botonNivel1 = nullptr;
+    }
+
+    if (botonNivel2) {
+        delete botonNivel2;
+        botonNivel2 = nullptr;
+    }
+
+    if (botonNivel3) {
+        delete botonNivel3;
+        botonNivel3 = nullptr;
+    }
+
+    if (botonWidget1) {
+        delete botonWidget1;
+        botonWidget1 = nullptr;
+    }
+
+    if (botonWidget2) {
+        delete botonWidget2;
+        botonWidget2 = nullptr;
+    }
+
+    if (botonWidget3) {
+        delete botonWidget3;
+        botonWidget3 = nullptr;
+    }
+
+    if (botonInicio) {
+        delete botonInicio;
+        botonInicio = nullptr;
+    }
+
+    if (botonWidgetInicio) {
+        delete botonWidgetInicio;
+        botonWidgetInicio = nullptr;
+    }
+
+    if (botonMenu) {
+        delete botonMenu;
+        botonMenu = nullptr;
+    }
+
+    if (botonWidgetMenu) {
+        delete botonWidgetMenu;
+        botonWidgetMenu = nullptr;
+    }
+
+    if (botonSalir) {
+        delete botonSalir;
+        botonSalir = nullptr;
+    }
+
+    if (botonWidgetSalir) {
+        delete botonWidgetSalir;
+        botonWidgetSalir = nullptr;
+    }
+
+    // Liberar la interfaz de usuario
+    if (ui) {
+        delete ui;
+        ui = nullptr;
+    }
 }
-
 void Juego::iniciarJuego(){
 
     escena->setBackgroundBrush(QBrush(QImage(":/fondos/FondoInicio.png").scaled(1280,720)));

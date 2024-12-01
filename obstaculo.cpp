@@ -20,7 +20,11 @@ Obstaculo::Obstaculo(QGraphicsScene *escena, QObject *parent)
 }
 
 Obstaculo::~Obstaculo() {
-    delete timerMovimiento;
+    if (timerMovimiento){
+        timerMovimiento->stop();
+        delete timerMovimiento;
+        timerMovimiento=nullptr;
+    }
 }
 
 void Obstaculo::mover() {
