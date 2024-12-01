@@ -48,22 +48,25 @@ private:
     //Movimiento en X
     qreal x0;
     bool colisionX;
-    void colisionPlataformasX();
     QTimer *colisionesX;
 
     //Movimiento en y
-    void colisionPlataformasY();
     QTimer *colisionesY;
     bool colisionY;
     qreal y0;
     qreal v0y; // Velocidades iniciales
     qreal g; // Aceleración debido a la gravedad
 
+    QTimer* timerCaida;
+
     QGraphicsScene* escena;
 
 private slots:
     void actualizarAnimacion();
     void actualizarSalto();
+    void colisionPlataformasY();
+    void colisionPlataformasX();
+    void caida();
 
 
 
