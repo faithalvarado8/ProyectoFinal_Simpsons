@@ -2,6 +2,9 @@
 #include <random>
 #include <cmath>
 #include <QFile>
+#include <QGraphicsTextItem>
+#include <QFont>
+#include <QBrush>
 
 Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0), timerNivel(nullptr), puntaje(0) {
 
@@ -685,12 +688,27 @@ void Nivel::ganarNivel(){
     eliminar();
     escena->setBackgroundBrush(QBrush(QImage(":/fondos/NivelCompletado.jpg").scaled(1280, 720)));
     escribirArchivo();
-    emit juegoTerminado();
+    QTimer::singleShot(1100, this, &Nivel::mostrarRanking);
 }
 
 void Nivel::gameOver(){
     eliminar();
     escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
+    QTimer::singleShot(1100, this, &Nivel::mostrarRanking);
+}
+
+void Nivel::mostrarRanking(){
+    escena->setBackgroundBrush(QBrush(Qt::black));
+
+    QGraphicsTextItem* textoItem = new QGraphicsTextItem("TOP 5 PUNTAJES");
+    QFont font("Courier New", 55);
+    font.setBold(true);
+    font.setItalic(true);
+    textoItem->setFont(font);
+    textoItem->setDefaultTextColor(Qt::cyan);
+    textoItem->setPos(331, 50);
+    escena->addItem(textoItem);
+
     emit juegoTerminado();
 }
 

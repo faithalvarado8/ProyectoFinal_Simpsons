@@ -66,6 +66,7 @@ private slots:
     void agregarZombies();
     void verificarColisiones();
     void agregarObstaculos();
+    void mostrarRanking();
 
 signals:
     void juegoTerminado();
