@@ -140,6 +140,14 @@ void Juego::iniciarJuego(){
 
 void Juego::mostrarMenuInicio(){
 
+    if (botonMenu!=nullptr){
+        disconnect(botonMenu, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
+        disconnect(botonSalir, &QPushButton::clicked, this, &Juego::salirJuego);
+        escena->removeItem(botonWidgetMenu);
+        escena->removeItem(botonWidgetSalir);
+        escena->clear();
+    }
+
     disconnect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
     escena->removeItem(botonWidgetInicio);
 
@@ -199,28 +207,25 @@ void Juego::iniciarNivel(short nivelSeleccionado){
         delete nivel;
     }
     nivel = new Nivel(nivelSeleccionado, escena);
-    connect(nivel, &Nivel::juegoTerminado, this, &Juego::mostrarBotonesFinJuego);
+    connect(nivel, &Nivel::juegoTerminado, this, &Juego::crearBotonesFinJuego);
 
 }
 
 void Juego::crearBotonesFinJuego() {
-    qDebug() << "Creando botones de fin de juego...";
 
     // Crear botón de menú
     botonMenu = new QPushButton("Regresar al Menú");
     botonMenu->setFixedSize(200, 50);
     botonWidgetMenu = escena->addWidget(botonMenu);
-    botonWidgetMenu->setPos(540, 360);
+    botonWidgetMenu->setPos(300, 650);
     botonWidgetMenu->setZValue(10);
-    qDebug() << "Botón de menú creado y añadido a la escena.";
 
     // Crear botón de salir
     botonSalir = new QPushButton("Salir del Juego");
     botonSalir->setFixedSize(200, 50);
     botonWidgetSalir = escena->addWidget(botonSalir);
-    botonWidgetSalir->setPos(540, 420);
+    botonWidgetSalir->setPos(600, 650);
     botonWidgetSalir->setZValue(10);
-    qDebug() << "Botón de salir creado y añadido a la escena.";
 
     // Conectar señales
     connect(botonMenu, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
@@ -231,14 +236,7 @@ void Juego::crearBotonesFinJuego() {
 
     // Redibujar la vista
     vista->viewport()->update();
-    qDebug() << "Botones de fin de juego configurados.";
-
 }
-
-void Juego::mostrarBotonesFinJuego() {
-    crearBotonesFinJuego();
-}
-
 
 void Juego::salirJuego() {
     QApplication::quit(); // Cierra la aplicación

@@ -48,7 +48,6 @@ private:
     void mostrarMenuInicio();
     void iniciarNivel(short int nivelSeleccionado);
     void iniciarJuego();
-    void mostrarBotonesFinJuego();
     void crearBotonesFinJuego();
     void salirJuego();
 
