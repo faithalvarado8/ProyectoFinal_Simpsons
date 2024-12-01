@@ -10,11 +10,14 @@ class Enemigo:public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    Enemigo(unsigned short int cont);
-    Enemigo(QList<QPointF> posicionesZombies, Bart* bart);
+    Enemigo(int rangoIzq, int rangoDer);  //Constructor Krusty
+    Enemigo(unsigned short int cont);   //Constructor murcielago
+    Enemigo(QList<QPointF> posicionesZombies, Bart* bart); // Constructor zombies
     ~Enemigo();
 
 private slots:
+    void movimientoKrusty();
+    void animacionKrusty();
     void actualizarAnimacion();
     void movimiento();
     void moverZombie();
@@ -32,6 +35,12 @@ private:
     QTimer *timerMov;
 
     // Movimiento
+
+    int rangoIzquierdo;
+    int rangoDerecho;
+    bool moviendoDerecha;
+    float velocidad;
+
     int angulo;
     int radio;
     unsigned short int contM;

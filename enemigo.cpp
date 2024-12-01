@@ -1,6 +1,28 @@
 #include "enemigo.h"
 #include <cmath>
 
+Enemigo::Enemigo() : spriteActual(0), timer(nullptr), timerMov(nullptr), rangoIzquierdo(320), rangoDerecho(730), velocidad(1.5) {
+    // Sprites para Krusty
+    const int anchoFrame = 7290 / 5;
+    for (int i = 0; i < 5; ++i) {
+        // Extraemos cada frame (un solo sprite de Krusty) y lo escalamos a 60x60
+        QPixmap sprite = QPixmap(":/Nivel1/Krusty.png").copy(i * anchoFrame, 0, anchoFrame, 1728);  // 1728px de alto
+        sprites.append(sprite.scaled(60, 60, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+    setPixmap(sprites[spriteActual]);
+
+    // Establecer la posición inicial de Krusty
+    setPos(500, 548);
+
+    timer = new QTimer();
+    connect(timer, &QTimer::timeout, this, &Enemigo::actualizarAnimacion);
+    timer->start(100); // Intervalo para cambiar sprite
+
+    timerMov = new QTimer();
+    connect(timerMov, &QTimer::timeout, this, &Enemigo::movimientoKrusty);
+    timerMov->start(20); // Intervalo para mover a Krusty
+}
+
 Enemigo::Enemigo(unsigned short int cont): spriteActual(0), timer(nullptr), timerMov(nullptr), angulo(0), radio(70), zombieTimer(nullptr), timerAnimarZombie(nullptr){
 
     contM=cont;
@@ -102,7 +124,35 @@ void Enemigo::movimiento(){
     else{
         setPos(250+x, 420+y);
     }
+}
 
+void Enemigo::animacionKrusty() {
+    spriteActual = (spriteActual + 1) % sprites.size();
+    setPixmap(sprites[spriteActual]);
+}
+
+void Enemigo::movimientoKrusty() {
+
+    static bool direccionDerecha = false;
+
+    // Interpolación suave entre las posiciones objetivo
+    if (direccionDerecha) {
+        // Mover de izquierda a derecha (de rangoIzquierdo a rangoDerecho)
+        if (pos().x() < rangoDerecho) {
+            setPos(x() + velocidad, y());  // Moverse hacia la derecha gradualmente
+        } else {
+            // Cambiar de dirección cuando llega a la posición máxima
+            direccionDerecha = false;
+        }
+    } else {
+        // Mover de derecha a izquierda (de rangoDerecho a rangoIzquierdo)
+        if (pos().x() > rangoIzquierdo) {
+            setPos(x() - velocidad, y());  // Moverse hacia la izquierda gradualmente
+        } else {
+            // Cambiar de dirección cuando llega a la posición mínima
+            direccionDerecha = true;
+        }
+    }
 }
 
 void Enemigo::moverZombie(){

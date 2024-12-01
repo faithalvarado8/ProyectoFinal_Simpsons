@@ -15,6 +15,33 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         homero->setFocus();
         escena->addItem(homero);
 
+        QList<Enemigo*> enemigos;
+
+        // Agregar a Krusty
+        Enemigo* krusty1 = new Enemigo();
+        krusty1->setPos(500, 548); // Posición inicial para el primer Krusty
+        krusty1->setZValue(2);
+        enemigos.append(krusty1); // Agregarlo a la lista de enemigos
+
+        Enemigo* krusty2 = new Enemigo();
+        krusty2->setPos(500, 648); // Posición inicial para el segundo Krusty
+        krusty1->setZValue(2);
+        enemigos.append(krusty2); // Agregarlo a la lista de enemigos
+
+        Enemigo* krusty3 = new Enemigo();
+        krusty3->setPos(900, 430); // Posición inicial para el tercer Krusty
+        krusty1->setZValue(2);
+        enemigos.append(krusty3); // Agregarlo a la lista de enemigos
+
+        Enemigo* krusty4 = new Enemigo();
+        krusty4->setPos(1100, 548); // Posición inicial para el cuarto Krusty
+        krusty1->setZValue(2);
+        enemigos.append(krusty4); // Agregarlo a la lista de enemigos
+
+        for (Enemigo* enemigo : enemigos) {
+            escena->addItem(enemigo); // Agregar a la escena (o el contenedor correspondiente)
+        }
+
     }
 
 
