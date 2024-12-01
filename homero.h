@@ -41,6 +41,9 @@ private:
     qreal angulo;
     QTimer *timerSalto;
     void saltar();
+    qreal hMax;
+    qreal nuevaY;
+    qreal nuevaX;
 
     //Movimiento en X
     qreal x0;
