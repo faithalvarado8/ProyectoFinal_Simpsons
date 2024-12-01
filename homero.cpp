@@ -70,7 +70,7 @@ void Homero::actualizarAnimacion() {
 
     // Actualizar la animación
 
-    if (enElAire){
+    if (timerSalto->isActive() || timerCaida->isActive()){
         if (direccion == 'A') {
             setPixmap(spritesSaltarIzquierda[1]);
         } else{
@@ -94,13 +94,14 @@ void Homero::actualizarAnimacion() {
         }
     }
 
-    if (enElAire && !timerSalto->isActive() && !timerCaida->isActive()){
+    if (!enPlataforma && !timerSalto->isActive() && !timerCaida->isActive()){
         caida();
     }
 }
 
 void Homero::colisionPlataformas(){
     QRectF rectPersonaje = boundingRect().translated(pos());
+    bool enPlataforma=false;
     for (QGraphicsRectItem* plataforma : plataformas) {
         QRectF rectPlataforma = plataforma->boundingRect().translated(plataforma->pos());
         if (rectPersonaje.intersects(rectPlataforma)) {
@@ -109,14 +110,12 @@ void Homero::colisionPlataformas(){
             if (rectPersonaje.top() <= rectPlataforma.bottom() && rectPersonaje.bottom() > rectPlataforma.bottom()) {
                 if (timerSalto->isActive()){
                     timerSalto->stop();
-                    enElAire=true;
                 }
             }
             //Choca con un muro a la derecha
             if (rectPersonaje.right() >= rectPlataforma.left() && rectPersonaje.left() < rectPlataforma.left()) {
                 if (timerSalto->isActive()){
                     timerSalto->stop();
-                    enElAire=true;
                 }
                 setX(rectPlataforma.left() - rectPersonaje.width());
                 colisionLado=true;
@@ -126,7 +125,6 @@ void Homero::colisionPlataformas(){
             if (rectPersonaje.left() <= rectPlataforma.right() && rectPersonaje.right() > rectPlataforma.right()) {
                 if (timerSalto->isActive()){
                     timerSalto->stop();
-                    enElAire=true;
                 }
                 setX(rectPlataforma.right());
                 colisionLado=true;
@@ -135,7 +133,7 @@ void Homero::colisionPlataformas(){
             //Cae en plataforma
             if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.top() < rectPlataforma.top() && !colisionLado) {
                 setY(rectPlataforma.top()-rectPersonaje.height());
-                enElAire=false;
+                enPlataforma=true;
                 if (timerSalto->isActive()){
                     timerSalto->stop();
                 }
@@ -145,8 +143,8 @@ void Homero::colisionPlataformas(){
             }
         }
     }
-    if (enElAire && !timerSalto->isActive() && !timerCaida->isActive()){
-        caida();
+    if (enPlataforma){
+        enElAire=false;
     }
 }
 
