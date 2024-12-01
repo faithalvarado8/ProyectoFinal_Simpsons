@@ -115,7 +115,7 @@ void Juego::iniciarNivel(short nivelSeleccionado){
         delete nivel;
     }
     nivel = new Nivel(nivelSeleccionado, escena);
-    connect(nivel, &Nivel::gameOver, this, &Juego::mostrarBotonesFinJuego);
+    connect(nivel, &Nivel::juegoTerminado, this, &Juego::mostrarBotonesFinJuego);
 
 }
 
