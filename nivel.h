@@ -24,6 +24,7 @@ private:
     Homero* homero;
     void agregarPlataformas();
     QList<QGraphicsRectItem*> plataformas;
+    QList<Enemigo*> krustys;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
