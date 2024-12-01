@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <cmath>
 
-Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): indiceSprite(0), direccion('D'), plataformas(plataformas), enElAire(false), v0(58), angulo(65), escena(escena) {
+Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): indiceSprite(0), direccion('D'), plataformas(plataformas), enElAire(false), v0(60), angulo(72), escena(escena) {
 
     // Cargar las hojas de sprites
     QPixmap hojaCaminar(":/Nivel1/HomeroWalk.png");
@@ -104,7 +104,7 @@ void Homero::colisionPlataformas(){
     for (QGraphicsRectItem* plataforma : plataformas) {
         QRectF rectPlataforma = plataforma->boundingRect().translated(plataforma->pos());
         if (rectPersonaje.intersects(rectPlataforma)) {
-            bool colisionLado=false;
+            //bool colisionLado=false;
             //Se golpea la cabeza
             if (rectPersonaje.top() <= rectPlataforma.bottom() && rectPersonaje.bottom() > rectPlataforma.bottom()) {
                 if (timerSalto->isActive()){
@@ -119,7 +119,7 @@ void Homero::colisionPlataformas(){
                     enElAire=true;
                 }
                 setX(rectPlataforma.left() - rectPersonaje.width());
-                colisionLado=true;
+                //colisionLado=true;
                 moving=false;
             }
             //Choca con un muro a la izquierda
@@ -129,11 +129,11 @@ void Homero::colisionPlataformas(){
                     enElAire=true;
                 }
                 setX(rectPlataforma.right());
-                colisionLado=true;
+                //colisionLado=true;
                 moving=false;
             }
             //Cae en plataforma
-            if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.top() < rectPlataforma.top() && !colisionLado) {
+            if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.top() < rectPlataforma.top()) {//&& !colisionLado
                 setY(rectPlataforma.top()-rectPersonaje.height());
                 enElAire=false;
                 if (timerSalto->isActive()){
@@ -157,7 +157,7 @@ void Homero::saltar() {
     nuevaY=y0;
     t=0;
     hMax=(v0*v0*sin(angulo)*sin(angulo))/(2*9.8);
-    timerSalto->start(5);
+    timerSalto->start(2);
     enElAire = true;
 }
 
