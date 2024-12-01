@@ -4,7 +4,10 @@
 #include <QGraphicsProxyWidget>
 #include <QPixmap>
 
-Juego::Juego(QWidget *parent): QMainWindow(parent), ui(new Ui::Juego), nivel(nullptr){
+Juego::Juego(QWidget *parent): QMainWindow(parent), ui(new Ui::Juego), nivel(nullptr), botonMenu(nullptr),
+    botonWidgetMenu(nullptr),
+    botonSalir(nullptr),
+    botonWidgetSalir(nullptr){
     ui->setupUi(this);
     escena = new QGraphicsScene(this);
     vista = new QGraphicsView(this);
@@ -115,47 +118,79 @@ void Juego::iniciarNivel(short nivelSeleccionado){
         delete nivel;
     }
     nivel = new Nivel(nivelSeleccionado, escena);
-    connect(nivel, &Nivel::gameOver, this, &Juego::mostrarBotonesFinJuego);
+    connect(nivel, &Nivel::juegoTerminado, this, &Juego::mostrarBotonesFinJuego);
+
+}
+
+void Juego::crearBotonesFinJuego() {
+    qDebug() << "Creando botones de fin de juego...";
+
+    // Crear botón de menú
+    botonMenu = new QPushButton("Regresar al Menú");
+    botonMenu->setFixedSize(200, 50);
+    botonWidgetMenu = escena->addWidget(botonMenu);
+    botonWidgetMenu->setPos(540, 360);
+    botonWidgetMenu->setZValue(10);
+    qDebug() << "Botón de menú creado y añadido a la escena.";
+
+    // Crear botón de salir
+    botonSalir = new QPushButton("Salir del Juego");
+    botonSalir->setFixedSize(200, 50);
+    botonWidgetSalir = escena->addWidget(botonSalir);
+    botonWidgetSalir->setPos(540, 420);
+    botonWidgetSalir->setZValue(10);
+    qDebug() << "Botón de salir creado y añadido a la escena.";
+
+    // Conectar señales
+    connect(botonMenu, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
+    connect(botonSalir, &QPushButton::clicked, this, &Juego::salirJuego);
+
+    botonMenu->show();
+    botonSalir->show();
+
+    // Redibujar la vista
+    vista->viewport()->update();
+    qDebug() << "Botones de fin de juego configurados.";
 
 }
 
 void Juego::mostrarBotonesFinJuego() {
-    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
-
-    // Crear botones para regresar al menú y salir del juego
     crearBotonesFinJuego();
 }
 
-void Juego::crearBotonesFinJuego() {
-    botonMenu = new QPushButton("Regresar al Menú");
-    botonMenu->setFixedSize(200, 50);
-    botonMenu->setAutoFillBackground(true);
-    QPalette paletteMenu = botonMenu->palette();
-    paletteMenu.setColor(QPalette::Button, QColor(76, 175, 80)); // Color de fondo
-    paletteMenu.setColor(QPalette::ButtonText, Qt::white); // Color del texto
-    botonMenu->setPalette(paletteMenu);
-    botonMenu->isVisible();
-    botonWidgetMenu->setZValue(2); // Asegúrate de que el Z-Value sea mayor que el de otros elementos
 
 
-    botonWidgetMenu = escena->addWidget(botonMenu);
-    botonWidgetMenu->setPos(640 - 100, 360); // Centrado en la escena
-    botonSalir->setAutoFillBackground(true);
-    QPalette paletteSalir = botonSalir->palette();
-    paletteSalir.setColor(QPalette::Button, QColor(244, 67, 54)); // Color de fondo
-    paletteSalir.setColor(QPalette::ButtonText, Qt::white); // Color del texto
-    botonSalir->setPalette(paletteSalir);
-    botonSalir->isVisible();
-    botonWidgetSalir->setZValue(2);
 
-    botonSalir = new QPushButton("Salir del Juego");
-    botonSalir->setFixedSize(200, 50);
-    botonWidgetSalir = escena->addWidget(botonSalir);
-    botonWidgetSalir->setPos(640 - 100, 420); // Centrado en la escena
+// void Juego::crearBotonesFinJuego() {
+//     botonMenu = new QPushButton("Regresar al Menú");
+//     botonMenu->setFixedSize(200, 50);
+//     botonMenu->setAutoFillBackground(true);
+//     QPalette paletteMenu = botonMenu->palette();
+//     paletteMenu.setColor(QPalette::Button, QColor(76, 175, 80));
+//     paletteMenu.setColor(QPalette::ButtonText, Qt::white);
+//     botonMenu->setPalette(paletteMenu);
+//     botonMenu->isVisible();
+//     botonWidgetMenu->setZValue(2);
 
-    connect(botonMenu, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
-    connect(botonSalir, &QPushButton::clicked, this, &Juego::salirJuego);
-}
+
+//     botonWidgetMenu = escena->addWidget(botonMenu);
+//     botonWidgetMenu->setPos(640 - 100, 360);
+//     botonSalir->setAutoFillBackground(true);
+//     QPalette paletteSalir = botonSalir->palette();
+//     paletteSalir.setColor(QPalette::Button, QColor(244, 67, 54));
+//     paletteSalir.setColor(QPalette::ButtonText, Qt::white);
+//     botonSalir->setPalette(paletteSalir);
+//     botonSalir->isVisible();
+//     botonWidgetSalir->setZValue(2);
+
+//     botonSalir = new QPushButton("Salir del Juego");
+//     botonSalir->setFixedSize(200, 50);
+//     botonWidgetSalir = escena->addWidget(botonSalir);
+//     botonWidgetSalir->setPos(640 - 100, 420);
+
+//     connect(botonMenu, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
+//     connect(botonSalir, &QPushButton::clicked, this, &Juego::salirJuego);
+// }
 
 void Juego::salirJuego() {
     QApplication::quit(); // Cierra la aplicación

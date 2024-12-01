@@ -529,6 +529,12 @@ void Nivel::eliminar(){
             colisionTimer=nullptr;
         }
 
+        if(timerZombies){
+            timerZombies->stop();
+            delete timerZombies;
+            timerZombies = nullptr;
+        }
+
         for (Enemigo* zombie : zombies) {
 
             if (zombie){
