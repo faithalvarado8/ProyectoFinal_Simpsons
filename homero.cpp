@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <cmath>
 
-Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): indiceSprite(0), direccion('D'), plataformas(plataformas), enElAire(false), v0(58), angulo(65), colisionX(false), escena(escena) {
+Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): indiceSprite(0), direccion('D'), plataformas(plataformas), enElAire(false), v0(58), angulo(65), escena(escena) {
 
     // Cargar las hojas de sprites
     QPixmap hojaCaminar(":/Nivel1/HomeroWalk.png");
@@ -37,13 +37,9 @@ Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): i
     timerSalto=new QTimer();
     connect(timerSalto, &QTimer::timeout, this, &Homero::actualizarSalto);
 
-    colisionesX=new QTimer();
-    connect(colisionesX, &QTimer::timeout, this, &Homero::colisionPlataformasX);
-    colisionesX->start(10);
-
-    colisionesY=new QTimer();
-    connect(colisionesY, &QTimer::timeout, this, &Homero::colisionPlataformasY);
-    colisionesY->start(10);
+    colisiones=new QTimer();
+    connect(colisiones, &QTimer::timeout, this, &Homero::colisionPlataformas);
+    colisiones->start(10);
 
     timerCaida=new QTimer();
     connect(timerCaida, &QTimer::timeout, this, &Homero::caida);
@@ -66,7 +62,7 @@ void Homero::actualizarAnimacion() {
         moving = true;
         direccion = 'D';
     }
-    else if (keys[Qt::Key_Space] && !enElAire){
+    else if (keys[Qt::Key_Space]){
         saltar();
     }
 
@@ -97,13 +93,12 @@ void Homero::actualizarAnimacion() {
         }
     }
 
-
     if (!timerSalto->isActive() && enElAire && !timerCaida->isActive()){
         timerCaida->start(5);
     }
 }
 
-void Homero::colisionPlataformasY() {
+void Homero::colisionPlataformas() {
     for (QGraphicsRectItem* plataforma : plataformas) {
         if (this->collidesWithItem(plataforma)) {
             QRectF rectPersonaje = boundingRect().translated(pos());
@@ -120,7 +115,7 @@ void Homero::colisionPlataformasY() {
 
             if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.bottom() <= rectPlataforma.bottom()){
                 enElAire=false;
-                setY(rectPlataforma.top() - rectPersonaje.height());
+                //setY(rectPlataforma.top() - rectPersonaje.height());
                 if (timerSalto->isActive()){
                     timerSalto->stop();
                 }
@@ -130,18 +125,9 @@ void Homero::colisionPlataformasY() {
             }else{
                 enElAire=true;
             }
-        }
-    }
-}
-
-void Homero::colisionPlataformasX() {
-    for (QGraphicsRectItem* plataforma : plataformas) {
-        if (this->collidesWithItem(plataforma)) {
-            QRectF rectPersonaje = boundingRect().translated(pos());
-            QRectF rectPlataforma = plataforma->boundingRect().translated(plataforma->pos());
 
             if (rectPersonaje.left() <= rectPlataforma.right() && rectPersonaje.left() >= rectPlataforma.left()){
-                setX(rectPlataforma.right());
+                //setX(rectPlataforma.right());
                 moving = false;
                 if (timerSalto->isActive()){
                     timerSalto->stop();
@@ -149,9 +135,12 @@ void Homero::colisionPlataformasX() {
                 if (enElAire){
                     timerCaida->start(5);
                 }
+            }else{
+                moving = true;
             }
-            else if (rectPersonaje.right() >= rectPlataforma.left() && rectPersonaje.right() <= rectPlataforma.right()){
-                setX(rectPlataforma.left() - rectPersonaje.width());
+
+            if (rectPersonaje.right() >= rectPlataforma.left() && rectPersonaje.right() <= rectPlataforma.right()){
+                //setX(rectPlataforma.left() - rectPersonaje.width());
                 moving = false;
                 if (timerSalto->isActive()){
                     timerSalto->stop();
@@ -167,15 +156,17 @@ void Homero::colisionPlataformasX() {
 }
 
 void Homero::saltar() {
-    x0=pos().x();
-    y0=pos().y();
-    nuevaX=x0;
-    nuevaY=y0;
-    t=0;
-    angulo = qDegreesToRadians(angulo);
-    hMax=(v0*v0*sin(angulo)*sin(angulo))/(2*9.8);
-    enElAire = true;
-    timerSalto->start(5);
+    if (!enElAire) {
+        x0=pos().x();
+        y0=pos().y();
+        nuevaX=x0;
+        nuevaY=y0;
+        t=0;
+        angulo = qDegreesToRadians(angulo);
+        hMax=(v0*v0*sin(angulo)*sin(angulo))/(2*9.8);
+        enElAire = true;
+        timerSalto->start(5);
+    }
 }
 
 void Homero::actualizarSalto(){
@@ -228,16 +219,10 @@ Homero::~Homero(){
         timerSalto=nullptr;
     }
 
-    if (colisionesX){
-        colisionesX->stop();
-        delete colisionesX;
-        colisionesX=nullptr;
-    }
-
-    if (colisionesY){
-        colisionesY->stop();
-        delete colisionesY;
-        colisionesY=nullptr;
+    if (colisiones){
+        colisiones->stop();
+        delete colisiones;
+        colisiones=nullptr;
     }
 
     if (timerCaida){
