@@ -153,8 +153,6 @@ void KingHomero::actualizarCelebracion() {
     }
 }
 
-// --------- DESTRUCTOR ---------
-
 KingHomero::~KingHomero() {
 
     if (indicadorVida) {
