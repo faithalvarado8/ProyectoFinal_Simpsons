@@ -409,9 +409,7 @@ void Nivel::actualizarTiempo() {
 void Nivel::sincronizarFondo(int dy) {
 
     if (kingHomero->getVidas()==0){
-        qDebug()<<"1b";
         gameOver();
-        qDebug()<<"2b";
         return;
     }
 
@@ -446,9 +444,8 @@ void Nivel::sincronizarFondo(int dy) {
             timerNivel->stop();
             kingHomero->setPos(640,515);
             kingHomero->iniciarCelebracion();
-            qDebug()<<"1a";
+
             ganarNivel();
-            qDebug()<<"2a";
             return;
         }
     }
@@ -543,49 +540,32 @@ void Nivel::eliminar(){
 
     }
     else if(nivelSeleccionado==2){
-        qDebug()<<"1";
+
         if (timerNivel){
-            qDebug()<<"2";
             timerNivel->stop();
-            qDebug()<<"3";
             delete timerNivel;
-            qDebug()<<"4";
             timerNivel = nullptr;
-            qDebug()<<"5";
         }
 
         if (timerObstaculos){
-            qDebug()<<"6";
             timerObstaculos->stop();
-            qDebug()<<"7";
             delete timerObstaculos;
-            qDebug()<<"8";
             timerObstaculos = nullptr;
-            qDebug()<<"9";
         }
 
         if (textoTiempo){
-            qDebug()<<"10";
             delete textoTiempo;
-            qDebug()<<"11";
             textoTiempo = nullptr;
-            qDebug()<<"12";
         }
 
         if (edificioItem){
-            qDebug()<<"13";
             delete edificioItem;
-            qDebug()<<"14";
             edificioItem=nullptr;
-            qDebug()<<"15";
         }
 
         if (kingHomero){
-            qDebug()<<"16";
             delete kingHomero;
-            qDebug()<<"17";
             kingHomero = nullptr;
-            qDebug()<<"18";
         }
     }
 
