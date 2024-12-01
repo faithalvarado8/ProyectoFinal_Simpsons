@@ -14,34 +14,32 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
         escena->addItem(homero);
-/*Agregar rangos de enemigos
         QList<Enemigo*> enemigos;
 
         // Agregar a Krusty
         Enemigo* krusty1 = new Enemigo(400, 630);
-        krusty1->setPos(500, 548); // Posición inicial para el primer Krusty
+        krusty1->setPos(500, 548);
         krusty1->setZValue(2);
-        enemigos.append(krusty1); // Agregarlo a la lista de enemigos
+        enemigos.append(krusty1);
 
         Enemigo* krusty2 = new Enemigo(50, 400);
-        krusty2->setPos(200, 646); // Posición inicial para el segundo Krusty
+        krusty2->setPos(200, 646);
         krusty1->setZValue(2);
-        enemigos.append(krusty2); // Agregarlo a la lista de enemigos
+        enemigos.append(krusty2);
 
         Enemigo* krusty3 = new Enemigo(600, 930);
-        krusty3->setPos(900, 416); // Posición inicial para el tercer Krusty
+        krusty3->setPos(900, 416);
         krusty1->setZValue(2);
-        enemigos.append(krusty3); // Agregarlo a la lista de enemigos
+        enemigos.append(krusty3);
 
         Enemigo* krusty4 = new Enemigo(970, 1200);
-        krusty4->setPos(1100, 114); // Posición inicial para el cuarto Krusty
+        krusty4->setPos(1100, 114);
         krusty1->setZValue(2);
-        enemigos.append(krusty4); // Agregarlo a la lista de enemigos
+        enemigos.append(krusty4);
 
         for (Enemigo* enemigo : enemigos) {
-            escena->addItem(enemigo); // Agregar a la escena (o el contenedor correspondiente)
+            escena->addItem(enemigo);
         }
-*/
     }
 
 
