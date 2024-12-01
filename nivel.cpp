@@ -699,7 +699,6 @@ void Nivel::gameOver(){
 
 void Nivel::mostrarRanking(){
     escena->setBackgroundBrush(QBrush(Qt::black));
-
     QGraphicsTextItem* textoItem = new QGraphicsTextItem("TOP 5 PUNTAJES");
     QFont font("Courier New", 55);
     font.setBold(true);
@@ -709,7 +708,44 @@ void Nivel::mostrarRanking(){
     textoItem->setPos(331, 50);
     escena->addItem(textoItem);
 
+    if (nivelSeleccionado==1){
+        escribirDatos("Nivel1.txt");
+    }
+    else if (nivelSeleccionado==2){
+        escribirDatos("Nivel2.txt");
+    }
+    else{
+        escribirDatos("Nivel3.txt");
+    }
     emit juegoTerminado();
+}
+
+void Nivel::escribirDatos(const QString &nombreArchivo){
+    QFile archivo(nombreArchivo);
+    if (!archivo.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return;
+    }
+    QTextStream in(&archivo);
+    int yPos = 300; // Posición inicial en el eje Y para mostrar el texto
+
+    while (!in.atEnd()) {
+        QString linea = in.readLine();  // Lee una línea del archivo
+        QGraphicsTextItem *textoItem = new QGraphicsTextItem(linea);
+
+        QFont font("Courier New", 25);
+        font.setBold(true);
+        font.setItalic(false);
+        textoItem->setFont(font);
+        textoItem->setDefaultTextColor(Qt::white);
+
+        // Agrega el texto a la escena y ajusta la posición
+        escena->addItem(textoItem);
+        textoItem->setPos(600, yPos);
+
+        yPos += 40;  // Incremento de la posición Y para la siguiente línea
+    }
+    // Cierra el archivo
+    archivo.close();
 }
 
 void Nivel::escribirArchivo(){

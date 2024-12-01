@@ -61,6 +61,7 @@ private:
     unsigned int puntaje;
 
     void escribirArchivo();
+    void escribirDatos(const QString &nombreArchivo);
 
 private slots:
     void agregarZombies();
