@@ -54,17 +54,17 @@ void Homero::actualizarAnimacion() {
 
     moving = false;
 
-    if (keys[Qt::Key_A] && !enElAire){
+    if (keys[Qt::Key_A]){
         setX(pos().x()-15);
         moving = true;
         direccion = 'A';
     }
-    else if (keys[Qt::Key_D] && !enElAire) {
+    else if (keys[Qt::Key_D]) {
         setX(pos().x()+15);
         moving = true;
         direccion = 'D';
     }
-    else if (keys[Qt::Key_Space] && !enElAire && !timerSalto->isActive()){
+    if (keys[Qt::Key_Space] && !enElAire && !timerSalto->isActive()){
         saltar();
     }
 

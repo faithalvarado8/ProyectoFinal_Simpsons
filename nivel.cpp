@@ -269,170 +269,169 @@ void Nivel::verificarColisiones() {
 
 void Nivel::agregarPlataformas(){
     QGraphicsRectItem* plataforma = new QGraphicsRectItem(0, 0, 1280, 15); // x, y, ancho, alto
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::green);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
-
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(0, 15, 15, 704);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::green);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(15, 704, 1265, 16);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::green);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(1264, 15, 16, 690);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::green);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
-
+/*
     plataforma = new QGraphicsRectItem(416, 104, 91, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
+    escena->addItem(plataforma);
+
+    plataformas.append(plataforma);*/
+/*
+    plataforma = new QGraphicsRectItem(324, 104, 31, 80);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
+    escena->addItem(plataforma);
+
+    plataformas.append(plataforma);*/
+
+    /*plataforma = new QGraphicsRectItem(0, 120, 1280, 10); // RECORTAR EN X
+    plataforma->setBrush(Qt::blue);
+    plataforma->setPen(QPen(Qt::black));
+    escena->addItem(plataforma);*/
+
+    plataformas.append(plataforma);
+
+    plataforma = new QGraphicsRectItem(0, 608, 179, 31);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
-    plataforma = new QGraphicsRectItem(324, 104, 31, 59);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma = new QGraphicsRectItem(270, 608, 900, 15);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
-    plataforma = new QGraphicsRectItem(0, 164, 380, 31); // RECORTAR EN X
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma = new QGraphicsRectItem(0, 340, 175, 31);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
+    escena->addItem(plataforma);
+    plataformas.append(plataforma);
+
+    plataforma = new QGraphicsRectItem(330, 350, 95, 31); //CAMBIANDO
+    plataforma->setBrush(Qt::blue);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
-    plataforma = new QGraphicsRectItem(16, 608, 163, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
-    escena->addItem(plataforma);
-
-    plataformas.append(plataforma);
-
-    plataforma = new QGraphicsRectItem(276, 608, 879, 15);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
-    escena->addItem(plataforma);
-
-    plataformas.append(plataforma);
-
-    plataforma = new QGraphicsRectItem(16, 340, 159, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
-    escena->addItem(plataforma);
-    plataformas.append(plataforma);
-
-    plataforma = new QGraphicsRectItem(340, 340, 63, 31); //CAMBIANDO
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
-    escena->addItem(plataforma);
-
-    plataformas.append(plataforma);
-
-    plataforma = new QGraphicsRectItem(176, 476, 220, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma = new QGraphicsRectItem(176, 476, 210, 31);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(276, 508, 31, 99);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(476, 476, 587, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(1032, 508, 31, 99);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
-    plataforma = new QGraphicsRectItem(1204, 476, 61, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma = new QGraphicsRectItem(1180, 470, 150, 20);
+    plataforma->setBrush(Qt::blue);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
-    plataforma = new QGraphicsRectItem(476, 304, 103, 171);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma = new QGraphicsRectItem(476, 304, 103, 180);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
-    plataforma = new QGraphicsRectItem(580, 304, 483, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma = new QGraphicsRectItem(560, 323, 515, 15);
+    plataforma->setBrush(Qt::green);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
-
+/*
     plataforma = new QGraphicsRectItem(756, 268, 127, 35);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(788, 236, 95, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(820, 204, 63, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
-    plataformas.append(plataforma);
+    plataformas.append(plataforma);*/
 
     plataforma = new QGraphicsRectItem(820, 336, 31, 47);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(940, 336, 31, 47);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(852, 172, 412, 31);
-    plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setBrush(Qt::green);
+    plataforma->setPen(QPen(Qt::black));
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
