@@ -12,6 +12,7 @@ private:
     QPixmap sprites;
 
 public:
+    Objetos(const QString& imagen, int x, int y); //Constructor de swiches Nivel 1
     Objetos(unsigned short int cont=0);
     Objetos(QList<QPointF> posicionesInvalidas);
     ~Objetos();

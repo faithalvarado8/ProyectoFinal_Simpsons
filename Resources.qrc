@@ -46,5 +46,7 @@
         <file>HomeroWalk.png</file>
         <file>FondoNivel1.png</file>
         <file>Krusty.png</file>
+        <file>SwicheKrusty-EVIL.png</file>
+        <file>SwicheKrusty-GOOD.png</file>
     </qresource>
 </RCC>
