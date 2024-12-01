@@ -56,6 +56,7 @@ private:
 
     QTimer* timerCaida;
     void caida();
+    bool enPlataforma;
 
     QGraphicsScene* escena;
 

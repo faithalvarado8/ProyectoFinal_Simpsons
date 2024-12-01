@@ -26,7 +26,6 @@
     <qresource prefix="/Nivel2">
         <file>Edificio.png</file>
         <file>Bomb.png</file>
-        <file>Explode.png</file>
         <file>Homer_Celebration1.png</file>
         <file>Homer_Celebration2.png</file>
         <file>Homer_Up1.png</file>
