@@ -605,9 +605,9 @@ void Nivel::ganarNivel(){
 }
 
 void Nivel::gameOver(){
-
     escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
     eliminar();
+    emit juegoTerminado();
 }
 
 void Nivel::escribirArchivo(const QString &nombreArchivo, unsigned short int tiempoRestante){
