@@ -451,7 +451,6 @@ void Nivel::sincronizarFondo(int dy) {
     }
 }
 
-
 void Nivel::agregarTumbas(int numTumbas){
 
     int x,y;

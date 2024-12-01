@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <cmath>
 
-Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): indiceSprite(0),direccion('p'), plataformas(plataformas), enElAire(false), v0(58), angulo(65), colisionX(false), escena(escena) {
+Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): indiceSprite(0), direccion('D'), plataformas(plataformas), enElAire(false), v0(58), angulo(65), colisionX(false), escena(escena) {
 
     // Cargar las hojas de sprites
     QPixmap hojaCaminar(":/Nivel1/HomeroWalk.png");
@@ -66,35 +66,37 @@ void Homero::actualizarAnimacion() {
         moving = true;
         direccion = 'D';
     }
-    else if (keys[Qt::Key_Space] && !enElAire && direccion!='p'){
+    else if (keys[Qt::Key_Space] && !enElAire){
         saltar();
     }
 
     // Actualizar la animación
 
+
     if (enElAire){
-        if (direccion == 'D') {
-            setPixmap(spritesSaltarDerecha[1]);
-        } else{
+        if (direccion == 'A') {
             setPixmap(spritesSaltarIzquierda[1]);
+        } else{
+            setPixmap(spritesSaltarDerecha[1]);
         }
     }
     else if (moving) {
-        if (direccion == 'D') {
-            indiceSprite = (indiceSprite + 1) % spritesCaminarDerecha.size();
-            setPixmap(spritesCaminarDerecha[indiceSprite]);
-        } else{
+        if (direccion == 'A') {
             indiceSprite = (indiceSprite + 1) % spritesCaminarIzquierda.size();
             setPixmap(spritesCaminarIzquierda[indiceSprite]);
+        } else{
+            indiceSprite = (indiceSprite + 1) % spritesCaminarDerecha.size();
+            setPixmap(spritesCaminarDerecha[indiceSprite]);
         }
     } else{
         indiceSprite = 1;
-        if (direccion == 'D') {
-            setPixmap(spritesCaminarDerecha[indiceSprite]);
-        } else{
+        if (direccion == 'A') {
             setPixmap(spritesCaminarIzquierda[indiceSprite]);
+        } else{
+            setPixmap(spritesCaminarDerecha[indiceSprite]);
         }
     }
+
 
     if (!timerSalto->isActive() && enElAire && !timerCaida->isActive()){
         timerCaida->start(5);
@@ -118,6 +120,7 @@ void Homero::colisionPlataformasY() {
 
             if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.bottom() <= rectPlataforma.bottom()){
                 enElAire=false;
+                setY(rectPlataforma.top() - rectPersonaje.height());
                 if (timerSalto->isActive()){
                     timerSalto->stop();
                 }
@@ -138,6 +141,7 @@ void Homero::colisionPlataformasX() {
             QRectF rectPlataforma = plataforma->boundingRect().translated(plataforma->pos());
 
             if (rectPersonaje.left() <= rectPlataforma.right() && rectPersonaje.left() >= rectPlataforma.left()){
+                setX(rectPlataforma.right());
                 moving = false;
                 if (timerSalto->isActive()){
                     timerSalto->stop();
@@ -147,6 +151,7 @@ void Homero::colisionPlataformasX() {
                 }
             }
             else if (rectPersonaje.right() >= rectPlataforma.left() && rectPersonaje.right() <= rectPlataforma.right()){
+                setX(rectPlataforma.left() - rectPersonaje.width());
                 moving = false;
                 if (timerSalto->isActive()){
                     timerSalto->stop();
