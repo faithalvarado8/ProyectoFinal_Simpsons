@@ -55,6 +55,7 @@ private:
     qreal g; // Aceleración debido a la gravedad
 
     QTimer* timerCaida;
+    void caida();
 
     QGraphicsScene* escena;
 
@@ -62,7 +63,7 @@ private slots:
     void actualizarAnimacion();
     void actualizarSalto();
     void colisionPlataformas();
-    void caida();
+    void actualizarCaida();
 };
 
 #endif // HOMERO_H

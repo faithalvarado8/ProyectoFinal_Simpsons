@@ -1,6 +1,4 @@
 #include "obstaculo.h"
-#include <cstdlib>
-#include <ctime>
 
 Obstaculo::Obstaculo(QGraphicsScene *escena, QObject *parent)
     : QObject(parent), escena(escena) {
@@ -29,7 +27,6 @@ Obstaculo::~Obstaculo() {
 
 void Obstaculo::mover() {
     setY(y() + 8);
-
     // Eliminar el obstáculo si sale de la escena
     if (y() > escena->height()) {
         escena->removeItem(this);
