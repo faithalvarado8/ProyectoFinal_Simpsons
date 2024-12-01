@@ -1,7 +1,7 @@
 #include "enemigo.h"
 #include <cmath>
 
-Enemigo::Enemigo() : spriteActual(0), timer(nullptr), timerMov(nullptr), rangoIzquierdo(320), rangoDerecho(730), velocidad(1.5) {
+Enemigo::Enemigo(int rangoIzq, int rangoDer) : spriteActual(0), timer(nullptr), timerMov(nullptr), rangoIzquierdo(320), rangoDerecho(730), velocidad(1.5) {
     // Sprites para Krusty
     const int anchoFrame = 7290 / 5;
     for (int i = 0; i < 5; ++i) {

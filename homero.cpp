@@ -104,17 +104,7 @@ void Homero::colisionPlataformas(){
     for (QGraphicsRectItem* plataforma : plataformas) {
         QRectF rectPlataforma = plataforma->boundingRect().translated(plataforma->pos());
         if (rectPersonaje.intersects(rectPlataforma)) {
-            //Cae en plataforma
-            if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.top() < rectPlataforma.top()) {
-                setY(rectPlataforma.top()-rectPersonaje.height());
-                enElAire=false;
-                if (timerSalto->isActive()){
-                    timerSalto->stop();
-                }
-                if (timerCaida->isActive()){
-                    timerCaida->stop();
-                }
-            }
+            bool colisionLado=false;
             //Se golpea la cabeza
             if (rectPersonaje.top() <= rectPlataforma.bottom() && rectPersonaje.bottom() > rectPlataforma.bottom()) {
                 if (timerSalto->isActive()){
@@ -129,6 +119,7 @@ void Homero::colisionPlataformas(){
                     enElAire=true;
                 }
                 setX(rectPlataforma.left() - rectPersonaje.width());
+                colisionLado=true;
                 moving=false;
             }
             //Choca con un muro a la izquierda
@@ -138,7 +129,19 @@ void Homero::colisionPlataformas(){
                     enElAire=true;
                 }
                 setX(rectPlataforma.right());
+                colisionLado=true;
                 moving=false;
+            }
+            //Cae en plataforma
+            if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.top() < rectPlataforma.top() && !colisionLado) {
+                setY(rectPlataforma.top()-rectPersonaje.height());
+                enElAire=false;
+                if (timerSalto->isActive()){
+                    timerSalto->stop();
+                }
+                if (timerCaida->isActive()){
+                    timerCaida->stop();
+                }
             }
         }
     }

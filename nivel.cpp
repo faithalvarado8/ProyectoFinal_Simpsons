@@ -14,7 +14,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
         escena->addItem(homero);
-
+/*Agregar rangos de enemigos
         QList<Enemigo*> enemigos;
 
         // Agregar a Krusty
@@ -41,7 +41,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         for (Enemigo* enemigo : enemigos) {
             escena->addItem(enemigo); // Agregar a la escena (o el contenedor correspondiente)
         }
-
+*/
     }
 
 
