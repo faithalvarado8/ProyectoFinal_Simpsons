@@ -3,7 +3,6 @@
 
 #include "jugador.h"
 #include <QGraphicsScene>
-#include <QGraphicsView>
 #include <QKeyEvent>
 #include <QTimer>
 #include <QMap>

@@ -68,7 +68,6 @@ void Homero::actualizarAnimacion() {
 
     // Actualizar la animación
 
-
     if (enElAire){
         if (direccion == 'A') {
             setPixmap(spritesSaltarIzquierda[1]);

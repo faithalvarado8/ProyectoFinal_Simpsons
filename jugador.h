@@ -2,10 +2,7 @@
 #define JUGADOR_H
 
 #include <QGraphicsPixmapItem>
-#include <QGraphicsScene>
-#include <QGraphicsItem>
 #include <QObject>
-
 
 class Jugador : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT

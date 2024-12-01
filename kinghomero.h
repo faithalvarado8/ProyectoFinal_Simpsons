@@ -4,10 +4,8 @@
 #include "jugador.h"
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
-#include <QElapsedTimer>
 #include <QTimer>
 #include <QSet>
-#include <QSoundEffect>
 #include <QMap>
 
 class KingHomero : public Jugador{

@@ -2,14 +2,11 @@
 #define ENEMIGO_H
 
 #include <QGraphicsPixmapItem>
-#include <QGraphicsScene>
-#include <QGraphicsView>
 #include <QTimer>
-#include <QMap>
 #include "bart.h"
-#include "jugador.h"
+#include <QObject>
 
-class Enemigo: public Jugador {
+class Enemigo:public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:

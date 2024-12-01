@@ -4,10 +4,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 #include <QObject>
-#include <cstdlib>
 #include <QTimer>
-#include <ctime>
-
 
 class Obstaculo : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
