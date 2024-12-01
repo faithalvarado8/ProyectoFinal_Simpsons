@@ -38,9 +38,19 @@ private:
     QPushButton *botonInicio;
     QGraphicsProxyWidget *botonWidgetInicio;
 
+    QPushButton *botonMenu;
+    QGraphicsProxyWidget *botonWidgetMenu;
+
+    QPushButton *botonSalir;
+    QGraphicsProxyWidget *botonWidgetSalir;
+
+
     void mostrarMenuInicio();
     void iniciarNivel(short int nivelSeleccionado);
     void iniciarJuego();
+    void mostrarBotonesFinJuego();
+    void crearBotonesFinJuego();
+    void salirJuego();
 
 private slots:
     void seleccionarNivel1();

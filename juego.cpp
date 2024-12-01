@@ -53,6 +53,7 @@ void Juego::iniciarJuego(){
     connect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
 }
 
+
 void Juego::mostrarMenuInicio(){
 
     disconnect(botonInicio, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
@@ -113,9 +114,51 @@ void Juego::iniciarNivel(short nivelSeleccionado){
     if (nivel) {
         delete nivel;
     }
+    nivel = new Nivel(nivelSeleccionado, escena);
+    connect(nivel, &Nivel::gameOver, this, &Juego::mostrarBotonesFinJuego);
 
-    nivel= new Nivel(nivelSeleccionado,escena);
+}
 
+void Juego::mostrarBotonesFinJuego() {
+    escena->setBackgroundBrush(QBrush(QImage(":/fondos/GAME_OVER.png").scaled(1280, 720)));
+
+    // Crear botones para regresar al menú y salir del juego
+    crearBotonesFinJuego();
+}
+
+void Juego::crearBotonesFinJuego() {
+    botonMenu = new QPushButton("Regresar al Menú");
+    botonMenu->setFixedSize(200, 50);
+    botonMenu->setAutoFillBackground(true);
+    QPalette paletteMenu = botonMenu->palette();
+    paletteMenu.setColor(QPalette::Button, QColor(76, 175, 80)); // Color de fondo
+    paletteMenu.setColor(QPalette::ButtonText, Qt::white); // Color del texto
+    botonMenu->setPalette(paletteMenu);
+    botonMenu->isVisible();
+    botonWidgetMenu->setZValue(2); // Asegúrate de que el Z-Value sea mayor que el de otros elementos
+
+
+    botonWidgetMenu = escena->addWidget(botonMenu);
+    botonWidgetMenu->setPos(640 - 100, 360); // Centrado en la escena
+    botonSalir->setAutoFillBackground(true);
+    QPalette paletteSalir = botonSalir->palette();
+    paletteSalir.setColor(QPalette::Button, QColor(244, 67, 54)); // Color de fondo
+    paletteSalir.setColor(QPalette::ButtonText, Qt::white); // Color del texto
+    botonSalir->setPalette(paletteSalir);
+    botonSalir->isVisible();
+    botonWidgetSalir->setZValue(2);
+
+    botonSalir = new QPushButton("Salir del Juego");
+    botonSalir->setFixedSize(200, 50);
+    botonWidgetSalir = escena->addWidget(botonSalir);
+    botonWidgetSalir->setPos(640 - 100, 420); // Centrado en la escena
+
+    connect(botonMenu, &QPushButton::clicked, this, &Juego::mostrarMenuInicio);
+    connect(botonSalir, &QPushButton::clicked, this, &Juego::salirJuego);
+}
+
+void Juego::salirJuego() {
+    QApplication::quit(); // Cierra la aplicación
 }
 
 void Juego::seleccionarNivel1(){iniciarNivel(1);}

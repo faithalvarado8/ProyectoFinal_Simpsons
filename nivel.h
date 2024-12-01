@@ -71,12 +71,14 @@ private slots:
     void verificarColisiones();
     void agregarObstaculos();
 
+signals:
+    void juegoTerminado();
+
 public:
     Nivel(short int nivelSeleccionado, QGraphicsScene * escena);
     void moverEdificio();
     void actualizarTiempo();
     void sincronizarFondo(int dy);
-
     void eliminar();
     void gameOver();
     void ganarNivel();
