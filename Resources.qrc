@@ -44,7 +44,6 @@
         <file>HomeroCelebrate.png</file>
         <file>HomeroJump.png</file>
         <file>HomeroWalk.png</file>
-        <file>PlataformasNivel.png</file>
         <file>FondoNivel1.png</file>
     </qresource>
 </RCC>

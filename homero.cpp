@@ -62,7 +62,8 @@ void Homero::actualizarAnimacion() {
         moving = true;
         direccion = 'D';
     }
-    else if (keys[Qt::Key_Space]){
+    else if (keys[Qt::Key_Space] && !enElAire && !timerSalto->isActive()){
+        enElAire = true;
         saltar();
     }
 
@@ -92,80 +93,69 @@ void Homero::actualizarAnimacion() {
         }
     }
 
-    if (!timerSalto->isActive() && enElAire && !timerCaida->isActive()){
-        timerCaida->start(5);
+    if (enElAire && !timerSalto->isActive() && !timerCaida->isActive()){
+        timerCaida->start(10);
     }
 }
 
-void Homero::colisionPlataformas() {
+void Homero::colisionPlataformas(){
+    QRectF rectPersonaje = boundingRect().translated(pos());
     for (QGraphicsRectItem* plataforma : plataformas) {
-        if (this->collidesWithItem(plataforma)) {
-            QRectF rectPersonaje = boundingRect().translated(pos());
-            QRectF rectPlataforma = plataforma->boundingRect().translated(plataforma->pos());
-
-            if (rectPersonaje.top() <= rectPlataforma.bottom() && rectPersonaje.top() >= rectPlataforma.top()){
-                if (timerSalto->isActive()){
-                    timerSalto->stop();
-                }
-                if (enElAire){
-                    timerCaida->start(5);
-                }
-            }
-
-            if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.bottom() <= rectPlataforma.bottom()){
+        QRectF rectPlataforma = plataforma->boundingRect().translated(plataforma->pos());
+        if (rectPersonaje.intersects(rectPlataforma)) {
+            //Cae en plataforma
+            if (rectPersonaje.bottom() >= rectPlataforma.top() && rectPersonaje.top() < rectPlataforma.top()) {
+                setY(rectPlataforma.top()-rectPersonaje.height());
                 enElAire=false;
-                //setY(rectPlataforma.top() - rectPersonaje.height());
                 if (timerSalto->isActive()){
                     timerSalto->stop();
                 }
                 if (timerCaida->isActive()){
                     timerCaida->stop();
                 }
-            }else{
-                enElAire=true;
             }
-
-            if (rectPersonaje.left() <= rectPlataforma.right() && rectPersonaje.left() >= rectPlataforma.left()){
-                //setX(rectPlataforma.right());
-                moving = false;
+            //Se golpea la cabeza
+            if (rectPersonaje.top() <= rectPlataforma.bottom() && rectPersonaje.bottom() > rectPlataforma.bottom()) {
                 if (timerSalto->isActive()){
                     timerSalto->stop();
+                    enElAire=true;
                 }
-                if (enElAire){
-                    timerCaida->start(5);
-                }
-            }else{
-                moving = true;
             }
-
-            if (rectPersonaje.right() >= rectPlataforma.left() && rectPersonaje.right() <= rectPlataforma.right()){
-                //setX(rectPlataforma.left() - rectPersonaje.width());
-                moving = false;
+            //Choca con un muro a la derecha
+            if (rectPersonaje.right() >= rectPlataforma.left() && rectPersonaje.left() < rectPlataforma.left()) {
                 if (timerSalto->isActive()){
                     timerSalto->stop();
+                    enElAire=true;
                 }
-                if (enElAire){
-                    timerCaida->start(5);
+                setX(rectPlataforma.left() - rectPersonaje.width());
+                moving=false;
+            }
+            //Choca con un muro a la izquierda
+            if (rectPersonaje.left() <= rectPlataforma.right() && rectPersonaje.right() > rectPlataforma.right()) {
+                if (timerSalto->isActive()){
+                    timerSalto->stop();
+                    enElAire=true;
                 }
-            }else{
-                moving = true;
+                setX(rectPlataforma.right());
+                moving=false;
             }
         }
+    }
+    if (enElAire && !timerSalto->isActive() && !timerCaida->isActive()){
+        y0=pos().y();
+        timerCaida->start(10);
     }
 }
 
 void Homero::saltar() {
-    if (!enElAire) {
-        x0=pos().x();
-        y0=pos().y();
-        nuevaX=x0;
-        nuevaY=y0;
-        t=0;
-        angulo = qDegreesToRadians(angulo);
-        hMax=(v0*v0*sin(angulo)*sin(angulo))/(2*9.8);
-        enElAire = true;
-        timerSalto->start(5);
-    }
+    x0=pos().x();
+    y0=pos().y();
+    nuevaX=x0;
+    nuevaY=y0;
+    t=0;
+    angulo = qDegreesToRadians(angulo);
+    hMax=(v0*v0*sin(angulo)*sin(angulo))/(2*9.8);
+    timerSalto->start(5);
 }
 
 void Homero::actualizarSalto(){
