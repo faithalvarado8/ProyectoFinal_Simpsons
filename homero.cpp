@@ -42,7 +42,7 @@ Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): i
     colisiones->start(10);
 
     timerCaida=new QTimer();
-    connect(timerCaida, &QTimer::timeout, this, &Homero::caida);
+    connect(timerCaida, &QTimer::timeout, this, &Homero::actualizarCaida);
 
     setPos(18, 548);
     setZValue(2);
@@ -94,7 +94,7 @@ void Homero::actualizarAnimacion() {
     }
 
     if (enElAire && !timerSalto->isActive() && !timerCaida->isActive()){
-        timerCaida->start(10);
+        caida();
     }
 }
 
@@ -142,8 +142,7 @@ void Homero::colisionPlataformas(){
         }
     }
     if (enElAire && !timerSalto->isActive() && !timerCaida->isActive()){
-        y0=pos().y();
-        timerCaida->start(10);
+        caida();
     }
 }
 
@@ -177,8 +176,15 @@ void Homero::actualizarSalto(){
 }
 
 void Homero::caida(){
-    t+=0.02;
-    nuevaY = y0 + (v0*t + (0.5 * 9.8 * t * t));
+    t=0;
+    y0=pos().y();
+    setX(pos().x());
+    timerCaida->start(10);
+}
+
+void Homero::actualizarCaida(){
+    t+=0.05;
+    nuevaY = y0 + (0.5 * 9.8 * t * t);
     setY(nuevaY);
 }
 
