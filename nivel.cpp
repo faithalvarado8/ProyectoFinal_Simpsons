@@ -299,7 +299,7 @@ void Nivel::agregarPlataformas(){
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(416, 104, 91, 31);
-    plataforma->setBrush(Qt::NoBrush);
+    plataforma->setBrush(Qt::black);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
@@ -313,7 +313,7 @@ void Nivel::agregarPlataformas(){
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(0, 164, 380, 31); // RECORTAR EN X
-    plataforma->setBrush(Qt::NoBrush);
+    plataforma->setBrush(Qt::green);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
@@ -340,7 +340,7 @@ void Nivel::agregarPlataformas(){
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(340, 340, 63, 31); //CAMBIANDO
-    plataforma->setBrush(Qt::NoBrush);
+    plataforma->setBrush(Qt::yellow);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
