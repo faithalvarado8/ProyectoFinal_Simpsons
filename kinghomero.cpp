@@ -176,10 +176,11 @@ void KingHomero::ganarNivel(){
     escribirArchivo("Nivel2.txt");
 }
 
+
 void KingHomero::gameOver(){
     imagenGame = new QGraphicsPixmapItem(QPixmap(":/fondos/GAME_OVER.png"));
     imagenGame->setPos(scene()->width() / 2 - imagenGame->pixmap().width() / 2,
-                       scene()->height() / 2 - imagenGame->pixmap().height() / 2);
+                 scene()->height() / 2 - imagenGame->pixmap().height() / 2);
     scene()->addItem(imagenGame);
     imagenGame->setZValue(3);
     indicadorVida->setPixmap(QPixmap()); // Vaciar el indicador
