@@ -51,6 +51,7 @@ private:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void moverPersonaje();
+    QMap<int,bool>keys;
 
     int animacion;
 };
