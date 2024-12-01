@@ -1,7 +1,9 @@
 #include "enemigo.h"
 #include <cmath>
 
-Enemigo::Enemigo() : spriteActual(0), timer(nullptr), timerMov(nullptr), rangoIzquierdo(320), rangoDerecho(730), velocidad(1.5) {
+Enemigo::Enemigo(int rangoIzq, int rangoDer) : spriteActual(0), timer(nullptr),
+    timerMov(nullptr), rangoIzquierdo(rangoIzq),
+    rangoDerecho(rangoDer), velocidad(1.5) {
     // Sprites para Krusty
     const int anchoFrame = 7290 / 5;
     for (int i = 0; i < 5; ++i) {
@@ -10,9 +12,6 @@ Enemigo::Enemigo() : spriteActual(0), timer(nullptr), timerMov(nullptr), rangoIz
         sprites.append(sprite.scaled(60, 60, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
     setPixmap(sprites[spriteActual]);
-
-    // Establecer la posición inicial de Krusty
-    setPos(500, 548);
 
     timer = new QTimer();
     connect(timer, &QTimer::timeout, this, &Enemigo::actualizarAnimacion);
@@ -133,24 +132,19 @@ void Enemigo::animacionKrusty() {
 
 void Enemigo::movimientoKrusty() {
 
-    static bool direccionDerecha = false;
+    static bool direccionDerecha = true;
 
-    // Interpolación suave entre las posiciones objetivo
-    if (direccionDerecha) {
-        // Mover de izquierda a derecha (de rangoIzquierdo a rangoDerecho)
-        if (pos().x() < rangoDerecho) {
-            setPos(x() + velocidad, y());  // Moverse hacia la derecha gradualmente
-        } else {
-            // Cambiar de dirección cuando llega a la posición máxima
-            direccionDerecha = false;
+    if (moviendoDerecha) {
+        // Mover a la derecha
+        setPos(x() + 1, y());
+        if (x() >= rangoDerecho) {
+            moviendoDerecha = false; // Cambiar de dirección al llegar al límite derecho
         }
     } else {
-        // Mover de derecha a izquierda (de rangoDerecho a rangoIzquierdo)
-        if (pos().x() > rangoIzquierdo) {
-            setPos(x() - velocidad, y());  // Moverse hacia la izquierda gradualmente
-        } else {
-            // Cambiar de dirección cuando llega a la posición mínima
-            direccionDerecha = true;
+        // Mover a la izquierda
+        setPos(x() - 1, y());
+        if (x() <= rangoIzquierdo) {
+            moviendoDerecha = true; // Cambiar de dirección al llegar al límite izquierdo
         }
     }
 }

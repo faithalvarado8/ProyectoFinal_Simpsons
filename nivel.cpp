@@ -18,23 +18,23 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         QList<Enemigo*> enemigos;
 
         // Agregar a Krusty
-        Enemigo* krusty1 = new Enemigo();
+        Enemigo* krusty1 = new Enemigo(400, 630);
         krusty1->setPos(500, 548); // Posición inicial para el primer Krusty
         krusty1->setZValue(2);
         enemigos.append(krusty1); // Agregarlo a la lista de enemigos
 
-        Enemigo* krusty2 = new Enemigo();
-        krusty2->setPos(500, 648); // Posición inicial para el segundo Krusty
+        Enemigo* krusty2 = new Enemigo(50, 400);
+        krusty2->setPos(200, 646); // Posición inicial para el segundo Krusty
         krusty1->setZValue(2);
         enemigos.append(krusty2); // Agregarlo a la lista de enemigos
 
-        Enemigo* krusty3 = new Enemigo();
-        krusty3->setPos(900, 430); // Posición inicial para el tercer Krusty
+        Enemigo* krusty3 = new Enemigo(600, 930);
+        krusty3->setPos(900, 416); // Posición inicial para el tercer Krusty
         krusty1->setZValue(2);
         enemigos.append(krusty3); // Agregarlo a la lista de enemigos
 
-        Enemigo* krusty4 = new Enemigo();
-        krusty4->setPos(1100, 548); // Posición inicial para el cuarto Krusty
+        Enemigo* krusty4 = new Enemigo(970, 1200);
+        krusty4->setPos(1100, 114); // Posición inicial para el cuarto Krusty
         krusty1->setZValue(2);
         enemigos.append(krusty4); // Agregarlo a la lista de enemigos
 

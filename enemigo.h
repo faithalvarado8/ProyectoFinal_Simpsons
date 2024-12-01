@@ -35,7 +35,6 @@ private:
     QTimer *timerMov;
 
     // Movimiento
-
     int rangoIzquierdo;
     int rangoDerecho;
     bool moviendoDerecha;
