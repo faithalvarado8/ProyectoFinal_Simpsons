@@ -11,11 +11,3 @@ void Jugador::perderVida() {
         vidas--;
     }
 }
-
-// void Jugador::recuperarVida() {
-//     if (vidas < 3) {
-//         vidas++;
-//     } else {
-//         std::cout << "El jugador ya tiene el máximo de vidas." << std::endl;
-//     }
-// }
