@@ -32,7 +32,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         timerObstaculos = new QTimer(this);
         connect(timerObstaculos, &QTimer::timeout, this, &Nivel::agregarObstaculos);
-        timerObstaculos->start(500);
+        timerObstaculos->start(450);
 
         kingHomero = new KingHomero();
         escena->addItem(kingHomero);
