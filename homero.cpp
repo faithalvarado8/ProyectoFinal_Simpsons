@@ -9,6 +9,8 @@ Homero::Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena): i
     QPixmap hojaSaltar(":/Nivel1/HomeroJump.png");
     QPixmap hojaCelebrar(":/Nivel1/HomeroCelebrate.png");
 
+    angulo = qDegreesToRadians(angulo);
+
     int anchoCaminar = hojaCaminar.width() / 3;
     int altoCaminar = hojaCaminar.height() / 2;
 
@@ -63,7 +65,6 @@ void Homero::actualizarAnimacion() {
         direccion = 'D';
     }
     else if (keys[Qt::Key_Space] && !enElAire && !timerSalto->isActive()){
-        enElAire = true;
         saltar();
     }
 
@@ -152,9 +153,9 @@ void Homero::saltar() {
     nuevaX=x0;
     nuevaY=y0;
     t=0;
-    angulo = qDegreesToRadians(angulo);
     hMax=(v0*v0*sin(angulo)*sin(angulo))/(2*9.8);
     timerSalto->start(5);
+    enElAire = true;
 }
 
 void Homero::actualizarSalto(){
