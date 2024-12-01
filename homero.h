@@ -4,15 +4,15 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <QVector>
+#include <QGraphicsScene>
 
 class Homero : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    Homero(QList<QGraphicsRectItem*> plataformas);
+    Homero(QList<QGraphicsRectItem*> plataformas, QGraphicsScene* escena);
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent *event);
-    void saltar();
     ~Homero();
 
 private:
@@ -23,25 +23,45 @@ private:
     QVector<QPixmap> spritesCelebrar;
 
     int indiceSprite;
-    QTimer *timer;
     bool moving;
     char direccion;
     QList<QGraphicsRectItem*> plataformas;
     QMap<int,bool>keys;
-    QPointF nuevaPos;
-    QPointF oldPos;
 
     //NUEVO
+
     bool enElAire; // Indica si Homero está en el aire
-    qreal velocidadVertical; // Velocidad vertical para simular gravedad y saltos
-    bool noColisiona;
-    void colisionPlataformas();
+   /* void colisionPlataformas();
     void caerEnPlataforma();
+    */
+
+    QTimer *timer;
+    qreal v0;
+    qreal t;
+    qreal angulo;
     QTimer *timerSalto;
-    int t;
+    void saltar();
+
+    //Movimiento en X
+    qreal x0;
+    bool colisionX;
+    void colisionPlataformasX();
+    QTimer *colisionesX;
+
+    //Movimiento en y
+    void colisionPlataformasY();
+    QTimer *colisionesY;
+    bool colisionY;
+    qreal y0;
+    qreal v0y; // Velocidades iniciales
+    qreal g; // Aceleración debido a la gravedad
+
+    QGraphicsScene* escena;
 
 private slots:
     void actualizarAnimacion();
+    void actualizarSalto();
+
 
 
 };
