@@ -3,7 +3,7 @@
 #include <cmath>
 #include <QFile>
 
-Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0), timerNivel(nullptr) {
+Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSeleccionado(nivelSeleccionado), escena(escena), edificioItem(nullptr), yOffset(0), timerNivel(nullptr), puntaje(0) {
 
 
     if (nivelSeleccionado == 1) {
@@ -14,7 +14,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
         escena->addItem(homero);
-
+/*Agregar rangos de enemigos
         QList<Enemigo*> enemigos;
 
         // Agregar a Krusty
@@ -41,7 +41,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         for (Enemigo* enemigo : enemigos) {
             escena->addItem(enemigo); // Agregar a la escena (o el contenedor correspondiente)
         }
-
+*/
     }
 
 
@@ -165,6 +165,7 @@ void Nivel::verificarColisiones() {
 
                     bart->eliminarMunicion(j);
                     colisionManejada = true;
+                    puntaje+=2000;
                     break;
                 }
             }
@@ -178,6 +179,7 @@ void Nivel::verificarColisiones() {
                     zombies.removeAt(i);
 
                     bart->eliminarMunicion(j);
+                    puntaje+=1500;
                     break;
                 }
             }
@@ -192,6 +194,7 @@ void Nivel::verificarColisiones() {
             arma=nullptr;
 
             bart->municiones();
+            puntaje+=250;
 
             arma= new Objetos(posicionesInvalidas);
             escena->addItem(arma);
@@ -225,6 +228,7 @@ void Nivel::verificarColisiones() {
                 murcielagos.removeAt(i);
 
                 actualizarVidasBart();
+                puntaje-=200;
 
                 if (bart->getVidas() == 0) {
                     gameOver();
@@ -240,6 +244,7 @@ void Nivel::verificarColisiones() {
                 zombies.removeAt(i);
 
                 actualizarVidasBart();
+                puntaje-=200;
 
                 if (bart->getVidas() == 0) {
                     gameOver();
@@ -709,7 +714,16 @@ void Nivel::escribirArchivo(){
         archivo.close();  // Cerrar el archivo.
     }
     else{
+        QFile archivo("Nivel3.txt");
+        if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+            return;
+        }
 
+        // Crear un QTextStream para escribir en el archivo.
+        QTextStream salida(&archivo);
+        salida <<puntaje+tiempoRestante<<"\n";
+
+        archivo.close();  // Cerrar el archivo.
     }
 
 }

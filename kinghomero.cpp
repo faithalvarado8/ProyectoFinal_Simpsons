@@ -69,37 +69,37 @@ void KingHomero::actualizarIndicadorGrafico() {
 
 
 void KingHomero::keyPressEvent(QKeyEvent *event) {
-    teclasPresionadas.insert(event->key());
-    enMovimiento = true;
+    if (keys.contains(event->key())) {
+        keys[event->key()] = true;
+    }
 }
 
 void KingHomero::keyReleaseEvent(QKeyEvent *event) {
-    teclasPresionadas.remove(event->key());
-    enMovimiento = !teclasPresionadas.isEmpty();
+    if (keys.contains(event->key())) {
+        keys[event->key()] = false;
+    }
 }
 
 
 void KingHomero::moverPersonaje() {
 
-    if (!enMovimiento) return;
-
+    enMovimiento=false;
     const unsigned int velocidad = 5;
     const unsigned int anchoSprite = 430;
     const unsigned int limiteAncho = 1280 - anchoSprite;
     const unsigned int limiteSuperiorY = 80;
 
-    for (int tecla : teclasPresionadas) {
-        switch (tecla) {
-        case Qt::Key_A:
-            if (x() - velocidad >= 320) setX(x() - velocidad);
-            break;
-        case Qt::Key_D:
-            if (x() + velocidad <= limiteAncho) setX(x() + velocidad);
-            break;
-        case Qt::Key_W:
-            if (y() - velocidad >= limiteSuperiorY) emit moverHaciaArriba(-velocidad);
-            break;
-        }
+    if (keys[Qt::Key_A]){
+        if (x() - velocidad >= 320) setX(x() - velocidad);
+        enMovimiento=true;
+    }
+    if (keys[Qt::Key_D]){
+        if (x() + velocidad <= limiteAncho) setX(x() + velocidad);
+        enMovimiento=true;
+    }
+    if (keys[Qt::Key_W]){
+        if (y() - velocidad >= limiteSuperiorY) emit moverHaciaArriba(-velocidad);
+        enMovimiento=true;
     }
 }
 

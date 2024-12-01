@@ -5,7 +5,6 @@
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
 #include <QTimer>
-#include <QSet>
 #include <QMap>
 
 class KingHomero : public Jugador{
@@ -36,7 +35,7 @@ private:
 
     // Movimiento
     bool enMovimiento;
-    QSet<int> teclasPresionadas;
+    QMap<int,bool>keys;
 
     // Indicador de vidas
     QGraphicsPixmapItem *indicadorVida;
