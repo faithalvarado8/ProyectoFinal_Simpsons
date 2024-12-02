@@ -67,11 +67,11 @@ private:
     void actualizarVidasBart();
     void colisionesZombies();
 
-    QList<QGraphicsTextItem *> puntos;//nuevo
-    void ordenarPuntos(QList<QGraphicsTextItem *> &puntos, bool ascendente);//nuevo
+    QList<QGraphicsTextItem *> puntos;
+    void ordenarPuntos(QList<QGraphicsTextItem *> &puntos, bool ascendente);
 
     void escribirArchivo();
-    void escribirDatos(const QString &nombreArchivo, bool ascendente);//actualizado
+    void escribirDatos(const QString &nombreArchivo, bool ascendente);
 
 private slots:
     void agregarZombies();

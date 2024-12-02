@@ -17,36 +17,35 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         homero->setFlag(QGraphicsItem::ItemIsFocusable);
         homero->setFocus();
         escena->addItem(homero);
-        QList<Enemigo*> enemigos;
 
         // Agregar a Krusty
         Enemigo* krusty1 = new Enemigo(400, 630);
         krusty1->setPos(500, 548);
         krusty1->setZValue(2);
-        enemigos.append(krusty1);
+        krustys.append(krusty1);
 
         Enemigo* krusty2 = new Enemigo(50, 400);
         krusty2->setPos(200, 646);
         krusty2->setZValue(2);
-        enemigos.append(krusty2);
+        krustys.append(krusty2);
 
         Enemigo* krusty3 = new Enemigo(600, 930);
         krusty3->setPos(900, 416);
         krusty3->setZValue(2);
-        enemigos.append(krusty3);
+        krustys.append(krusty3);
 
         Enemigo* krusty4 = new Enemigo(970, 1200);
         krusty4->setPos(1100, 114);
         krusty4->setZValue(2);
-        enemigos.append(krusty4);
+        krustys.append(krusty4);
 
-        tiempoRestante = 100;
+        tiempoRestante = 30;
 
         timerNivel = new QTimer(this);
         connect(timerNivel, &QTimer::timeout, this, &Nivel::actualizarTiempo);
         timerNivel->start(1000);
 
-        textoTiempo = new QGraphicsTextItem("Time: 100");
+        textoTiempo = new QGraphicsTextItem("Time: 30");
         textoTiempo->setDefaultTextColor(Qt::black);
         textoTiempo->setFont(QFont("Arial", 20, QFont::Bold));
         textoTiempo->setPos(30, 20);
@@ -59,7 +58,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         escena->addItem(vidasActuales);
         vidasActuales->setPos(280,20);
 
-        for (Enemigo* enemigo : enemigos) {
+        for (Enemigo* enemigo : krustys) {
             escena->addItem(enemigo);
         }
 
@@ -663,6 +662,28 @@ void Nivel::agregarZombies(){
 
 void Nivel::eliminar(){
     if (nivelSeleccionado==1){
+        if (timerNivel){
+            timerNivel->stop();
+            delete timerNivel;
+            timerNivel = nullptr;
+        }
+
+        if (colisionTimer){
+            colisionTimer->stop();
+            delete colisionTimer;
+            colisionTimer=nullptr;
+        }
+
+        if (textoTiempo){
+            delete textoTiempo;
+            textoTiempo = nullptr;
+        }
+
+        if (vidasActuales){
+            delete vidasActuales;
+            vidasActuales=nullptr;
+        }
+
         if (homero){
             delete homero;
             homero=nullptr;
@@ -986,13 +1007,35 @@ void Nivel::actualizarVidasKrusty(){
         imagenRecortada = imagenVidas.copy(0, offsetY, 43, 12).scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         vidasActuales = new QGraphicsPixmapItem(imagenRecortada);
         escena->addItem(vidasActuales);
-        vidasActuales->setPos(60, 620);
+        vidasActuales->setPos(280,20);
     }
 }
 
 Nivel::~Nivel() {
 
     if (nivelSeleccionado==1){
+        if (timerNivel){
+            timerNivel->stop();
+            delete timerNivel;
+            timerNivel = nullptr;
+        }
+
+        if (colisionTimer){
+            colisionTimer->stop();
+            delete colisionTimer;
+            colisionTimer=nullptr;
+        }
+
+        if (textoTiempo){
+            delete textoTiempo;
+            textoTiempo = nullptr;
+        }
+
+        if (vidasActuales){
+            delete vidasActuales;
+            vidasActuales=nullptr;
+        }
+
         if (homero){
             delete homero;
             homero=nullptr;
@@ -1026,7 +1069,6 @@ Nivel::~Nivel() {
             itemMueble=nullptr;
         }
     }
-
     else if (nivelSeleccionado==2){
         if (edificioItem){
             delete edificioItem;
