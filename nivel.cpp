@@ -321,6 +321,8 @@ void Nivel::agregarPlataformas(){
     plataforma = new QGraphicsRectItem(0, 608, 179, 31);
     plataforma->setBrush(Qt::yellow);
     plataforma->setPen(QPen(Qt::black));
+    plataforma->setBrush(Qt::black);
+    plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
@@ -332,6 +334,7 @@ void Nivel::agregarPlataformas(){
 
     plataformas.append(plataforma);
 
+<<<<<<< HEAD
     plataforma = new QGraphicsRectItem(0, 340, 175, 31);
     plataforma->setBrush(Qt::yellow);
     plataforma->setPen(QPen(Qt::black));
@@ -341,13 +344,47 @@ void Nivel::agregarPlataformas(){
     plataforma = new QGraphicsRectItem(330, 350, 95, 31); //CAMBIANDO
     plataforma->setBrush(Qt::blue);
     plataforma->setPen(QPen(Qt::black));
+    plataforma = new QGraphicsRectItem(0, 164, 380, 31); // RECORTAR EN X
+    plataforma->setBrush(Qt::green);
+    plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
+<<<<<<< HEAD
     plataforma = new QGraphicsRectItem(176, 476, 210, 31);
     plataforma->setBrush(Qt::yellow);
     plataforma->setPen(QPen(Qt::black));
+    plataforma = new QGraphicsRectItem(16, 608, 163, 31);
+    plataforma->setBrush(Qt::NoBrush);
+    plataforma->setPen(Qt::NoPen);
+    escena->addItem(plataforma);
+
+    plataformas.append(plataforma);
+
+    plataforma = new QGraphicsRectItem(276, 608, 879, 15);
+    plataforma->setBrush(Qt::NoBrush);
+    plataforma->setPen(Qt::NoPen);
+    escena->addItem(plataforma);
+
+    plataformas.append(plataforma);
+
+    plataforma = new QGraphicsRectItem(16, 340, 159, 31);
+    plataforma->setBrush(Qt::NoBrush);
+    plataforma->setPen(Qt::NoPen);
+    escena->addItem(plataforma);
+    plataformas.append(plataforma);
+
+    plataforma = new QGraphicsRectItem(340, 340, 63, 31); //CAMBIANDO
+    plataforma->setBrush(Qt::yellow);
+    plataforma->setPen(Qt::NoPen);
+    escena->addItem(plataforma);
+
+    plataformas.append(plataforma);
+
+    plataforma = new QGraphicsRectItem(176, 476, 220, 31);
+    plataforma->setBrush(Qt::NoBrush);
+    plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
 
     plataformas.append(plataforma);
@@ -803,6 +840,21 @@ Nivel::~Nivel() {
             delete homero;
             homero=nullptr;
         }
+        for (QGraphicsRectItem* plataforma : plataformas) {
+            if (plataforma){
+                delete plataforma;
+                plataforma=nullptr;
+            }
+        }
+        plataformas.clear();
+
+        for (Enemigo* krusty : krustys) {
+            if (krusty){
+                delete krusty;
+                krusty=nullptr;
+            }
+        }
+        krustys.clear();
     }
 
     else if (nivelSeleccionado==2){
