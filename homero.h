@@ -30,10 +30,7 @@ private:
 
     //NUEVO
 
-    bool enElAire; // Indica si Homero está en el aire
-   /* void colisionPlataformas();
-    void caerEnPlataforma();
-    */
+    bool enElAire;
 
     QTimer *timer;
     qreal v0;

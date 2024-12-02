@@ -827,18 +827,18 @@ void Nivel::mostrarRanking(){
     escena->addItem(textoItem);
 
     if (nivelSeleccionado==1){
-        escribirDatos("Nivel1.txt");
+        escribirDatos("Nivel1.txt", false );
     }
     else if (nivelSeleccionado==2){
-        escribirDatos("Nivel2.txt");
+        escribirDatos("Nivel2.txt", true);
     }
     else{
-        escribirDatos("Nivel3.txt");
+        escribirDatos("Nivel3.txt", false);
     }
     emit juegoTerminado();
 }
 
-void Nivel::escribirDatos(const QString &nombreArchivo){
+void Nivel::escribirDatos(const QString &nombreArchivo, bool ascendente){
     QFile archivo(nombreArchivo);
     if (!archivo.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return;
@@ -849,29 +849,59 @@ void Nivel::escribirDatos(const QString &nombreArchivo){
     while (!in.atEnd()) {
         QString linea = in.readLine();  // Lee una línea del archivo
         QGraphicsTextItem *textoItem = new QGraphicsTextItem(linea);
-
-        QFont font("Courier New", 25);
-        font.setBold(true);
-        font.setItalic(false);
-        textoItem->setFont(font);
-        textoItem->setDefaultTextColor(Qt::white);
-
-        // Agrega el texto a la escena y ajusta la posición
-        escena->addItem(textoItem);
-        textoItem->setPos(550, yPos);
-
-        yPos += 60;  // Incremento de la posición Y para la siguiente línea
+        puntos.append(textoItem);
     }
-    // Cierra el archivo
+    ordenarPuntos(puntos, ascendente);
+
+    QFont font("Courier New", 25);
+    font.setBold(true);
+    font.setItalic(false);
+
+    unsigned short int cont= puntos.size();
+    if (cont>=5){
+        cont=5;
+    }
+
+    for (int i = 0; i < cont; ++i) {
+        QGraphicsTextItem* item = puntos[i];
+        item->setFont(font);
+        if (item->toPlainText().toInt() == ultimoPuntaje) {
+            item->setDefaultTextColor(Qt::red); // Resaltar en amarillo
+        } else {
+            item->setDefaultTextColor(Qt::white); // Color estándar
+        }
+        escena->addItem(item);
+        item->setPos(550, yPos);
+        yPos += 60;
+    }
     archivo.close();
+}
+
+void Nivel::ordenarPuntos(QList<QGraphicsTextItem *> &puntos, bool ascendente) {
+    std::sort(puntos.begin(), puntos.end(), [ascendente](QGraphicsTextItem* a, QGraphicsTextItem* b) {
+        int valorA = a->toPlainText().toInt();
+        int valorB = b->toPlainText().toInt();
+        return ascendente ? valorA < valorB : valorA > valorB;
+    });
 }
 
 void Nivel::escribirArchivo(){
 
     if (nivelSeleccionado==1){
+        ultimoPuntaje = puntaje + tiempoRestante;
+        QFile archivo("Nivel1.txt");
+        if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+            return;
+        }
 
+        // Crear un QTextStream para escribir en el archivo.
+        QTextStream salida(&archivo);
+        salida <<puntaje+tiempoRestante<<"\n";
+
+        archivo.close();  // Cerrar el archivo.
     }
     else if (nivelSeleccionado==2){
+        ultimoPuntaje = 30- tiempoRestante;
         QFile archivo("Nivel2.txt");
         if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
             return;
@@ -884,6 +914,7 @@ void Nivel::escribirArchivo(){
         archivo.close();  // Cerrar el archivo.
     }
     else{
+        ultimoPuntaje = puntaje + tiempoRestante;
         QFile archivo("Nivel3.txt");
         if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
             return;

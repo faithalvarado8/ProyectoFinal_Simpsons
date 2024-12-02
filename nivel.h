@@ -29,6 +29,7 @@ private:
     Objetos* switchGood;
     QGraphicsPixmapItem* itemMueble;
     void actualizarVidasKrusty();
+    int ultimoPuntaje;
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
@@ -66,8 +67,11 @@ private:
     void actualizarVidasBart();
     void colisionesZombies();
 
+    QList<QGraphicsTextItem *> puntos;//nuevo
+    void ordenarPuntos(QList<QGraphicsTextItem *> &puntos, bool ascendente);//nuevo
+
     void escribirArchivo();
-    void escribirDatos(const QString &nombreArchivo);
+    void escribirDatos(const QString &nombreArchivo, bool ascendente);//actualizado
 
 private slots:
     void agregarZombies();
