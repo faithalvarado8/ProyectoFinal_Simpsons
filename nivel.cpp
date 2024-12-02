@@ -49,7 +49,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         textoTiempo = new QGraphicsTextItem("Time: 100");
         textoTiempo->setDefaultTextColor(Qt::black);
         textoTiempo->setFont(QFont("Arial", 20, QFont::Bold));
-        textoTiempo->setPos(45, 25);
+        textoTiempo->setPos(30, 20);
         escena->addItem(textoTiempo);
 
         imagenVidas= QPixmap (":/Nivel3/Vida.png");
@@ -57,7 +57,7 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
 
         vidasActuales= new QGraphicsPixmapItem(imagenRecortada);
         escena->addItem(vidasActuales);
-        vidasActuales->setPos(300,25);
+        vidasActuales->setPos(280,20);
 
         for (Enemigo* enemigo : enemigos) {
             escena->addItem(enemigo);
@@ -349,21 +349,22 @@ void Nivel::agregarPlataformas(){
 
     plataformas.append(plataforma);
     plataformas.append(plataforma);*/
-
+/*
     plataforma = new QGraphicsRectItem(0, 164, 380, 31); // RECORTAR EN X
     plataforma->setBrush(Qt::NoBrush);
     plataforma->setPen(Qt::NoPen);
     escena->addItem(plataforma);
-    /*plataforma = new QGraphicsRectItem(0, 120, 1280, 10); // RECORTAR EN X
+    plataforma = new QGraphicsRectItem(0, 120, 1280, 10); // RECORTAR EN X
     plataforma->setBrush(Qt::blue);
     plataforma->setPen(QPen(Qt::black));
-    escena->addItem(plataforma);*/
+    escena->addItem(plataforma);
 
     plataformas.append(plataforma);
 
     plataforma = new QGraphicsRectItem(16, 608, 163, 31);
     plataforma->setBrush(Qt::NoBrush);
-    plataforma->setPen(Qt::NoPen);
+    plataforma->setPen(Qt::NoPen);*/
+
     plataforma = new QGraphicsRectItem(0, 608, 179, 31);
     plataforma->setBrush(Qt::yellow);
     plataforma->setPen(QPen(Qt::black));

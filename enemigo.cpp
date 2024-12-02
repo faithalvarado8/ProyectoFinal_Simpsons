@@ -132,8 +132,6 @@ void Enemigo::animacionKrusty() {
 
 void Enemigo::movimientoKrusty() {
 
-    static bool direccionDerecha = true;
-
     if (moviendoDerecha) {
         // Mover a la derecha
         setPos(x() + 1, y());
