@@ -28,6 +28,7 @@ private:
     Objetos* switchEvil;
     Objetos* switchGood;
     QGraphicsPixmapItem* itemMueble;
+    void actualizarVidasKrusty();
 
     //Nivel 2
     QGraphicsPixmapItem* edificioItem;
@@ -62,6 +63,8 @@ private:
     QList<Enemigo*> zombies;
     QTimer *timerZombies;
     unsigned int puntaje;
+    void actualizarVidasBart();
+    void colisionesZombies();
 
     void escribirArchivo();
     void escribirDatos(const QString &nombreArchivo);
@@ -71,6 +74,7 @@ private slots:
     void verificarColisiones();
     void agregarObstaculos();
     void mostrarRanking();
+    void homeroColision();
 
 signals:
     void juegoTerminado();
@@ -83,8 +87,6 @@ public:
     void eliminar();
     void gameOver();
     void ganarNivel();
-    void actualizarVidasBart();
-    void colisionesZombies();
     virtual ~Nivel();
 };
 

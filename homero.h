@@ -1,12 +1,12 @@
 #ifndef HOMERO_H
 #define HOMERO_H
-#include <QGraphicsPixmapItem>
 #include <QKeyEvent>
 #include <QTimer>
 #include <QVector>
 #include <QGraphicsScene>
+#include "jugador.h"
 
-class Homero : public QObject, public QGraphicsPixmapItem {
+class Homero : public Jugador {
     Q_OBJECT
 
 public:
