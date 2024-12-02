@@ -33,13 +33,13 @@ private:
     QPixmap spritesArma;
 
     // Dimensiones hoja de sprites
-    int anchoLado, altoLado;
-    int anchoArribaAbajo, altoArribaAbajo;
-    int anchoArma, altoArma;
-    int ancho, alto;
+    unsigned int anchoLado, altoLado;
+    unsigned int anchoArribaAbajo, altoArribaAbajo;
+    unsigned int anchoArma, altoArma;
+    unsigned int ancho, alto;
 
-    int columna;
-    int fila;
+    unsigned short int columna;
+    unsigned short int fila;
     QTimer *timer;
     bool moving;
     int spriteX, spriteY;

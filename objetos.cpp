@@ -39,7 +39,6 @@ Objetos::Objetos(unsigned short int cont) {
 
 }
 
-
 Objetos::Objetos(QList<QPointF> posicionesInvalidas){
 
     sprites = QPixmap(":/Nivel3/Objetos3.png");

@@ -39,13 +39,15 @@ Nivel::Nivel(short int nivelSeleccionado, QGraphicsScene * escena): nivelSelecci
         krusty4->setZValue(2);
         krustys.append(krusty4);
 
-        tiempoRestante = 30;
+        puntaje=1000;
+
+        tiempoRestante = 100;
 
         timerNivel = new QTimer(this);
         connect(timerNivel, &QTimer::timeout, this, &Nivel::actualizarTiempo);
         timerNivel->start(1000);
 
-        textoTiempo = new QGraphicsTextItem("Time: 30");
+        textoTiempo = new QGraphicsTextItem("Time: 100");
         textoTiempo->setDefaultTextColor(Qt::black);
         textoTiempo->setFont(QFont("Arial", 20, QFont::Bold));
         textoTiempo->setPos(30, 20);
@@ -979,7 +981,12 @@ void Nivel::homeroColision(){
                     krustys.removeAt(i);
 
                     actualizarVidasKrusty();
-                    tiempoRestante -= 10;
+                    if (tiempoRestante>10){
+                        tiempoRestante -= 10;
+                    }else{
+                        tiempoRestante=0;
+                    }
+
 
                     if (homero->getVidas() == 0) {
                         gameOver();
